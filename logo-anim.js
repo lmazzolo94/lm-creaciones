@@ -15,7 +15,10 @@
   const O = { cx: 441, cy: 235.6, rx: 401, ry: 112, rot: (-17.62 * Math.PI) / 180 };
   const at = (u) => {
     const x = O.rx * Math.cos(u), y = O.ry * Math.sin(u);
-    return { x: O.cx + x * Math.cos(O.rot) - y * Math.sin(O.rot), y: O.cy + x * Math.sin(O.rot) + y * Math.cos(O.rot), front: Math.sin(u) > 0 };
+    const px = O.cx + x * Math.cos(O.rot) - y * Math.sin(O.rot);
+    // Del lado derecho el anillo pasa por detrás de la pata derecha de la M
+    // (x ≥ 645), también en la mitad de abajo.
+    return { x: px, y: O.cy + x * Math.sin(O.rot) + y * Math.cos(O.rot), front: Math.sin(u) > 0 && px < 645 };
   };
   const layers = [root.querySelector(".la-back .la-trail"), svg.querySelector(".la-trail")];
   const N = 26, STEP = 0.024;
