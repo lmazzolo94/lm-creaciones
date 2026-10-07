@@ -6,33 +6,47 @@
   if (!root) return;
   const reduce = matchMedia("(prefers-reduced-motion: reduce)").matches;
   const NS = "http://www.w3.org/2000/svg";
-  const svg = root.querySelector("svg");
+  const svg = root.querySelector(".la-front");
 
-  // Órbita: elipse ajustada al anillo del logo.
+  // Órbita: elipse ajustada al anillo del logo. La mitad de abajo pasa por
+  // delante de las letras y la de arriba por detrás (como el anillo del logo):
+  // cada punto de la estela se dibuja en la capa de adelante o en la de atrás
+  // (esta queda debajo de la imagen, así las letras la tapan).
   const O = { cx: 441, cy: 235.6, rx: 401, ry: 112, rot: (-17.62 * Math.PI) / 180 };
   const at = (u) => {
     const x = O.rx * Math.cos(u), y = O.ry * Math.sin(u);
     return { x: O.cx + x * Math.cos(O.rot) - y * Math.sin(O.rot), y: O.cy + x * Math.sin(O.rot) + y * Math.cos(O.rot), front: Math.sin(u) > 0 };
   };
-  const trail = svg.querySelector(".la-trail");
-  const N = 14, dots = [];
-  for (let i = 0; i < N; i++) {
-    const c = document.createElementNS(NS, "circle");
-    c.setAttribute("fill", i === 0 ? "#fff" : "#f3b4fb");
-    trail.append(c); dots.push(c);
-  }
-  const PERIOD = 5200, START = 900;
+  const layers = [root.querySelector(".la-back .la-trail"), svg.querySelector(".la-trail")];
+  const N = 26, STEP = 0.024;
+  const make = (layer) => {
+    const g = [];
+    for (let i = 0; i < N; i++) {
+      const c = document.createElementNS(NS, "circle");
+      c.setAttribute("fill", i === 0 ? "#fff" : "#f6c4fc");
+      layer.append(c); g.push(c);
+    }
+    const halo = document.createElementNS(NS, "circle");
+    halo.setAttribute("fill", "#e9a4fa"); halo.setAttribute("r", "18");
+    layer.prepend(halo);
+    return { dots: g, halo };
+  };
+  const sets = layers.map(make);
+  const PERIOD = 5600, START = 900;
   function frame(t) {
     const p = Math.max(0, t - START) / PERIOD;
     const fade = Math.min(1, Math.max(0, (t - START) / 600));
-    dots.forEach((c, i) => {
-      const u = p * 2 * Math.PI - i * 0.045 + Math.PI;
-      const q = at(u), k = 1 - i / N;
-      const depth = q.front ? 1 : 0.35;
-      c.setAttribute("cx", q.x.toFixed(1)); c.setAttribute("cy", q.y.toFixed(1));
-      c.setAttribute("r", ((i === 0 ? 7 : 5.5 * k + 0.6) * (q.front ? 1 : 0.7)).toFixed(2));
-      c.setAttribute("opacity", (fade * depth * (i === 0 ? 1 : 0.55 * k)).toFixed(3));
-    });
+    for (let i = 0; i < N; i++) {
+      const q = at(p * 2 * Math.PI - i * STEP + Math.PI), k = 1 - i / N;
+      const on = q.front ? 1 : 0;
+      const r = (i === 0 ? 6.5 : 5.2 * k + 0.5).toFixed(2), o = (fade * (i === 0 ? 1 : 0.5 * k * k)).toFixed(3);
+      sets.forEach((set, layer) => {
+        const c = set.dots[i], show = layer === on;
+        c.setAttribute("cx", q.x.toFixed(1)); c.setAttribute("cy", q.y.toFixed(1));
+        c.setAttribute("r", r); c.setAttribute("opacity", show ? o : 0);
+        if (i === 0) { set.halo.setAttribute("cx", q.x.toFixed(1)); set.halo.setAttribute("cy", q.y.toFixed(1)); set.halo.setAttribute("opacity", show ? (fade * 0.22).toFixed(3) : 0); }
+      });
+    }
     requestAnimationFrame(frame);
   }
   if (!reduce) requestAnimationFrame(frame);
