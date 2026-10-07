@@ -3,7 +3,7 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>Almacén El Trébol · Stock y caja · Demo LM Creaciones</title>
+  <title>Stock y caja · Demo LM Creaciones</title>
   <meta name="robots" content="noindex">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -20,6 +20,9 @@
     .nav { border: 0; background: none; color: inherit; text-align: left; padding: 11px 12px; border-radius: 10px; font: 600 .95rem "Inter", sans-serif; cursor: pointer; display: flex; gap: 10px; align-items: center; }
     .nav.on { background: #1f3a33; color: #fff; }
     .nav .n { margin-left: auto; background: var(--red); color: #fff; border-radius: 999px; font-size: .72rem; padding: 1px 7px; }
+    .rubro { display: block; color: #8fb1a6; font-size: .75rem; padding: 0 10px 14px; }
+    .rubro select { display: block; width: 100%; margin-top: 4px; padding: 8px; border-radius: 9px; border: 1px solid #2c4a42; background: #1f3a33; color: #fff; font: 600 .85rem "Inter", sans-serif; }
+    .code { font-size: .72rem; color: var(--muted); font-family: ui-monospace, monospace; }
     .reset { margin-top: auto; border: 1px solid #2c4a42; background: none; color: #8fb1a6; border-radius: 10px; padding: 9px; font: 500 .8rem "Inter", sans-serif; cursor: pointer; }
     main { padding: 22px; min-width: 0; }
     h1 { margin: 0 0 4px; font-size: 1.5rem; }
@@ -37,6 +40,7 @@
     .p:hover { border-color: var(--teal); }
     .p b { display: block; font-size: .9rem; }
     .p span { font-size: .82rem; color: var(--muted); }
+    .p .code { display: block; font-size: .7rem; margin-bottom: 2px; }
     .p .pr { color: var(--ink); font-weight: 700; font-size: .92rem; }
     .p:disabled { opacity: .45; cursor: default; }
     .ticket h3 { margin: 0 0 10px; font-size: 1rem; }
@@ -71,6 +75,8 @@
       .app { grid-template-columns: 1fr; }
       aside { flex-direction: row; overflow-x: auto; padding: 8px; gap: 4px; position: sticky; top: 34px; z-index: 20; }
       .shop, .reset { display: none; }
+      .rubro { flex: none; padding: 0; font-size: 0; }
+      .rubro select { margin: 0; width: auto; font-size: .82rem; }
       .nav { flex: none; padding: 9px 12px; font-size: .88rem; }
       main { padding: 16px; }
       .kpis { grid-template-columns: 1fr 1fr; }
@@ -81,7 +87,8 @@
 <body>
   <div class="app">
     <aside>
-      <div class="shop">🍀 Almacén El Trébol<small>Usuario: Marta (dueña)</small></div>
+      <div class="shop" id="shop"></div>
+      <label class="rubro">Probá otro rubro<select id="rubro"></select></label>
       <button class="nav on" data-view="vender">🧾 Vender</button>
       <button class="nav" data-view="stock">📦 Stock <span class="n" id="lowcount" hidden></span></button>
       <button class="nav" data-view="caja">💰 Caja del día</button>
@@ -94,31 +101,62 @@
 
   <script src="../demo.js"></script>
   <script>
+    // Cada rubro: el negocio, sus productos ([código, nombre, categoría, costo, precio, stock, mínimo]) y un gasto del día.
+    const RUBROS = {
+      almacen: { name: "🍀 Almacén El Trébol", user: "Marta (dueña)", label: "Almacén", search: "Buscar producto…", expense: "Pago a proveedor de lácteos", products: [
+        ["7790387", "Yerba Playadito 1 kg", "Almacén", 5200, 7400, 14, 6], ["7792540", "Azúcar Ledesma 1 kg", "Almacén", 1100, 1650, 22, 10],
+        ["7790070", "Fideos Matarazzo 500 g", "Almacén", 1300, 1950, 3, 8], ["7790580", "Arroz Gallo 1 kg", "Almacén", 1800, 2600, 11, 6],
+        ["7790060", "Aceite Natura 1,5 L", "Almacén", 3900, 5600, 2, 5], ["7790742", "Leche La Serenísima 1 L", "Lácteos", 1150, 1600, 18, 12],
+        ["7791337", "Yogur bebible 1 L", "Lácteos", 1700, 2450, 7, 6], ["2000123", "Queso cremoso x kg", "Lácteos", 7800, 11200, 4, 3],
+        ["7790895", "Coca-Cola 2,25 L", "Bebidas", 3100, 4500, 16, 8], ["7798062", "Agua Villavicencio 2 L", "Bebidas", 1000, 1500, 0, 6],
+        ["7792798", "Cerveza Quilmes 1 L", "Bebidas", 2300, 3300, 24, 12], ["7790040", "Pan lactal Fargo", "Panificados", 2600, 3700, 5, 4],
+        ["7622300", "Galletitas Oreo", "Golosinas", 1200, 1800, 30, 10], ["7790580", "Alfajor Guaymallén", "Golosinas", 300, 500, 48, 20],
+        ["7791290", "Detergente Magistral", "Limpieza", 2400, 3500, 9, 4], ["7790520", "Lavandina Ayudín 1 L", "Limpieza", 900, 1350, 1, 4] ] },
+      repuestos: { name: "🏍️ Repuestos Ruta Oeste", user: "Hernán (dueño)", label: "Casa de repuestos", search: "Buscar por código, nombre o modelo…", expense: "Flete de mercadería", products: [
+        ["FA-1123", "Filtro de aceite (Gol / Fox / Suran)", "Filtros", 6200, 9800, 12, 5], ["FAI-208", "Filtro de aire Peugeot 208", "Filtros", 8900, 13900, 3, 4],
+        ["PF-0457", "Pastillas de freno del. Corsa / Onix", "Frenos", 18500, 28900, 6, 4], ["DF-0219", "Disco de freno ventilado (par)", "Frenos", 42000, 64000, 2, 2],
+        ["BJ-NGK7", "Bujía NGK BKR6E (x4)", "Encendido", 14800, 22500, 9, 4], ["CD-1415", "Kit distribución Fiat 1.4", "Motor", 61000, 94000, 1, 2],
+        ["AC-5W30", "Aceite sintético 5W30 4 L", "Lubricantes", 31000, 46500, 15, 6], ["AC-2050", "Aceite moto 20W50 1 L", "Lubricantes", 5600, 8900, 22, 10],
+        ["LP-H4", "Lámpara H4 60/55W", "Iluminación", 3200, 5400, 18, 8], ["BAT-65", "Batería 12x65 Ah", "Eléctrico", 98000, 145000, 4, 2],
+        ["CAD-428", "Kit transmisión moto 110 cc", "Motos", 26000, 39500, 5, 3], ["CUB-275", "Cubierta moto 2.75-18", "Motos", 34000, 51000, 0, 2],
+        ["LIQ-REF", "Líquido refrigerante 1 L", "Lubricantes", 3900, 6200, 11, 6], ["ESC-TR", "Escobillas limpiaparabrisas (par)", "Accesorios", 7400, 11900, 7, 4] ] },
+      libreria: { name: "📚 Librería Papelito", user: "Claudia (dueña)", label: "Librería", search: "Buscar artículo…", expense: "Compra de resmas al mayorista", products: [
+        ["CU-RIV48", "Cuaderno Rivadavia ABC 48 h", "Escolar", 2900, 4600, 35, 15], ["CU-UNI80", "Cuaderno universitario 80 h", "Escolar", 4100, 6500, 18, 10],
+        ["CA-ESC", "Carpeta Nº3 con anillos", "Escolar", 5200, 8200, 9, 6], ["RE-A4", "Resma A4 75 g (500 h)", "Oficina", 6800, 9900, 6, 8],
+        ["BI-BIC", "Birome Bic azul (x10)", "Escritura", 3800, 5900, 14, 6], ["LA-FAB12", "Lápices de colores Faber x12", "Arte", 4300, 6900, 11, 5],
+        ["MA-FIB", "Marcadores de fibra x10", "Arte", 3600, 5800, 2, 5], ["GO-LIQ", "Plasticola 90 g", "Escolar", 1500, 2400, 25, 10],
+        ["TI-ESC", "Tijera escolar punta roma", "Escolar", 1900, 3100, 0, 5], ["CA-MAN", "Cartuchera de 2 pisos", "Escolar", 9800, 15500, 4, 3],
+        ["MO-ESC", "Mochila escolar con carro", "Mochilas", 38000, 59000, 3, 2], ["SO-A4", "Sobres de papel A4 (x10)", "Oficina", 2100, 3400, 20, 8],
+        ["FO-COP", "Fotocopia simple faz", "Servicios", 30, 120, 999, 0], ["AN-ESP", "Anillado hasta 100 hojas", "Servicios", 400, 1500, 999, 0] ] },
+      ferreteria: { name: "🔩 Ferretería El Tornillo", user: "Jorge (dueño)", label: "Ferretería", search: "Buscar artículo o medida…", expense: "Pago al corralón", products: [
+        ["TOR-6x40", "Tornillo autorroscante 6x40 (x100)", "Bulonería", 3200, 5100, 14, 6], ["TAR-8", "Tarugo Fischer 8 mm (x50)", "Bulonería", 2600, 4200, 21, 8],
+        ["CL-2P", "Clavos punta paris 2\" (1 kg)", "Bulonería", 3900, 6100, 7, 5], ["CIN-AIS", "Cinta aisladora 3M", "Electricidad", 1300, 2200, 30, 12],
+        ["CAB-2.5", "Cable unipolar 2,5 mm (x metro)", "Electricidad", 650, 1100, 180, 100], ["LAM-LED", "Lámpara LED 12W luz fría", "Electricidad", 1700, 2900, 3, 10],
+        ["LLA-ESF", "Llave esférica 1/2\"", "Plomería", 5400, 8600, 6, 4], ["TEF-ROL", "Cinta de teflón", "Plomería", 450, 900, 40, 15],
+        ["PIN-LAT", "Pintura látex interior 4 L", "Pinturería", 18500, 28900, 5, 3], ["RODI-22", "Rodillo antigota 22 cm", "Pinturería", 4200, 6900, 2, 4],
+        ["SIL-TR", "Sellador siliconado transparente", "Pinturería", 3600, 5700, 9, 5], ["MEC-10", "Mecha para hormigón 10 mm", "Herramientas", 2800, 4600, 0, 3],
+        ["CAN-CR", "Candado de bronce 40 mm", "Seguridad", 7900, 12500, 4, 2], ["CIN-MET", "Cinta métrica 5 m", "Herramientas", 4300, 6900, 8, 3] ] },
+    };
+    const RKEY = "lm-demo-stock-rubro";
+    const pickRubro = () => { const q = new URLSearchParams(location.search).get("rubro"); if (RUBROS[q]) return q; try { const r = localStorage.getItem(RKEY); if (RUBROS[r]) return r; } catch {} return "almacen"; };
+    const RUBRO = pickRubro(), R = RUBROS[RUBRO];
     const SEED = {
-      products: [
-        ["Yerba Playadito 1 kg", "Almacén", 5200, 7400, 14, 6], ["Azúcar Ledesma 1 kg", "Almacén", 1100, 1650, 22, 10],
-        ["Fideos Matarazzo 500 g", "Almacén", 1300, 1950, 3, 8], ["Arroz Gallo 1 kg", "Almacén", 1800, 2600, 11, 6],
-        ["Aceite Natura 1,5 L", "Almacén", 3900, 5600, 2, 5], ["Leche La Serenísima 1 L", "Lácteos", 1150, 1600, 18, 12],
-        ["Yogur bebible 1 L", "Lácteos", 1700, 2450, 7, 6], ["Queso cremoso x kg", "Lácteos", 7800, 11200, 4, 3],
-        ["Coca-Cola 2,25 L", "Bebidas", 3100, 4500, 16, 8], ["Agua Villavicencio 2 L", "Bebidas", 1000, 1500, 0, 6],
-        ["Cerveza Quilmes 1 L", "Bebidas", 2300, 3300, 24, 12], ["Pan lactal Fargo", "Panificados", 2600, 3700, 5, 4],
-        ["Galletitas Oreo", "Golosinas", 1200, 1800, 30, 10], ["Alfajor Guaymallén", "Golosinas", 300, 500, 48, 20],
-        ["Detergente Magistral", "Limpieza", 2400, 3500, 9, 4], ["Lavandina Ayudín 1 L", "Limpieza", 900, 1350, 1, 4],
-      ].map(([name, cat, cost, price, stock, min], id) => ({ id, name, cat, cost, price, stock, min })),
+      products: R.products.map(([code, name, cat, cost, price, stock, min], id) => ({ id, code, name, cat, cost, price, stock, min })),
       sales: [],
-      expenses: [{ t: "08:30", desc: "Pago a proveedor de lácteos", amount: 12000 }],
+      expenses: [{ t: "08:30", desc: R.expense, amount: 12000 }],
       opening: 20000,
     };
-    const KEY = "lm-demo-stock-v1";
+    const KEY = "lm-demo-stock-v2-" + RUBRO;
     const load = () => { try { const s = JSON.parse(localStorage.getItem(KEY)); if (s && s.products) return s; } catch {} return structuredClone(SEED); };
     const save = () => { try { localStorage.setItem(KEY, JSON.stringify(S)); } catch {} };
     let S = load();
     // Si es la primera vez, se cargan unas ventas de la mañana para que la caja no arranque vacía.
     if (!S.sales.length && !S._seeded) {
-      [[[13, 2], [8, 1], "Efectivo", "09:12"], [[0, 1], [1, 2], "Transferencia", "09:47"], [[5, 3], [11, 1], "Débito", "10:20"], [[10, 4], "Mercado Pago", "11:05"]]
+      [[[12, 2], [8, 1], "Efectivo", "09:12"], [[0, 1], [1, 2], "Transferencia", "09:47"], [[5, 3], [11, 1], "Débito", "10:20"], [[10, 1], [13, 2], "Mercado Pago", "11:05"]]
         .forEach((x) => { const pay = x[x.length - 2], t = x[x.length - 1]; const items = x.slice(0, -2).map(([id, q]) => ({ id, q, price: S.products[id].price })); S.sales.push({ t, pay, items, total: items.reduce((a, i) => a + i.q * i.price, 0) }); });
       S._seeded = true; save();
     }
+    document.title = R.name.slice(R.name.indexOf(" ") + 1) + " · Stock y caja · Demo LM Creaciones";
 
     const $ = (id) => document.getElementById(id);
     const PAYS = ["Efectivo", "Transferencia", "Débito", "Mercado Pago"];
@@ -142,12 +180,12 @@
 
     const views = {
       vender() {
-        const list = S.products.filter((p) => p.name.toLowerCase().includes(search));
+        const list = S.products.filter((p) => (p.name + " " + p.code).toLowerCase().includes(search));
         const sum = [...ticket].reduce((a, [id, q]) => a + q * S.products[id].price, 0);
         return `<h1>Vender</h1><p class="sub">Tocá los productos para armar el ticket. El stock se descuenta solo al cobrar.</p>${kpis()}
         <div class="pos">
-          <div class="box"><input id="search" placeholder="🔎 Buscar producto…" value="${search}">
-            <div class="prods">${list.map((p) => `<button class="p" data-add="${p.id}" ${p.stock ? "" : "disabled"}><b>${p.name}</b><span class="pr">${pesos(p.price)}</span><br><span>${p.stock ? `Quedan ${p.stock}` : "Sin stock"}</span></button>`).join("")}</div>
+          <div class="box"><input id="search" placeholder="🔎 ${R.search}" value="${search}">
+            <div class="prods">${list.map((p) => `<button class="p" data-add="${p.id}" ${p.stock ? "" : "disabled"}><span class="code">${p.code}</span><b>${p.name}</b><span class="pr">${pesos(p.price)}</span><br><span>${p.stock >= 999 ? "Servicio" : p.stock ? `Quedan ${p.stock}` : "Sin stock"}</span></button>`).join("")}</div>
           </div>
           <div class="box ticket"><h3>Ticket actual</h3>
             ${[...ticket].map(([id, q]) => `<div class="tl"><span class="nm">${S.products[id].name}</span><button data-q="${id}" data-d="-1">−</button><b>${q}</b><button data-q="${id}" data-d="1">+</button><span>${pesos(q * S.products[id].price)}</span></div>`).join("") || '<p class="sub">Todavía no agregaste productos.</p>'}
@@ -159,8 +197,8 @@
       },
       stock() {
         return `<h1>Stock</h1><p class="sub">Precios, costos y existencias. Las alertas aparecen cuando un producto baja de su mínimo.</p>${kpis()}
-        <div class="box tbl"><table><thead><tr><th>Producto</th><th>Categoría</th><th>Costo</th><th>Precio</th><th>Margen</th><th>Stock</th><th>Estado</th><th>Ajustar</th></tr></thead><tbody>
-        ${S.products.map((p) => `<tr><td><b>${p.name}</b></td><td>${p.cat}</td><td>${pesos(p.cost)}</td><td>${pesos(p.price)}</td><td>${Math.round((p.price / p.cost - 1) * 100)}%</td><td><b>${p.stock}</b> <small style="color:var(--muted)">/ mín ${p.min}</small></td>
+        <div class="box tbl"><table><thead><tr><th>Código</th><th>Producto</th><th>Categoría</th><th>Costo</th><th>Precio</th><th>Margen</th><th>Stock</th><th>Estado</th><th>Ajustar</th></tr></thead><tbody>
+        ${S.products.map((p) => `<tr><td class="code">${p.code}</td><td><b>${p.name}</b></td><td>${p.cat}</td><td>${pesos(p.cost)}</td><td>${pesos(p.price)}</td><td>${Math.round((p.price / p.cost - 1) * 100)}%</td><td>${p.stock >= 999 ? "—" : `<b>${p.stock}</b> <small style="color:var(--muted)">/ mín ${p.min}</small>`}</td>
           <td><span class="pill ${state(p)}">${{ ok: "OK", low: "Reponer", out: "Sin stock" }[state(p)]}</span></td>
           <td><div class="adj"><button data-st="${p.id}" data-d="-1">−1</button><button data-st="${p.id}" data-d="1">+1</button><button data-st="${p.id}" data-d="12">+12</button></div></td></tr>`).join("")}
         </tbody></table></div>`;
@@ -232,6 +270,9 @@
     };
     $("reset").onclick = () => { try { localStorage.removeItem(KEY); } catch {} S = load(); S._seeded = false; location.reload(); };
 
+    $("shop").innerHTML = `${R.name}<small>Usuario: ${R.user}</small>`;
+    $("rubro").innerHTML = Object.entries(RUBROS).map(([k, r]) => `<option value="${k}" ${k === RUBRO ? "selected" : ""}>${r.label}</option>`).join("");
+    $("rubro").onchange = (e) => { try { localStorage.setItem(RKEY, e.target.value); } catch {} location.search = "?rubro=" + e.target.value; };
     render();
   </script>
 </body>

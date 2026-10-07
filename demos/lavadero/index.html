@@ -1,0 +1,157 @@
+<!doctype html>
+<html lang="es-AR">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Lavadero Espuma · Demo LM Creaciones</title>
+  <meta name="robots" content="noindex">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=Baloo+2:wght@700;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="../demo.css">
+  <style>
+    :root { --bg: #eef7fd; --card: #fff; --line: #d5e8f5; --ink: #0c2a40; --muted: #5a7488; --blue: #0a84d6; --blue-dark: #066aac; --sky: #dff1fd; --green: #1fa855; --amber: #e8a20c; }
+    * { box-sizing: border-box; }
+    body { margin: 0; font-family: "Inter", system-ui, sans-serif; background: var(--bg); color: var(--ink); }
+    .wrap { width: min(980px, 100% - 32px); margin-inline: auto; }
+    header { background: linear-gradient(135deg, #0a84d6, #36b6f0); color: #fff; padding: 20px 0 22px; position: relative; overflow: hidden; }
+    header::after { content: "🧼"; position: absolute; right: 6%; top: 8px; font-size: 4.5rem; opacity: .35; }
+    header .wrap { display: flex; justify-content: space-between; align-items: center; gap: 12px; flex-wrap: wrap; }
+    .logo { font-family: "Baloo 2", sans-serif; font-weight: 800; font-size: 2.1rem; line-height: 1; }
+    .logo small { display: block; font: 500 .85rem "Inter"; opacity: .9; }
+    .switch { display: inline-flex; background: rgba(255,255,255,.2); border-radius: 999px; padding: 4px; position: relative; z-index: 1; }
+    .switch button { border: 0; background: none; color: #fff; padding: 8px 14px; border-radius: 999px; font: 700 .85rem "Inter"; cursor: pointer; }
+    .switch button.on { background: #fff; color: var(--blue-dark); }
+    h2 { font-family: "Baloo 2", sans-serif; font-size: 1.45rem; margin: 24px 0 10px; }
+    .num { display: inline-grid; place-items: center; width: 26px; height: 26px; border-radius: 50%; background: var(--blue); color: #fff; font: 800 .85rem "Inter"; margin-right: 6px; }
+    .row { display: grid; grid-template-columns: repeat(3, 1fr); gap: 10px; }
+    .row.four { grid-template-columns: repeat(4, 1fr); }
+    @media (max-width: 720px) { .row, .row.four { grid-template-columns: 1fr 1fr; } }
+    .opt { background: #fff; border: 2px solid var(--line); border-radius: 16px; padding: 14px; text-align: left; cursor: pointer; font: inherit; color: inherit; }
+    .opt.on { border-color: var(--blue); background: var(--sky); }
+    .opt .e { font-size: 1.8rem; display: block; }
+    .opt b { display: block; margin-top: 4px; }
+    .opt small { color: var(--muted); }
+    .opt .pr { display: block; font-weight: 800; color: var(--blue-dark); margin-top: 6px; }
+    .when { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; }
+    .queue { background: #fff8e6; border: 2px solid #f6dd9c; border-radius: 14px; padding: 12px 14px; margin-top: 10px; font-weight: 600; }
+    .slots { display: flex; flex-wrap: wrap; gap: 8px; margin-top: 10px; }
+    .slot { border: 2px solid var(--line); background: #fff; border-radius: 10px; padding: 8px 12px; font: 700 .88rem "Inter"; cursor: pointer; }
+    .slot.on { background: var(--blue); color: #fff; border-color: var(--blue); }
+    .slot:disabled { opacity: .35; text-decoration: line-through; cursor: default; }
+    input { width: 100%; padding: 12px; border: 2px solid var(--line); border-radius: 12px; font: 700 1rem "Inter"; text-transform: uppercase; letter-spacing: .08em; }
+    .loyal { background: #fff; border: 2px dashed var(--blue); border-radius: 16px; padding: 14px; margin-top: 12px; }
+    .stamps { display: flex; gap: 8px; margin-top: 8px; flex-wrap: wrap; }
+    .stamps i { width: 38px; height: 38px; border-radius: 50%; border: 2px solid var(--line); display: grid; place-items: center; font-style: normal; font-size: 1.1rem; }
+    .stamps i.on { background: var(--blue); border-color: var(--blue); color: #fff; }
+    .stamps i.gift { border-color: var(--amber); }
+    .cta { width: 100%; margin: 18px 0 40px; padding: 15px; border: 0; border-radius: 14px; background: var(--blue); color: #fff; font: 800 1.05rem "Inter"; cursor: pointer; }
+    .cta:disabled { opacity: .4; cursor: default; }
+    .done { background: #fff; border-radius: 18px; padding: 26px; text-align: center; margin: 24px 0; border: 2px solid var(--line); }
+    .done .big { font-size: 3rem; }
+    .muted { color: var(--muted); }
+    .kpis { display: grid; grid-template-columns: repeat(4, 1fr); gap: 10px; margin-top: 20px; }
+    @media (max-width: 720px) { .kpis { grid-template-columns: 1fr 1fr; } }
+    .kpi { background: #fff; border: 1px solid var(--line); border-radius: 14px; padding: 12px; }
+    .kpi small { color: var(--muted); } .kpi b { display: block; font-size: 1.4rem; }
+    .board { display: grid; grid-template-columns: repeat(4, 1fr); gap: 10px; margin: 16px 0 40px; }
+    @media (max-width: 860px) { .board { grid-template-columns: 1fr 1fr; } }
+    @media (max-width: 520px) { .board { grid-template-columns: 1fr; } }
+    .col { background: #dcecf7; border-radius: 14px; padding: 10px; }
+    .col h3 { margin: 2px 4px 10px; font-size: .82rem; text-transform: uppercase; letter-spacing: .05em; display: flex; justify-content: space-between; }
+    .car { background: #fff; border-radius: 12px; padding: 11px; margin-bottom: 8px; }
+    .plate { display: inline-block; border: 2px solid var(--ink); border-radius: 7px; padding: 1px 8px; font: 800 .9rem "Inter"; letter-spacing: .1em; }
+    .car small { display: block; color: var(--muted); margin: 5px 0 8px; font-size: .8rem; }
+    .acts { display: flex; gap: 6px; flex-wrap: wrap; }
+    .btn { border: 0; border-radius: 9px; padding: 7px 11px; font: 700 .8rem "Inter"; cursor: pointer; text-decoration: none; display: inline-block; }
+    .btn.b { background: var(--blue); color: #fff; }
+    .btn.g { background: var(--green); color: #fff; }
+    .toast { position: fixed; bottom: 20px; left: 50%; transform: translateX(-50%); background: var(--ink); color: #fff; padding: 12px 18px; border-radius: 12px; font-weight: 600; z-index: 70; opacity: 0; transition: opacity .2s; pointer-events: none; max-width: 90vw; }
+    .toast.show { opacity: 1; }
+    .sheet-fab { bottom: 16px; }
+  </style>
+</head>
+<body>
+  <header><div class="wrap"><div class="logo">Espuma<small>Lavadero de autos y motos</small></div><div class="switch" id="switch"><button data-v="cliente" class="on">Soy cliente</button><button data-v="panel">Panel del lavadero</button></div></div></header>
+  <main class="wrap" id="main"></main>
+  <div class="toast" id="toast"></div>
+
+  <script src="../demo.js"></script>
+  <script>
+    const $ = (id) => document.getElementById(id);
+    const VEH = [["🚗", "Auto", 1], ["🚙", "SUV / Camioneta", 1.3], ["🏍️", "Moto", 0.6]];
+    const SERV = [["💦", "Lavado exterior", 9000, 25], ["🧽", "Completo (por dentro y por fuera)", 15000, 45], ["✨", "Completo + encerado", 24000, 70], ["🛋️", "Limpieza de tapizados", 38000, 150]];
+    const STAGES = ["En espera", "Lavando", "Secado y detalles", "Listo"];
+    const CARS = [
+      { plate: "AD456TR", v: 0, s: 1, st: 1, owner: "Pablo" }, { plate: "OKL221", v: 1, s: 2, st: 0, owner: "Vero" },
+      { plate: "AF902KM", v: 0, s: 0, st: 2, owner: "Diego" }, { plate: "A123BCD", v: 2, s: 0, st: 0, owner: "Nahuel" },
+      { plate: "AE777QW", v: 1, s: 1, st: 3, owner: "Carla" },
+    ];
+    const LOYAL = { AB123CD: 4, AD456TR: 2, OKL221: 5 };
+    const st = { view: "cliente", v: 0, s: 1, when: "ahora", slot: null, done: null };
+    const price = () => Math.round((SERV[st.s][2] * VEH[st.v][2]) / 100) * 100;
+    const waiting = () => CARS.filter((c) => c.st < 3);
+    const wait = () => waiting().reduce((a, c) => a + SERV[c.s][3] * (c.st === 0 ? 1 : 0.5), 0) / 2;
+    function toast(t) { const el = $("toast"); el.textContent = t; el.classList.add("show"); clearTimeout(el._h); el._h = setTimeout(() => el.classList.remove("show"), 2600); }
+
+    function cliente() {
+      if (st.done) return `<div class="done"><div class="big">🧼</div><h2 style="margin:4px 0">¡Listo, ${st.done.plate}!</h2><p class="muted">${st.done.text}</p>${st.done.stamp}<button class="cta" id="again" style="margin-bottom:0">Volver</button></div>`;
+      const h = new Date().getHours(), times = ["09:00", "10:00", "11:00", "12:00", "14:00", "15:00", "16:00", "17:00", "18:00"];
+      return `<h2><span class="num">1</span>¿Qué traés?</h2>
+        <div class="row">${VEH.map(([e, n], i) => `<button class="opt ${i === st.v ? "on" : ""}" data-v="${i}"><span class="e">${e}</span><b>${n}</b></button>`).join("")}</div>
+        <h2><span class="num">2</span>¿Qué lavado?</h2>
+        <div class="row four">${SERV.map(([e, n, p, m], i) => `<button class="opt ${i === st.s ? "on" : ""}" data-s="${i}"><span class="e">${e}</span><b>${n}</b><small>${m} min aprox.</small><span class="pr">${pesos(Math.round((p * VEH[st.v][2]) / 100) * 100)}</span></button>`).join("")}</div>
+        <h2><span class="num">3</span>¿Cuándo?</h2>
+        <div class="when"><button class="opt ${st.when === "ahora" ? "on" : ""}" data-when="ahora"><span class="e">🏃</span><b>Voy ahora</b><small>Me sumo a la fila</small></button><button class="opt ${st.when === "turno" ? "on" : ""}" data-when="turno"><span class="e">🗓️</span><b>Con turno</b><small>Hoy, sin esperar</small></button></div>
+        ${st.when === "ahora" ? `<div class="queue">🚗 Hay ${waiting().length} vehículos antes que vos · espera aprox. <b>${Math.max(10, Math.round(wait() / 5) * 5)} min</b></div>` : `<div class="slots">${times.map((t) => { const dis = +t.slice(0, 2) <= h || ["11:00", "15:00"].includes(t); return `<button class="slot ${t === st.slot ? "on" : ""}" data-slot="${t}" ${dis ? "disabled" : ""}>${t}</button>`; }).join("")}</div>`}
+        <h2><span class="num">4</span>Tu patente</h2>
+        <input id="plate" maxlength="7" placeholder="AB123CD" value="AB123CD">
+        <div class="loyal" id="loyal"></div>
+        <button class="cta" id="go" ${st.when === "turno" && !st.slot ? "disabled" : ""}>Confirmar · ${pesos(price())}</button>`;
+    }
+    function stamps(n) { return `<div class="stamps">${[0, 1, 2, 3, 4, 5].map((k) => `<i class="${k < n ? "on" : ""} ${k === 5 ? "gift" : ""}">${k < n ? "✓" : k === 5 ? "🎁" : ""}</i>`).join("")}</div>`; }
+    function loyal() {
+      const p = ($("plate")?.value || "").toUpperCase().replace(/\s/g, ""), n = LOYAL[p] || 0;
+      if ($("loyal")) $("loyal").innerHTML = `<b>🎟️ Tarjeta de lavados</b> <span class="muted">· el 6º es gratis</span>${stamps(n)}<p class="muted" style="margin:8px 0 0">${n ? `Llevás ${n} de 5. ${n === 5 ? "¡Este lavado te sale gratis! 🎉" : `Te faltan ${5 - n} para el gratis.`}` : "Patente nueva: con este lavado sumás tu primer sello."}</p>`;
+    }
+
+    function panel() {
+      const done = CARS.filter((c) => c.st === 3), billed = done.reduce((a, c) => a + Math.round((SERV[c.s][2] * VEH[c.v][2]) / 100) * 100, 0) + 96000;
+      return `<div class="kpis"><div class="kpi"><small>Vehículos hoy</small><b>${CARS.length + 8}</b></div><div class="kpi"><small>En espera</small><b style="color:var(--amber)">${CARS.filter((c) => c.st === 0).length}</b></div><div class="kpi"><small>Facturado hoy</small><b>${pesos(billed)}</b></div><div class="kpi"><small>Lavados gratis dados</small><b>2</b></div></div>
+        <div class="board">${STAGES.map((s, k) => `<div class="col"><h3>${s}<span>${CARS.filter((c) => c.st === k).length}</span></h3>${CARS.map((c, i) => c.st !== k ? "" : `<div class="car"><span class="plate">${c.plate}</span><small>${VEH[c.v][0]} ${VEH[c.v][1]} · ${SERV[c.s][1]}<br>${c.owner}</small><div class="acts">${k < 3 ? `<button class="btn b" data-next="${i}">${k === 2 ? "Listo ✓" : "Avanzar →"}</button>` : ""}${k === 3 ? `<a class="btn g" target="_blank" rel="noopener" href="https://wa.me/?text=${encodeURIComponent(`Hola ${c.owner}! Tu vehículo ${c.plate} ya está listo y brillando ✨ Te esperamos en Lavadero Espuma.`)}">💬 Avisar que está listo</a>` : ""}</div></div>`).join("")}</div>`).join("")}</div>`;
+    }
+
+    function render() {
+      $("main").innerHTML = st.view === "cliente" ? cliente() : panel();
+      document.querySelectorAll("#switch button").forEach((b) => b.classList.toggle("on", b.dataset.v === st.view));
+      loyal();
+    }
+    $("switch").onclick = (e) => { const b = e.target.closest("button"); if (b) { st.view = b.dataset.v; render(); } };
+    $("main").oninput = (e) => { if (e.target.id === "plate") loyal(); };
+    $("main").onclick = (e) => {
+      let el; const plate = $("plate")?.value;
+      const keep = () => { if ($("plate")) { $("plate").value = plate; loyal(); } };
+      if ((el = e.target.closest("[data-v]")) && st.view === "cliente" && !el.closest("#switch")) { st.v = +el.dataset.v; render(); return keep(); }
+      if ((el = e.target.closest("[data-s]"))) { st.s = +el.dataset.s; render(); return keep(); }
+      if ((el = e.target.closest("[data-when]"))) { st.when = el.dataset.when; st.slot = null; render(); return keep(); }
+      if ((el = e.target.closest("[data-slot]")) && !el.disabled) { st.slot = el.dataset.slot; render(); return keep(); }
+      if (e.target.closest("#go")) {
+        const p = (plate || "SIN PATENTE").toUpperCase(), n = (LOYAL[p] || 0) + 1; LOYAL[p] = n % 6;
+        if (st.when === "ahora") CARS.push({ plate: p, v: st.v, s: st.s, st: 0, owner: "Vos" });
+        st.done = { plate: p, text: st.when === "ahora" ? `Te sumamos a la fila. Cuando esté listo te llega un WhatsApp, así no tenés que esperar acá.` : `Te esperamos hoy a las ${st.slot}. Te llega un recordatorio 30 min antes.`, stamp: `<p class="muted">Tarjeta de lavados:</p>${stamps(n)}` };
+        return render();
+      }
+      if (e.target.closest("#again")) { st.done = null; st.slot = null; return render(); }
+      if ((el = e.target.closest("[data-next]"))) { const c = CARS[+el.dataset.next]; c.st++; toast(`${c.plate} → ${STAGES[c.st]}${c.st === 3 ? " · avisale por WhatsApp" : ""}`); return render(); }
+    };
+    render();
+
+    sheetViewer({
+      title: "Precios · Lavadero Espuma",
+      note: "El dueño carga los precios para auto; los de camioneta y moto se calculan solos con un porcentaje que también puede cambiar.",
+      columns: ["Servicio", "Auto", "SUV / Camioneta (+30%)", "Moto (−40%)", "Duración"],
+      rows: SERV.map(([, n, p, m]) => [n, p, Math.round(p * 1.3), Math.round(p * 0.6), m + " min"]),
+    });
+  </script>
+</body>
+</html>
