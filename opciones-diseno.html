@@ -1,0 +1,173 @@
+<!doctype html>
+<html lang="es-AR">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Opciones de diseño · LM Creaciones</title>
+  <meta name="robots" content="noindex">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,600;12..96,800&family=Instrument+Serif:ital@0;1&family=Space+Grotesk:wght@500;700&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <style>
+    * { box-sizing: border-box; }
+    body { margin: 0; font-family: "Inter", system-ui, sans-serif; background: #ddd; }
+    .label { position: sticky; top: 0; z-index: 10; background: #111; color: #fff; padding: 12px 20px; font-weight: 700; display: flex; justify-content: space-between; gap: 12px; font-size: .95rem; }
+    .label span { color: #aaa; font-weight: 500; }
+    .opt { min-height: 100vh; }
+    .wrap { width: min(1120px, 100% - 32px); margin-inline: auto; }
+    nav { display: flex; align-items: center; justify-content: space-between; padding: 22px 0; gap: 12px; }
+    .links { display: flex; gap: 24px; font-size: .95rem; }
+    @media (max-width: 760px) { .links { display: none; } }
+    .hero { display: grid; grid-template-columns: 1.15fr .85fr; gap: 40px; align-items: center; padding: 48px 0 40px; }
+    @media (max-width: 860px) { .hero { grid-template-columns: 1fr; } }
+    h1 { margin: 0; }
+    .lead { font-size: 1.15rem; margin: 20px 0 28px; max-width: 32em; }
+    .ctas { display: flex; flex-wrap: wrap; gap: 12px; }
+    .btn { display: inline-block; padding: 14px 24px; border-radius: 999px; font-weight: 700; text-decoration: none; }
+    .cards { display: grid; grid-template-columns: repeat(3, 1fr); gap: 16px; padding-bottom: 64px; }
+    @media (max-width: 760px) { .cards { grid-template-columns: 1fr; } }
+    .card { padding: 22px; }
+    .card h3 { margin: 10px 0 6px; font-size: 1.1rem; }
+    .card p { margin: 0; font-size: .95rem; }
+
+    /* A · Colorido y de barrio */
+    .a { background: #fff7e8; color: #2b1d0e; }
+    .a .logo { font-family: "Bricolage Grotesque", sans-serif; font-weight: 800; font-size: 1.4rem; display: flex; gap: 10px; align-items: center; }
+    .a .logo i { font-style: normal; background: #ff5a36; color: #fff; border-radius: 12px; padding: 4px 9px; transform: rotate(-4deg); display: inline-block; }
+    .a .links a { color: #6b5232; text-decoration: none; }
+    .a h1 { font-family: "Bricolage Grotesque", sans-serif; font-weight: 800; font-size: clamp(2.4rem, 5.4vw, 4rem); line-height: 1; letter-spacing: -.03em; }
+    .a h1 mark { background: #ffd23f; padding: 0 .12em; border-radius: 10px; color: inherit; }
+    .a .lead { color: #6b5232; }
+    .a .btn.p { background: #ff5a36; color: #fff; box-shadow: 0 5px 0 #c63c1c; }
+    .a .btn.s { background: #fff; color: #2b1d0e; border: 2px solid #2b1d0e; }
+    .a .pill { display: inline-block; background: #fff; border: 2px solid #2b1d0e; border-radius: 999px; padding: 6px 14px; font-weight: 700; font-size: .85rem; margin-bottom: 18px; }
+    .a .stickers { position: relative; height: 340px; }
+    .a .st { position: absolute; border: 2.5px solid #2b1d0e; border-radius: 20px; background: #fff; padding: 14px 16px; font-weight: 700; box-shadow: 6px 6px 0 #2b1d0e; display: flex; gap: 10px; align-items: center; }
+    .a .st b { font-size: 1.8rem; }
+    .a .card { background: #fff; border: 2.5px solid #2b1d0e; border-radius: 20px; box-shadow: 6px 6px 0 #2b1d0e; }
+    .a .card .e { font-size: 2rem; }
+    .a .card p { color: #6b5232; }
+
+    /* B · Claro y minimalista */
+    .b { background: #fcfcfa; color: #111; }
+    .b .logo { font-family: "Instrument Serif", serif; font-size: 1.7rem; }
+    .b .logo em { color: #1f7a52; }
+    .b .links a { color: #555; text-decoration: none; }
+    .b h1 { font-family: "Instrument Serif", serif; font-weight: 400; font-size: clamp(2.8rem, 6.5vw, 5.2rem); line-height: .98; letter-spacing: -.02em; }
+    .b h1 em { color: #1f7a52; }
+    .b .lead { color: #555; }
+    .b .btn.p { background: #111; color: #fff; }
+    .b .btn.s { color: #111; border: 1px solid #ccc; }
+    .b .kicker { font-size: .8rem; letter-spacing: .14em; text-transform: uppercase; color: #1f7a52; font-weight: 700; margin-bottom: 18px; display: block; }
+    .b .frame { border: 1px solid #e5e5e0; border-radius: 6px; padding: 26px; background: #fff; }
+    .b .frame .row { display: flex; justify-content: space-between; padding: 12px 0; border-bottom: 1px solid #eee; font-size: .95rem; }
+    .b .frame .row:last-child { border: 0; }
+    .b .frame .row b { font-weight: 600; }
+    .b .card { border-top: 1px solid #111; padding: 18px 0 0; }
+    .b .card .n { font-family: "Instrument Serif", serif; font-size: 1.6rem; color: #1f7a52; }
+    .b .card p { color: #555; }
+
+    /* C · Oscuro y moderno */
+    .c { background: #0b0d1a; color: #eef0ff; background-image: radial-gradient(circle at 80% 10%, rgba(124, 92, 255, .35), transparent 40%), radial-gradient(circle at 10% 80%, rgba(0, 210, 190, .22), transparent 40%); }
+    .c .logo { font-family: "Space Grotesk", sans-serif; font-weight: 700; font-size: 1.3rem; }
+    .c .logo span { background: linear-gradient(90deg, #8b6bff, #2de2c7); -webkit-background-clip: text; background-clip: text; color: transparent; }
+    .c .links a { color: #a6a9c8; text-decoration: none; }
+    .c h1 { font-family: "Space Grotesk", sans-serif; font-weight: 700; font-size: clamp(2.4rem, 5.4vw, 4.1rem); line-height: 1.02; letter-spacing: -.03em; }
+    .c h1 span { background: linear-gradient(90deg, #8b6bff, #2de2c7); -webkit-background-clip: text; background-clip: text; color: transparent; }
+    .c .lead { color: #a6a9c8; }
+    .c .btn.p { background: linear-gradient(90deg, #7c5cff, #20c9b2); color: #fff; }
+    .c .btn.s { color: #eef0ff; border: 1px solid #343857; }
+    .c .chip { display: inline-flex; gap: 8px; align-items: center; border: 1px solid #343857; border-radius: 999px; padding: 6px 14px; font-size: .85rem; color: #c9cbe6; margin-bottom: 18px; }
+    .c .chip i { width: 8px; height: 8px; border-radius: 50%; background: #2de2c7; display: inline-block; }
+    .c .glass { background: rgba(255, 255, 255, .05); border: 1px solid rgba(255, 255, 255, .1); border-radius: 20px; padding: 20px; backdrop-filter: blur(8px); }
+    .c .stat { display: flex; justify-content: space-between; align-items: center; padding: 12px 0; border-bottom: 1px solid rgba(255,255,255,.08); }
+    .c .stat:last-child { border: 0; }
+    .c .stat b { font-family: "Space Grotesk", sans-serif; font-size: 1.3rem; }
+    .c .ok { color: #2de2c7; font-size: .85rem; }
+    .c .card { background: rgba(255,255,255,.04); border: 1px solid rgba(255,255,255,.09); border-radius: 18px; }
+    .c .card .e { font-size: 1.6rem; }
+    .c .card p { color: #a6a9c8; }
+  </style>
+</head>
+<body>
+
+  <div class="label">Opción A · Colorido y de barrio <span>cálido, divertido, ideal para comercios</span></div>
+  <section class="opt a">
+    <div class="wrap">
+      <nav><div class="logo"><i>LM</i> Creaciones</div><div class="links"><a href="#">Trabajos</a><a href="#">Demos</a><a href="#">Cómo trabajo</a><a href="#">Contacto</a></div></nav>
+      <div class="hero">
+        <div>
+          <span class="pill">📍 Ramos Mejía y zona oeste</span>
+          <h1>Tu negocio, <mark>más fácil.</mark></h1>
+          <p class="lead">Te armo la web o la app que tu negocio necesita: menú, catálogo, turnos o control de stock. Y la manejás vos, desde el celu, sin saber nada de computación.</p>
+          <div class="ctas"><a class="btn p" href="#">Mirá cómo quedaría</a><a class="btn s" href="#">Escribime 💬</a></div>
+        </div>
+        <div class="stickers">
+          <div class="st" style="left:4%;top:4%;transform:rotate(-5deg)"><b>🍗</b>Pedidos por WhatsApp</div>
+          <div class="st" style="right:2%;top:30%;transform:rotate(4deg)"><b>✂️</b>Turnos online</div>
+          <div class="st" style="left:10%;top:56%;transform:rotate(-2deg)"><b>📦</b>Stock al día</div>
+          <div class="st" style="right:12%;top:80%;transform:rotate(3deg)"><b>💸</b>Caja ordenada</div>
+        </div>
+      </div>
+      <div class="cards">
+        <div class="card"><span class="e">🛍️</span><h3>Una web que cambiás vos</h3><p>Cambiás un precio en una planilla y listo, ya está en la web.</p></div>
+        <div class="card"><span class="e">⚙️</span><h3>Chau cuaderno</h3><p>Stock, ventas, turnos y cuotas en una app hecha para tu negocio.</p></div>
+        <div class="card"><span class="e">🤝</span><h3>Alguien de la zona</h3><p>Nos juntamos, lo vemos juntos y te enseño a usarlo.</p></div>
+      </div>
+    </div>
+  </section>
+
+  <div class="label">Opción B · Claro y minimalista <span>elegante, profesional, transmite confianza</span></div>
+  <section class="opt b">
+    <div class="wrap">
+      <nav><div class="logo">LM <em>Creaciones</em></div><div class="links"><a href="#">Trabajos</a><a href="#">Demos</a><a href="#">Cómo trabajo</a><a href="#">Contacto</a></div></nav>
+      <div class="hero">
+        <div>
+          <span class="kicker">Webs y apps para negocios · Ramos Mejía</span>
+          <h1>Menos papeles.<br><em>Más negocio.</em></h1>
+          <p class="lead">Te armo la herramienta que tu negocio necesita, a tu medida. La usás desde el celular y la manejás vos: sin depender de nadie para cambiar un precio.</p>
+          <div class="ctas"><a class="btn p" href="#">Ver ejemplos</a><a class="btn s" href="#">Hablemos por WhatsApp</a></div>
+        </div>
+        <div class="frame">
+          <div class="row"><span>Menú online con pedidos</span><b>Gastronomía</b></div>
+          <div class="row"><span>Turnos y recordatorios</span><b>Consultorios</b></div>
+          <div class="row"><span>Socios y cuotas</span><b>Gimnasios</b></div>
+          <div class="row"><span>Catálogo con stock</span><b>Comercios</b></div>
+          <div class="row"><span>Stock y caja</span><b>Almacenes</b></div>
+        </div>
+      </div>
+      <div class="cards">
+        <div class="card"><span class="n">01</span><h3>Lo manejás vos</h3><p>Desde una planilla o un panel simple. Sin saber de computación.</p></div>
+        <div class="card"><span class="n">02</span><h3>Listo en días</h3><p>Te muestro un ejemplo con tu negocio antes de empezar.</p></div>
+        <div class="card"><span class="n">03</span><h3>Es tuyo</h3><p>El dominio y los datos quedan a tu nombre.</p></div>
+      </div>
+    </div>
+  </section>
+
+  <div class="label">Opción C · Oscuro y moderno <span>tech, llamativo, se ve "de última"</span></div>
+  <section class="opt c">
+    <div class="wrap">
+      <nav><div class="logo">LM <span>Creaciones</span></div><div class="links"><a href="#">Trabajos</a><a href="#">Demos</a><a href="#">Cómo trabajo</a><a href="#">Contacto</a></div></nav>
+      <div class="hero">
+        <div>
+          <span class="chip"><i></i> Tomando proyectos en zona oeste</span>
+          <h1>Tu negocio funcionando <span>solo</span>, desde el celu.</h1>
+          <p class="lead">Webs, menús, turnos y apps a medida que se actualizan solas. Vos atendés a tus clientes; del resto se encarga tu app.</p>
+          <div class="ctas"><a class="btn p" href="#">Probá las demos</a><a class="btn s" href="#">Escribime</a></div>
+        </div>
+        <div class="glass">
+          <div class="stat"><span>Pedidos de hoy</span><b>23</b></div>
+          <div class="stat"><span>Turnos de mañana</span><b>14</b></div>
+          <div class="stat"><span>Para reponer</span><b>3</b></div>
+          <div class="stat"><span>Cuotas al día</span><span class="ok">✓ 92%</span></div>
+        </div>
+      </div>
+      <div class="cards">
+        <div class="card"><span class="e">⚡</span><h3>Rápido</h3><p>Una web lista en días, una app en semanas.</p></div>
+        <div class="card"><span class="e">📲</span><h3>Simple</h3><p>Si usás WhatsApp, podés manejarlo.</p></div>
+        <div class="card"><span class="e">🔒</span><h3>Tuyo</h3><p>Tus datos y tu dominio, siempre a tu nombre.</p></div>
+      </div>
+    </div>
+  </section>
+</body>
+</html>
