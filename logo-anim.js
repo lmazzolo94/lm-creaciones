@@ -1,6 +1,6 @@
 // Logo animado: partícula de luz que recorre la órbita y el "</>" que se
 // escribe solo como "</creaciones>". Coordenadas en píxeles de img/logo-anim.png
-// (1003×593); el SVG usa un viewBox más ancho para que entre el texto.
+// (1003×502); el SVG usa un viewBox más ancho para que entre el texto.
 (function () {
   const root = document.querySelector(".logo-anim");
   if (!root) return;

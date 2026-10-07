@@ -120,7 +120,7 @@
       },
       shop() {
         const cats = ["Todos", ...new Set(FOOD.map((f) => f.cat))];
-        return `<h2>Pedí el alimento y te lo llevamos</h2><p class="muted">Envío sin cargo en Ramos Mejía y alrededores.</p>
+        return `<h2>Pedí el alimento y te lo llevamos</h2><p class="muted">Envío sin cargo a partir de $ 30.000.</p>
           <div class="filters">${cats.map((c) => `<button class="chip ${c === st.cat ? "on" : ""}" data-cat="${c}">${c}</button>`).join("")}</div>
           <div class="prods">${FOOD.map((f, i) => st.cat !== "Todos" && f.cat !== st.cat ? "" : `<div class="prod"><div class="pic">${f.e}</div><b>${f.n}</b><span class="pr">${pesos(f.p)}</span>
             <div class="qty">${cart.get(i) ? `<button class="m" data-q="${i}" data-d="-1">−</button><b>${cart.get(i)}</b>` : ""}<button data-q="${i}" data-d="1">+</button></div></div>`).join("")}</div>`;

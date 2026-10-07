@@ -86,30 +86,23 @@ h1, h2, h3 { font-family: "Sora", "Inter", sans-serif; line-height: 1.15; margin
 .hero-points li::before { content: "✓ "; color: var(--pink); font-weight: 700; }
 
 /* Logo animado */
-.logo-anim { position: relative; width: min(640px, 86vw); aspect-ratio: 1200 / 593; isolation: isolate; transform: translateX(8.2%); }
-.logo-anim img, .logo-anim svg, .logo-anim .la-shine { position: absolute; inset: 0; width: 100%; height: 100%; }
-.logo-anim img, .logo-anim .la-shine { width: 83.58%; }
+.logo-anim { position: relative; width: min(640px, 86vw); aspect-ratio: 1200 / 502; isolation: isolate; transform: translateX(8.2%); }
+.logo-anim img, .logo-anim svg { position: absolute; inset: 0; width: 100%; height: 100%; }
+.logo-anim img { width: 83.58%; }
 .logo-anim svg { overflow: visible; }
 .la-open, .la-close { font: 300 84px "Sora", sans-serif; fill: #a86cf5; }
 .la-word { font: 400 46px "Sora", sans-serif; fill: url(#la-g); letter-spacing: 1px; }
 .logo-anim img { animation: la-in 1.1s cubic-bezier(.2, .7, .2, 1) both, la-glow 4.5s ease-in-out 1.1s infinite; }
-.la-shine {
-  background: linear-gradient(105deg, transparent 38%, rgba(255, 255, 255, 0.9) 48%, rgba(255, 255, 255, 0.95) 50%, transparent 60%) no-repeat;
-  background-size: 250% 100%; background-position: 160% 0;
-  mix-blend-mode: overlay; pointer-events: none;
-  animation: la-shine 7s ease-in-out 1.2s infinite;
-}
 .la-dot { fill: #ffd6fd; transform-box: fill-box; transform-origin: center; animation: la-pulse 1.8s ease-in-out infinite; }
 .la-ring { fill: none; stroke: #f3a9fb; stroke-width: 3; transform-box: fill-box; transform-origin: center; animation: la-ring 1.8s ease-out infinite; }
 .la-caret { fill: #e9a4fa; opacity: 0; animation: la-blink 1.05s steps(1) infinite; }
 @keyframes la-in { from { opacity: 0; transform: scale(.88); filter: blur(14px); } to { opacity: 1; transform: none; filter: blur(0); } }
 @keyframes la-glow { 0%, 100% { filter: drop-shadow(0 0 18px rgba(173, 80, 249, .35)); } 50% { filter: drop-shadow(0 0 34px rgba(231, 134, 249, .6)); } }
-@keyframes la-shine { 0%, 70% { background-position: 160% 0; } 100% { background-position: -60% 0; } }
 @keyframes la-pulse { 0%, 100% { transform: scale(1); } 50% { transform: scale(1.35); } }
 @keyframes la-ring { from { transform: scale(1); opacity: .9; } to { transform: scale(3.2); opacity: 0; } }
 @keyframes la-blink { 0%, 50% { opacity: 1; } 51%, 100% { opacity: 0; } }
 @media (prefers-reduced-motion: reduce) {
-  .logo-anim img, .la-shine, .la-dot, .la-ring, .la-caret { animation: none; }
+  .logo-anim img, .la-dot, .la-ring, .la-caret { animation: none; }
   .la-trail { display: none; }
 }
 
