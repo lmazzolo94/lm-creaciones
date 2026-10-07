@@ -7,7 +7,7 @@ function demoBar() {
   bar.className = "demo-bar";
   bar.innerHTML =
     '<span><b>Demo de LM Creaciones</b><span class="db-extra"> · negocio ficticio, nada de esto es real</span></span>' +
-    '<a href="../../#demos">← Volver al portafolio</a>';
+    '<a href="../../index.html#demos">← Volver al portafolio</a>';
   document.body.prepend(bar);
 }
 
