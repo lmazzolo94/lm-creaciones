@@ -1,0 +1,173 @@
+<!doctype html>
+<html lang="es-AR">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Veterinaria Huellitas · Demo LM Creaciones</title>
+  <meta name="robots" content="noindex">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Nunito:wght@500;700;800;900&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="../demo.css">
+  <style>
+    :root { --bg: #fffaf3; --card: #fff; --line: #f1e4d3; --ink: #2d2416; --muted: #85765f; --main: #f08a24; --main-dark: #c86c12; --soft: #fff0dd; --green: #2fa36b; --blue: #3d8bd4; }
+    * { box-sizing: border-box; }
+    body { margin: 0; font-family: "Nunito", system-ui, sans-serif; background: var(--bg); color: var(--ink); padding-bottom: 90px; }
+    .wrap { width: min(900px, 100% - 32px); margin-inline: auto; }
+    .hero { background: var(--main); color: #fff; padding: 26px 0 70px; background-image: radial-gradient(circle at 85% 20%, rgba(255,255,255,.2), transparent 35%); }
+    .hero h1 { margin: 0; font-weight: 900; font-size: 2.3rem; }
+    .hero p { margin: 4px 0 0; font-weight: 600; opacity: .95; }
+    .tabs { display: grid; grid-template-columns: repeat(3, 1fr); gap: 10px; margin-top: -48px; }
+    .tab { background: #fff; border: 2px solid transparent; border-radius: 18px; padding: 14px 10px; text-align: center; cursor: pointer; font: 800 .95rem "Nunito", sans-serif; color: var(--ink); box-shadow: 0 8px 20px -10px rgba(120,70,0,.35); }
+    .tab span { display: block; font-size: 1.8rem; }
+    .tab.on { border-color: var(--main); }
+    h2 { font-weight: 900; margin: 26px 0 12px; font-size: 1.35rem; }
+    .muted { color: var(--muted); font-weight: 600; }
+    .grid2 { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; }
+    @media (max-width: 640px) { .grid2 { grid-template-columns: 1fr; } }
+    .opt { background: #fff; border: 2px solid var(--line); border-radius: 16px; padding: 14px; cursor: pointer; text-align: left; font: inherit; color: inherit; display: flex; gap: 12px; align-items: center; }
+    .opt.on { border-color: var(--main); background: var(--soft); }
+    .opt .e { font-size: 1.8rem; }
+    .opt b { display: block; }
+    .opt small { color: var(--muted); font-weight: 600; }
+    .days { display: flex; gap: 8px; overflow-x: auto; scrollbar-width: none; }
+    .day { flex: none; width: 60px; padding: 9px 0; text-align: center; border-radius: 14px; border: 2px solid var(--line); background: #fff; cursor: pointer; font: 800 1.05rem "Nunito", sans-serif; color: var(--ink); }
+    .day small { display: block; font-size: .7rem; color: var(--muted); text-transform: uppercase; }
+    .day.on { border-color: var(--main); background: var(--soft); }
+    .day:disabled { opacity: .35; cursor: default; }
+    .slots { display: flex; flex-wrap: wrap; gap: 8px; margin-top: 12px; }
+    .slot { padding: 9px 14px; border-radius: 12px; border: 2px solid var(--line); background: #fff; font: 800 .9rem "Nunito", sans-serif; cursor: pointer; }
+    .slot.on { background: var(--main); border-color: var(--main); color: #fff; }
+    .slot:disabled { opacity: .35; text-decoration: line-through; cursor: default; }
+    input, select { width: 100%; padding: 11px 12px; border: 2px solid var(--line); border-radius: 12px; font: 600 1rem "Nunito", sans-serif; background: #fff; }
+    label { display: block; font-weight: 800; font-size: .85rem; color: var(--muted); margin: 12px 0 4px; }
+    .cta { width: 100%; margin-top: 16px; padding: 15px; border: 0; border-radius: 14px; background: var(--main); color: #fff; font: 900 1.05rem "Nunito", sans-serif; cursor: pointer; }
+    .cta:disabled { opacity: .45; cursor: default; }
+    .cta.green { background: var(--green); }
+    .prods { display: grid; grid-template-columns: repeat(auto-fill, minmax(190px, 1fr)); gap: 12px; }
+    .prod { background: #fff; border: 2px solid var(--line); border-radius: 16px; padding: 14px; display: flex; flex-direction: column; gap: 6px; }
+    .prod .pic { height: 90px; border-radius: 12px; background: var(--soft); display: grid; place-items: center; font-size: 2.6rem; }
+    .prod b { font-size: .95rem; }
+    .prod .pr { font-weight: 900; font-size: 1.1rem; }
+    .qty { display: flex; align-items: center; gap: 8px; margin-top: auto; }
+    .qty button { width: 34px; height: 34px; border-radius: 50%; border: 0; background: var(--main); color: #fff; font: 900 1.1rem "Nunito"; cursor: pointer; }
+    .qty button.m { background: var(--soft); color: var(--ink); }
+    .filters { display: flex; gap: 8px; flex-wrap: wrap; margin-bottom: 12px; }
+    .chip { border: 2px solid var(--line); background: #fff; border-radius: 999px; padding: 6px 13px; font: 800 .85rem "Nunito"; cursor: pointer; }
+    .chip.on { background: var(--ink); border-color: var(--ink); color: #fff; }
+    .cartbar { position: fixed; left: 50%; transform: translateX(-50%); bottom: 16px; width: min(520px, 100% - 32px); border: 0; border-radius: 16px; background: var(--green); color: #fff; padding: 15px 18px; font: 900 1rem "Nunito"; display: flex; justify-content: space-between; cursor: pointer; z-index: 30; text-decoration: none; }
+    .cartbar[hidden] { display: none; }
+    .pet { background: #fff; border: 2px solid var(--line); border-radius: 18px; padding: 18px; display: grid; grid-template-columns: 80px 1fr; gap: 16px; align-items: center; }
+    .pet .ph { width: 80px; height: 80px; border-radius: 50%; background: var(--soft); display: grid; place-items: center; font-size: 2.6rem; }
+    .vacs { display: grid; gap: 8px; margin-top: 14px; }
+    .vac { display: flex; justify-content: space-between; align-items: center; gap: 10px; background: #fff; border: 2px solid var(--line); border-radius: 14px; padding: 12px 14px; flex-wrap: wrap; }
+    .vac small { color: var(--muted); font-weight: 600; display: block; }
+    .pill { font-size: .78rem; font-weight: 900; padding: 4px 10px; border-radius: 999px; }
+    .pill.ok { background: #e1f5ea; color: var(--green); }
+    .pill.soon { background: #fff0d6; color: #b8660a; }
+    .notice { margin-top: 14px; background: #e8f4ff; border: 2px solid #cfe5fb; border-radius: 14px; padding: 14px; font-weight: 600; white-space: pre-wrap; }
+    .ok-box { text-align: center; background: #fff; border: 2px solid var(--line); border-radius: 18px; padding: 26px; }
+    .ok-box .big { font-size: 3rem; }
+    .sheet-fab { bottom: 86px; }
+  </style>
+</head>
+<body>
+  <header class="hero"><div class="wrap"><h1>🐾 Huellitas</h1><p>Veterinaria · Peluquería canina · Pet shop</p></div></header>
+  <main class="wrap">
+    <div class="tabs" id="tabs">
+      <button class="tab on" data-t="pelu"><span>✂️</span>Baño y corte</button>
+      <button class="tab" data-t="shop"><span>🦴</span>Alimentos</button>
+      <button class="tab" data-t="vac"><span>💉</span>Vacunas</button>
+    </div>
+    <div id="main"></div>
+  </main>
+  <a class="cartbar" id="cartbar" hidden target="_blank" rel="noopener"><span id="cc"></span><span id="ct"></span></a>
+
+  <script src="../demo.js"></script>
+  <script>
+    const $ = (id) => document.getElementById(id);
+    const SIZES = [
+      { e: "🐕", n: "Perro chico", d: "Hasta 10 kg", p: 14000, min: 60 },
+      { e: "🐕‍🦺", n: "Perro mediano", d: "10 a 25 kg", p: 18000, min: 90 },
+      { e: "🦮", n: "Perro grande", d: "Más de 25 kg", p: 24000, min: 120 },
+      { e: "🐈", n: "Gato", d: "Baño y deslanado", p: 16000, min: 60 },
+    ];
+    const FOOD = [
+      { cat: "Perros", e: "🦴", n: "Alimento perro adulto 15 kg", p: 52000 }, { cat: "Perros", e: "🐶", n: "Alimento cachorro 3 kg", p: 17500 },
+      { cat: "Perros", e: "🥫", n: "Lata perro 340 g", p: 2900 }, { cat: "Gatos", e: "🐟", n: "Alimento gato adulto 7,5 kg", p: 46000 },
+      { cat: "Gatos", e: "🐱", n: "Alimento gatito 1,5 kg", p: 11800 }, { cat: "Gatos", e: "🪣", n: "Piedras sanitarias 4 kg", p: 6900 },
+      { cat: "Accesorios", e: "🎾", n: "Pelota con soga", p: 4500 }, { cat: "Accesorios", e: "🦮", n: "Correa extensible", p: 15900 },
+      { cat: "Salud", e: "💊", n: "Pipeta antipulgas (10–20 kg)", p: 9800 }, { cat: "Salud", e: "🪱", n: "Antiparasitario comprimido", p: 5200 },
+    ];
+    const st = { tab: "pelu", size: null, day: 0, slot: null, done: false, cat: "Todos" };
+    const cart = new Map();
+    const days = [...Array(10)].map((_, i) => { const d = new Date(); d.setHours(0, 0, 0, 0); d.setDate(d.getDate() + i); return d; });
+    const busy = (d, t) => (((d.getDate() * 17 + parseInt(t) * 7) * 9301 + 49297) % 233280) / 233280 < 0.45;
+    const long = (d) => d.toLocaleDateString("es-AR", { weekday: "long", day: "numeric", month: "long" });
+
+    const views = {
+      pelu() {
+        if (st.done) return `<div class="ok-box" style="margin-top:22px"><div class="big">🛁</div><h2 style="margin:6px 0">¡Turno reservado!</h2><p class="muted">${$("pet")?.value || "Tu mascota"} te espera el ${long(days[st.day])} a las ${st.slot}. Te avisamos por WhatsApp cuando esté lista para retirar 🐶</p><button class="cta" id="again">Reservar otro</button></div>`;
+        const times = ["09:00", "10:00", "11:00", "12:00", "15:00", "16:00", "17:00", "18:00"];
+        return `<h2>¿Quién viene a ponerse lindo?</h2>
+          <div class="grid2">${SIZES.map((s, i) => `<button class="opt ${st.size === i ? "on" : ""}" data-size="${i}"><span class="e">${s.e}</span><span><b>${s.n} · ${pesos(s.p)}</b><small>${s.d} · ${s.min} min aprox.</small></span></button>`).join("")}</div>
+          <h2>Día y horario</h2>
+          <div class="days">${days.map((d, i) => `<button class="day ${i === st.day ? "on" : ""}" data-day="${i}" ${d.getDay() === 0 ? "disabled" : ""}><small>${i ? d.toLocaleDateString("es-AR", { weekday: "short" }) : "hoy"}</small>${d.getDate()}</button>`).join("")}</div>
+          <div class="slots">${times.map((t) => { const at = new Date(days[st.day]); at.setHours(+t.slice(0, 2)); const dis = at <= new Date() || busy(days[st.day], t); return `<button class="slot ${t === st.slot ? "on" : ""}" data-slot="${t}" ${dis ? "disabled" : ""}>${t}</button>`; }).join("")}</div>
+          <label for="pet">Nombre de la mascota</label><input id="pet" placeholder="Ej.: Toby">
+          <label for="owner">Tu nombre y celular</label><input id="owner" placeholder="Ej.: Laura · 11 2345 6789">
+          <button class="cta" id="book" ${st.size != null && st.slot ? "" : "disabled"}>Reservar turno${st.size != null ? " · " + pesos(SIZES[st.size].p) : ""}</button>`;
+      },
+      shop() {
+        const cats = ["Todos", ...new Set(FOOD.map((f) => f.cat))];
+        return `<h2>Pedí el alimento y te lo llevamos</h2><p class="muted">Envío sin cargo en Ramos Mejía y alrededores.</p>
+          <div class="filters">${cats.map((c) => `<button class="chip ${c === st.cat ? "on" : ""}" data-cat="${c}">${c}</button>`).join("")}</div>
+          <div class="prods">${FOOD.map((f, i) => st.cat !== "Todos" && f.cat !== st.cat ? "" : `<div class="prod"><div class="pic">${f.e}</div><b>${f.n}</b><span class="pr">${pesos(f.p)}</span>
+            <div class="qty">${cart.get(i) ? `<button class="m" data-q="${i}" data-d="-1">−</button><b>${cart.get(i)}</b>` : ""}<button data-q="${i}" data-d="1">+</button></div></div>`).join("")}</div>`;
+      },
+      vac() {
+        const d = (n) => { const x = new Date(); x.setDate(x.getDate() + n); return x.toLocaleDateString("es-AR", { day: "numeric", month: "long" }); };
+        return `<h2>Libreta sanitaria de tu mascota</h2><p class="muted">Cada cliente ve las vacunas de su mascota y la veterinaria le avisa solo cuando se acerca una.</p>
+          <div class="pet"><div class="ph">🐕</div><div><b style="font-size:1.25rem">Toby</b><div class="muted">Caniche · 4 años · 7,2 kg</div><div class="muted">Dueña: Laura P.</div></div></div>
+          <div class="vacs">
+            <div class="vac"><div><b>Antirrábica</b><small>Última: ${d(-340)}</small></div><span class="pill soon">Vence el ${d(25)}</span></div>
+            <div class="vac"><div><b>Séxtuple</b><small>Última: ${d(-120)}</small></div><span class="pill ok">Al día hasta el ${d(245)}</span></div>
+            <div class="vac"><div><b>Desparasitación</b><small>Última: ${d(-80)}</small></div><span class="pill soon">Toca el ${d(10)}</span></div>
+            <div class="vac"><div><b>Control anual</b><small>Último: ${d(-200)}</small></div><span class="pill ok">${d(165)}</span></div>
+          </div>
+          <div class="notice"><b>📲 Aviso automático que recibe Laura:</b>\n\nHola Laura! 🐾 A Toby le toca la desparasitación el ${d(10)} y la antirrábica vence el ${d(25)}. ¿Querés que te reservemos un turno? Respondé SÍ y te pasamos horarios.</div>`;
+      },
+    };
+
+    function render() {
+      $("main").innerHTML = views[st.tab]();
+      document.querySelectorAll(".tab").forEach((t) => t.classList.toggle("on", t.dataset.t === st.tab));
+      const count = [...cart.values()].reduce((a, b) => a + b, 0), total = [...cart].reduce((a, [i, n]) => a + FOOD[i].p * n, 0);
+      $("cartbar").hidden = st.tab !== "shop" || !count;
+      $("cc").textContent = `Pedir por WhatsApp (${count})`; $("ct").textContent = pesos(total);
+      $("cartbar").href = "https://wa.me/?text=" + encodeURIComponent(["Hola Huellitas! Quiero pedir:", ...[...cart].map(([i, n]) => `• ${n} × ${FOOD[i].n} — ${pesos(FOOD[i].p * n)}`), `Total: ${pesos(total)}`, "Dirección de envío: "].join("\n"));
+    }
+    $("tabs").onclick = (e) => { const t = e.target.closest(".tab"); if (t) { st.tab = t.dataset.t; render(); } };
+    $("main").onclick = (e) => {
+      const keep = () => [$("pet")?.value, $("owner")?.value], put = (v) => { if ($("pet")) { $("pet").value = v[0] || ""; $("owner").value = v[1] || ""; } };
+      let el;
+      if ((el = e.target.closest("[data-size]"))) { const v = keep(); st.size = +el.dataset.size; render(); return put(v); }
+      if ((el = e.target.closest("[data-day]")) && !el.disabled) { const v = keep(); st.day = +el.dataset.day; st.slot = null; render(); return put(v); }
+      if ((el = e.target.closest("[data-slot]")) && !el.disabled) { const v = keep(); st.slot = el.dataset.slot; render(); return put(v); }
+      if (e.target.closest("#book")) { const pet = $("pet").value; st.done = true; render(); if (pet) document.querySelector(".ok-box p").textContent = document.querySelector(".ok-box p").textContent.replace("Tu mascota", pet); return; }
+      if (e.target.closest("#again")) { st.done = false; st.slot = null; return render(); }
+      if ((el = e.target.closest("[data-cat]"))) { st.cat = el.dataset.cat; return render(); }
+      if ((el = e.target.closest("[data-q]"))) { const i = +el.dataset.q, n = (cart.get(i) || 0) + +el.dataset.d; n > 0 ? cart.set(i, n) : cart.delete(i); return render(); }
+    };
+    st.day = days.findIndex((d) => d.getDay() !== 0 && (d.getDate() !== new Date().getDate() || new Date().getHours() < 17));
+    render();
+
+    sheetViewer({
+      title: "Huellitas · precios y productos",
+      note: "Precios de peluquería y productos del pet shop en una planilla. Las fechas de vacunas de cada mascota se cargan en la ficha y los avisos salen solos.",
+      columns: ["Tipo", "Producto / servicio", "Precio", "Disponible"],
+      rows: [...SIZES.map((s) => ["Peluquería", s.n, s.p, "Sí"]), ...FOOD.map((f) => [f.cat, f.n, f.p, "Sí"])],
+    });
+  </script>
+</body>
+</html>
