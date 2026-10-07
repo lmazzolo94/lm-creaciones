@@ -7,17 +7,19 @@
   <meta name="description" content="Webs, catálogos, menús online, turnos y apps a medida que tu negocio maneja solo, desde el celular. Diseño y desarrollo en Argentina.">
   <meta property="og:title" content="LM Creaciones · Webs y apps para negocios">
   <meta property="og:description" content="Catálogos, menús, turnos y sistemas a medida que vos mismo manejás desde el celular.">
-  <meta property="og:image" content="img/quebutaca.jpg">
-  <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Cdefs%3E%3ClinearGradient id='g' x1='0' y1='0' x2='1' y2='1'%3E%3Cstop offset='0' stop-color='%23ff5a36'/%3E%3Cstop offset='1' stop-color='%23ff9a3c'/%3E%3C/linearGradient%3E%3C/defs%3E%3Crect width='64' height='64' rx='16' fill='url(%23g)'/%3E%3Ctext x='32' y='42' font-family='Arial' font-weight='800' font-size='28' fill='white' text-anchor='middle'%3ELM%3C/text%3E%3C/svg%3E">
+  <meta property="og:image" content="img/logo-original.jpg">
+  <link rel="icon" type="image/png" href="img/favicon.png">
+  <link rel="apple-touch-icon" href="img/icon-192.png">
+  <meta name="theme-color" content="#0b0416">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Sora:wght@600;700;800&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Sora:wght@300;400;600;700;800&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="styles.css">
 </head>
 <body>
   <header class="header">
     <div class="wrap">
-      <a class="brand" href="#"><span class="brand-mark">LM</span> LM <span>Creaciones</span></a>
+      <a class="brand" href="#" aria-label="LM Creaciones"><img src="img/logo-lm.png" alt="" width="80" height="40"><span>CREACIONES</span></a>
       <nav class="nav">
         <a href="#trabajos">Trabajos</a>
         <a href="#demos">Demos</a>
@@ -32,45 +34,34 @@
   <main>
     <section class="hero">
       <div class="wrap">
-        <div>
-          <span class="eyebrow">📍 Ramos Mejía y zona oeste</span>
-          <h1>Vos ponés el negocio. <em>Nosotros ponemos el orden.</em></h1>
-          <p class="lead">Armamos la web o la app que tu negocio necesita: menú, catálogo, turnos, socios o control de stock. La manejás vos desde el celu, sin saber nada de computación y sin depender de nadie para cambiar un precio.</p>
-          <div class="hero-ctas">
-            <a class="btn btn-primary" href="#demos">Mirá cómo quedaría</a>
-            <a class="btn btn-ghost" href="#trabajos">Nuestros trabajos</a>
-          </div>
-          <ul class="hero-points">
-            <li>Listo en días</li>
-            <li>Pedidos y turnos a tu WhatsApp</li>
-            <li>Somos de la zona: te atendemos en persona</li>
-          </ul>
+        <div class="logo-anim" role="img" aria-label="LM Creaciones">
+          <img src="img/logo-anim.webp" alt="" width="1003" height="593">
+          <div class="la-shine"></div>
+          <svg viewBox="0 0 1200 593" aria-hidden="true">
+            <defs>
+              <linearGradient id="la-g" x1="0" x2="1"><stop offset="0" stop-color="#b98af9"/><stop offset="1" stop-color="#f3a9fb"/></linearGradient>
+            </defs>
+            <g class="la-trail"></g>
+            <text class="la-open" x="789" y="327">&lt;/</text>
+            <text class="la-word" x="880" y="321"></text>
+            <rect class="la-caret" x="880" y="262" width="4" height="70" rx="2"/>
+            <text class="la-close" x="880" y="327">&gt;</text>
+            <circle class="la-ring" cx="931" cy="380" r="13"/>
+            <circle class="la-dot" cx="931" cy="380" r="13"/>
+          </svg>
         </div>
-        <div class="hero-visual" aria-hidden="true">
-          <div class="phone p1">
-            <div class="phone-screen">
-              <div class="mini-top" style="background:#b8321c">🍗 La Esquina · Menú</div>
-              <div class="mini-list">
-                <div class="mini-item"><span class="mini-emoji">🍗</span><div><b>Pollo al spiedo</b>$ 14.500</div></div>
-                <div class="mini-item"><span class="mini-emoji">🥟</span><div><b>Docena de empanadas</b>$ 16.800</div></div>
-                <div class="mini-item"><span class="mini-emoji">🍝</span><div><b>Sorrentinos</b>$ 9.200</div></div>
-                <div class="mini-item"><span class="mini-emoji">🥗</span><div><b>Ensalada completa</b>$ 6.500</div></div>
-              </div>
-              <div class="mini-btn" style="background:#1fa855">Pedir por WhatsApp</div>
-            </div>
-          </div>
-          <div class="phone p2">
-            <div class="phone-screen">
-              <div class="mini-top" style="background:#1d1d1f">💈 Navaja · Turnos</div>
-              <div class="mini-list">
-                <div class="mini-item"><span class="mini-emoji">✂️</span><div><b>Corte clásico</b>40 min</div></div>
-                <div class="mini-item"><span class="mini-emoji">🧔</span><div><b>Barba</b>30 min</div></div>
-                <div class="mini-item" style="background:#fff4d6"><span class="mini-emoji">🗓️</span><div><b>Jueves 18:30</b>Disponible</div></div>
-              </div>
-              <div class="mini-btn" style="background:#c8a24a">Reservar turno</div>
-            </div>
-          </div>
+        <span class="eyebrow">📍 Ramos Mejía y zona oeste</span>
+        <h1>Vos ponés el negocio. <em>Nosotros ponemos el orden.</em></h1>
+        <p class="lead">Armamos la web o la app que tu negocio necesita: menú, catálogo, turnos, socios o control de stock. La manejás vos desde el celu, sin saber nada de computación y sin depender de nadie para cambiar un precio.</p>
+        <div class="hero-ctas">
+          <a class="btn btn-primary" href="#demos">Mirá cómo quedaría</a>
+          <a class="btn btn-ghost" href="#trabajos">Nuestros trabajos</a>
         </div>
+        <ul class="hero-points">
+          <li>Listo en días</li>
+          <li>Pedidos y turnos a tu WhatsApp</li>
+          <li>Somos de la zona: te atendemos en persona</li>
+        </ul>
       </div>
     </section>
 
@@ -332,6 +323,7 @@
     };
   </script>
   <script src="contacto.js"></script>
+  <script src="logo-anim.js"></script>
   <script>document.getElementById("year").textContent = new Date().getFullYear();</script>
 </body>
 </html>
