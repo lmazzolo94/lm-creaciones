@@ -1,0 +1,192 @@
+<!doctype html>
+<html lang="es-AR">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Trama Indumentaria · Demo LM Creaciones</title>
+  <meta name="robots" content="noindex">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Playfair+Display:wght@600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="../demo.css">
+  <style>
+    :root { --ink: #1f1b2e; --muted: #77728a; --bg: #fbfaf8; --line: #ebe8f0; --accent: #6c4cf1; --accent-soft: #efeafe; }
+    * { box-sizing: border-box; }
+    body { margin: 0; font-family: "Inter", system-ui, sans-serif; background: var(--bg); color: var(--ink); }
+    .wrap { width: min(1100px, 100% - 32px); margin-inline: auto; }
+    header.top { border-bottom: 1px solid var(--line); background: #fff; }
+    header.top .wrap { display: flex; align-items: center; justify-content: space-between; height: 64px; }
+    .logo { font-family: "Playfair Display", serif; font-size: 1.6rem; letter-spacing: .02em; }
+    .bag { position: relative; border: 1px solid var(--line); background: #fff; border-radius: 999px; padding: 8px 14px; font: 600 .9rem "Inter", sans-serif; cursor: pointer; }
+    .bag b { background: var(--accent); color: #fff; border-radius: 999px; padding: 1px 7px; margin-left: 4px; font-size: .78rem; }
+    .banner { background: linear-gradient(120deg, #efeafe, #fde9f1); padding: 34px 0; }
+    .banner h1 { font-family: "Playfair Display", serif; font-size: clamp(1.8rem, 4vw, 2.6rem); margin: 0; }
+    .banner p { margin: 8px 0 0; color: var(--muted); }
+    .filters { display: flex; flex-wrap: wrap; gap: 8px; align-items: center; margin: 22px 0 18px; }
+    .chip { border: 1px solid var(--line); background: #fff; border-radius: 999px; padding: 8px 14px; font: 600 .86rem "Inter", sans-serif; cursor: pointer; color: var(--ink); }
+    .chip.on { background: var(--ink); color: #fff; border-color: var(--ink); }
+    .filters input { margin-left: auto; padding: 9px 14px; border: 1px solid var(--line); border-radius: 999px; font: inherit; min-width: 200px; }
+    @media (max-width: 640px) { .filters input { margin-left: 0; width: 100%; } }
+    .grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(210px, 1fr)); gap: 18px; padding-bottom: 90px; }
+    .prod { background: #fff; border: 1px solid var(--line); border-radius: 16px; overflow: hidden; cursor: pointer; transition: transform .15s; text-align: left; padding: 0; font: inherit; color: inherit; }
+    .prod:hover { transform: translateY(-3px); }
+    .pic { aspect-ratio: 4 / 5; display: grid; place-items: center; font-size: 4.2rem; position: relative; }
+    .badge { position: absolute; top: 10px; left: 10px; font-size: .72rem; font-weight: 700; padding: 3px 9px; border-radius: 999px; background: #fff; }
+    .badge.sale { background: #ff5a7a; color: #fff; }
+    .badge.out { background: #444; color: #fff; }
+    .pbody { padding: 12px 14px 14px; }
+    .pbody h3 { margin: 0; font-size: .95rem; font-weight: 600; }
+    .price { margin-top: 4px; font-weight: 700; }
+    .price s { color: var(--muted); font-weight: 400; margin-left: 6px; font-size: .85rem; }
+    .dots { display: flex; gap: 5px; margin-top: 8px; }
+    .dots i { width: 14px; height: 14px; border-radius: 50%; border: 1px solid rgba(0,0,0,.15); }
+    .panel { position: fixed; inset: 0; z-index: 60; background: rgba(20,15,40,.5); display: grid; place-items: center; padding: 16px; }
+    .panel[hidden] { display: none; }
+    .card { background: #fff; width: min(780px, 100%); max-height: 92vh; overflow: auto; border-radius: 20px; display: grid; grid-template-columns: 1fr 1fr; }
+    @media (max-width: 680px) { .card { grid-template-columns: 1fr; } }
+    .card .pic { aspect-ratio: auto; min-height: 280px; font-size: 6rem; }
+    .detail { padding: 24px; position: relative; }
+    .detail h2 { font-family: "Playfair Display", serif; margin: 0 30px 6px 0; }
+    .x { position: absolute; top: 14px; right: 14px; border: 0; background: #f3f1f7; width: 34px; height: 34px; border-radius: 50%; cursor: pointer; }
+    .lbl { font-size: .8rem; font-weight: 700; color: var(--muted); margin: 18px 0 8px; text-transform: uppercase; letter-spacing: .05em; }
+    .opts { display: flex; flex-wrap: wrap; gap: 8px; }
+    .size { min-width: 46px; padding: 9px 10px; border: 1.5px solid var(--line); border-radius: 10px; background: #fff; font: 600 .9rem "Inter", sans-serif; cursor: pointer; }
+    .size.on { border-color: var(--ink); background: var(--ink); color: #fff; }
+    .size:disabled { text-decoration: line-through; opacity: .4; cursor: default; }
+    .color { width: 34px; height: 34px; border-radius: 50%; border: 2px solid #fff; outline: 1.5px solid var(--line); cursor: pointer; }
+    .color.on { outline: 2.5px solid var(--ink); }
+    .stock { font-size: .85rem; margin-top: 12px; color: #1a8a5a; font-weight: 600; }
+    .stock.low { color: #d0620b; }
+    .add { width: 100%; margin-top: 18px; padding: 14px; border: 0; border-radius: 12px; background: var(--accent); color: #fff; font: 700 1rem "Inter", sans-serif; cursor: pointer; }
+    .add:disabled { opacity: .4; cursor: default; }
+    .bagcard { background: #fff; width: min(460px, 100%); border-radius: 20px; padding: 22px; max-height: 90vh; overflow: auto; }
+    .bagcard h2 { font-family: "Playfair Display", serif; margin: 0 0 12px; }
+    .line { display: flex; justify-content: space-between; gap: 10px; padding: 10px 0; border-bottom: 1px solid var(--line); font-size: .92rem; }
+    .line button { border: 0; background: none; color: var(--muted); cursor: pointer; }
+    .tot { display: flex; justify-content: space-between; font-weight: 800; margin: 14px 0; font-size: 1.1rem; }
+    .wa { display: block; text-align: center; text-decoration: none; padding: 14px; border-radius: 12px; background: #1fa855; color: #fff; font-weight: 700; }
+    .hint { font-size: .8rem; color: var(--muted); }
+  </style>
+</head>
+<body>
+  <header class="top">
+    <div class="wrap">
+      <span class="logo">Trama</span>
+      <button class="bag" id="bagbtn">🛍️ Bolsa <b id="bagcount">0</b></button>
+    </div>
+  </header>
+  <section class="banner">
+    <div class="wrap">
+      <h1>Nueva temporada primavera</h1>
+      <p>Envíos a todo el país · 3 cuotas sin interés · Cambios sin vueltas</p>
+    </div>
+  </section>
+  <main class="wrap">
+    <div class="filters" id="filters"></div>
+    <div class="grid" id="grid"></div>
+  </main>
+
+  <div class="panel" id="detail" hidden><div class="card" id="detailcard"></div></div>
+  <div class="panel" id="bag" hidden>
+    <div class="bagcard">
+      <h2>Tu bolsa</h2>
+      <div id="baglines"></div>
+      <div class="tot"><span>Total</span><span id="bagtotal"></span></div>
+      <a class="wa" id="bagwa" target="_blank" rel="noopener">Comprar por WhatsApp</a>
+      <p class="hint">El pedido llega al WhatsApp del local con talle, color y total. Ahí se coordina el pago y el envío.</p>
+    </div>
+  </div>
+
+  <script src="../demo.js"></script>
+  <script>
+    const C = { negro: "#1f1f1f", blanco: "#f5f5f0", beige: "#d9c4a5", verde: "#6f8f6a", lila: "#b9a6f5", rosa: "#f4b6c8", azul: "#3c5a8a", gris: "#9a9aa3", celeste: "#a7c8e8" };
+    // Simula la planilla del dueño: stock por talle de cada producto.
+    const PRODUCTS = [
+      { cat: "Remeras", emoji: "👕", bg: "#f3efe8", name: "Remera oversize algodón", price: 18500, colors: ["blanco", "negro", "verde"], stock: { S: 4, M: 6, L: 2, XL: 0 } },
+      { cat: "Remeras", emoji: "👚", bg: "#fde9f1", name: "Musculosa básica", price: 12900, old: 15900, colors: ["rosa", "blanco", "lila"], stock: { S: 3, M: 5, L: 1 } },
+      { cat: "Pantalones", emoji: "👖", bg: "#e6edf7", name: "Jean mom tiro alto", price: 42000, colors: ["azul", "celeste"], stock: { 36: 2, 38: 4, 40: 3, 42: 1, 44: 0 } },
+      { cat: "Pantalones", emoji: "🩳", bg: "#eef3ea", name: "Short de lino", price: 22500, colors: ["beige", "verde", "blanco"], stock: { S: 0, M: 2, L: 3 } },
+      { cat: "Vestidos", emoji: "👗", bg: "#efeafe", name: "Vestido midi floreado", price: 39900, colors: ["lila", "rosa"], stock: { S: 1, M: 2, L: 0 }, isNew: true },
+      { cat: "Vestidos", emoji: "👗", bg: "#f6e9dd", name: "Vestido camisero", price: 35500, old: 41000, colors: ["beige", "negro"], stock: { S: 2, M: 1, L: 1 } },
+      { cat: "Abrigos", emoji: "🧥", bg: "#ecebef", name: "Campera de jean", price: 54900, colors: ["azul", "negro"], stock: { S: 0, M: 0, L: 0 } },
+      { cat: "Abrigos", emoji: "🧥", bg: "#f2ece4", name: "Blazer liviano", price: 48000, colors: ["beige", "negro", "gris"], stock: { S: 2, M: 3, L: 2 }, isNew: true },
+      { cat: "Accesorios", emoji: "👜", bg: "#f7eee6", name: "Cartera bandolera", price: 27500, colors: ["negro", "beige"], stock: { Único: 5 } },
+      { cat: "Accesorios", emoji: "🧢", bg: "#e9eef2", name: "Gorra bordada", price: 11900, colors: ["negro", "blanco", "verde"], stock: { Único: 8 } },
+      { cat: "Calzado", emoji: "👟", bg: "#eef0f6", name: "Zapatillas urbanas", price: 64900, colors: ["blanco", "negro"], stock: { 36: 1, 37: 2, 38: 3, 39: 0, 40: 2 }, isNew: true },
+      { cat: "Calzado", emoji: "🥿", bg: "#fbefe6", name: "Chatitas de cuero", price: 45000, old: 52000, colors: ["negro", "beige"], stock: { 36: 0, 37: 1, 38: 2, 39: 1 } },
+    ];
+    const $ = (id) => document.getElementById(id);
+    const total = (p) => Object.values(p.stock).reduce((a, b) => a + b, 0);
+    const bag = [];
+    let cat = "Todo", q = "";
+
+    const cats = ["Todo", ...new Set(PRODUCTS.map((p) => p.cat))];
+    $("filters").innerHTML = cats.map((c) => `<button class="chip ${c === cat ? "on" : ""}" data-c="${c}">${c}</button>`).join("") + '<input id="q" type="search" placeholder="Buscar…" aria-label="Buscar">';
+    $("filters").onclick = (e) => { const b = e.target.closest(".chip"); if (!b) return; cat = b.dataset.c; document.querySelectorAll(".chip").forEach((x) => x.classList.toggle("on", x === b)); renderGrid(); };
+    $("q").oninput = (e) => { q = e.target.value.toLowerCase(); renderGrid(); };
+
+    function renderGrid() {
+      const list = PRODUCTS.map((p, i) => ({ ...p, i })).filter((p) => (cat === "Todo" || p.cat === cat) && p.name.toLowerCase().includes(q));
+      $("grid").innerHTML = list.map((p) => `
+        <button class="prod" data-i="${p.i}">
+          <div class="pic" style="background:${p.bg}">${p.emoji}
+            ${total(p) === 0 ? '<span class="badge out">Sin stock</span>' : p.old ? `<span class="badge sale">-${Math.round((1 - p.price / p.old) * 100)}%</span>` : p.isNew ? '<span class="badge">Nuevo</span>' : ""}
+          </div>
+          <div class="pbody"><h3>${p.name}</h3><div class="price">${pesos(p.price)}${p.old ? `<s>${pesos(p.old)}</s>` : ""}</div>
+          <div class="dots">${p.colors.map((c) => `<i style="background:${C[c]}" title="${c}"></i>`).join("")}</div></div>
+        </button>`).join("") || '<p style="color:var(--muted)">No encontramos productos.</p>';
+    }
+    $("grid").onclick = (e) => { const b = e.target.closest(".prod"); if (b) openDetail(+b.dataset.i); };
+
+    function openDetail(i) {
+      const p = PRODUCTS[i];
+      const pick = { size: null, color: p.colors[0] };
+      const draw = () => {
+        const n = pick.size ? p.stock[pick.size] : null;
+        $("detailcard").innerHTML = `
+          <div class="pic" style="background:${p.bg}">${p.emoji}</div>
+          <div class="detail">
+            <button class="x" aria-label="Cerrar">✕</button>
+            <h2>${p.name}</h2>
+            <div class="price">${pesos(p.price)}${p.old ? `<s>${pesos(p.old)}</s>` : ""}</div>
+            <div class="lbl">Color: ${pick.color}</div>
+            <div class="opts">${p.colors.map((c) => `<button class="color ${c === pick.color ? "on" : ""}" data-color="${c}" style="background:${C[c]}" aria-label="${c}"></button>`).join("")}</div>
+            <div class="lbl">Talle</div>
+            <div class="opts">${Object.entries(p.stock).map(([s, k]) => `<button class="size ${s === pick.size ? "on" : ""}" data-size="${s}" ${k ? "" : "disabled"}>${s}</button>`).join("")}</div>
+            ${n == null ? "" : `<div class="stock ${n <= 2 ? "low" : ""}">${n === 1 ? "¡Última unidad!" : n <= 2 ? `¡Últimas ${n} unidades!` : "Hay stock"}</div>`}
+            <button class="add" ${pick.size ? "" : "disabled"}>${total(p) ? (pick.size ? "Agregar a la bolsa" : "Elegí un talle") : "Sin stock"}</button>
+          </div>`;
+      };
+      $("detailcard").onclick = (e) => {
+        if (e.target.closest(".x")) return ($("detail").hidden = true);
+        const c = e.target.closest("[data-color]"); if (c) { pick.color = c.dataset.color; return draw(); }
+        const s = e.target.closest(".size"); if (s && !s.disabled) { pick.size = s.dataset.size; return draw(); }
+        if (e.target.closest(".add") && pick.size) { bag.push({ i, ...pick }); renderBag(); $("detail").hidden = true; }
+      };
+      draw(); $("detail").hidden = false;
+    }
+
+    function renderBag() {
+      $("bagcount").textContent = bag.length;
+      $("baglines").innerHTML = bag.map((b, k) => `<div class="line"><span>${PRODUCTS[b.i].name}<br><small style="color:var(--muted)">Talle ${b.size} · ${b.color}</small></span><span>${pesos(PRODUCTS[b.i].price)} <button data-k="${k}" aria-label="Quitar">✕</button></span></div>`).join("") || '<p class="hint">Tu bolsa está vacía.</p>';
+      const sum = bag.reduce((s, b) => s + PRODUCTS[b.i].price, 0);
+      $("bagtotal").textContent = pesos(sum);
+      const text = ["Hola Trama! Quiero comprar:", ...bag.map((b) => `• ${PRODUCTS[b.i].name} — talle ${b.size}, ${b.color} — ${pesos(PRODUCTS[b.i].price)}`), `Total: ${pesos(sum)}`].join("\n");
+      $("bagwa").href = "https://wa.me/?text=" + encodeURIComponent(text);
+      $("bagwa").style.opacity = bag.length ? 1 : 0.4;
+    }
+    $("baglines").onclick = (e) => { const b = e.target.closest("[data-k]"); if (b) { bag.splice(+b.dataset.k, 1); renderBag(); } };
+    $("bagbtn").onclick = () => ($("bag").hidden = false);
+    document.querySelectorAll(".panel").forEach((p) => p.addEventListener("click", (e) => { if (e.target === p) p.hidden = true; }));
+
+    renderGrid(); renderBag();
+
+    sheetViewer({
+      title: "Productos · Trama",
+      note: "Cada fila es un producto. La dueña carga el stock de cada talle; cuando llega a 0 el talle se tacha solo y, si no queda ninguno, aparece \"Sin stock\".",
+      columns: ["Categoría", "Producto", "Precio", "Precio anterior", "Colores", "Stock por talle"],
+      rows: PRODUCTS.map((p) => [p.cat, p.name, p.price, p.old || "", p.colors.join(", "), Object.entries(p.stock).map(([s, n]) => `${s}:${n}`).join("  ")]),
+    });
+  </script>
+</body>
+</html>

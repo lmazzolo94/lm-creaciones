@@ -1,0 +1,26 @@
+/* Comunes a las demos */
+.demo-bar {
+  position: sticky; top: 0; z-index: 50; background: #17142e; color: #d9d6ec; font-family: "Inter", system-ui, sans-serif;
+  font-size: 0.82rem; padding: 8px 16px; display: flex; align-items: center; justify-content: space-between; gap: 12px; line-height: 1.3;
+}
+.demo-bar a { color: #ffb199; font-weight: 600; text-decoration: none; white-space: nowrap; }
+.demo-bar b { color: #fff; }
+@media (max-width: 600px) { .demo-bar .db-extra { display: none; } }
+
+.sheet-fab {
+  position: fixed; left: 16px; bottom: 16px; z-index: 40; border: 0; cursor: pointer;
+  background: #fff; color: #17142e; font: 600 0.85rem "Inter", system-ui, sans-serif;
+  padding: 11px 16px; border-radius: 999px; box-shadow: 0 8px 24px -8px rgba(0,0,0,.35); border: 1px solid #e3e3e3;
+}
+.sheet-modal { position: fixed; inset: 0; z-index: 100; background: rgba(10, 10, 20, .55); display: grid; place-items: center; padding: 16px; }
+.sheet-modal[hidden] { display: none; }
+.sheet-card { background: #fff; color: #1f1f1f; width: min(860px, 100%); max-height: 90vh; display: flex; flex-direction: column; border-radius: 16px; overflow: hidden; font-family: "Inter", system-ui, sans-serif; }
+.sheet-head { display: flex; justify-content: space-between; align-items: center; padding: 14px 18px; background: #e8f3ec; border-bottom: 1px solid #cfe3d6; }
+.sheet-head small { display: block; color: #4b6b57; font-size: 0.78rem; }
+.sheet-close { border: 0; background: transparent; font-size: 1.2rem; cursor: pointer; }
+.sheet-note { margin: 0; padding: 12px 18px; font-size: 0.88rem; color: #444; background: #fffbe6; border-bottom: 1px solid #f0e6b8; }
+.sheet-scroll { overflow: auto; }
+.sheet { border-collapse: collapse; font-size: 0.82rem; width: 100%; }
+.sheet th, .sheet td { border: 1px solid #e2e2e2; padding: 6px 10px; white-space: nowrap; text-align: left; }
+.sheet thead tr:last-child td, .sheet thead tr:last-child th { background: #f1f5f2; font-weight: 700; }
+.sheet .cl, .sheet .rn { background: #f6f6f6; color: #777; font-weight: 500; text-align: center; min-width: 32px; }
