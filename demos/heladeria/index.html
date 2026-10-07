@@ -1,0 +1,109 @@
+<!doctype html>
+<html lang="es-AR">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Helados Polo Sur · Demo LM Creaciones</title>
+  <meta name="robots" content="noindex">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Chewy&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="../demo.css">
+  <style>
+    :root { --bg: #fff8fb; --card: #fff; --line: #f6dce8; --ink: #3a1f2c; --muted: #8f6f7e; --pink: #f0629a; --mint: #43c6ac; --choco: #7a4a2e; }
+    * { box-sizing: border-box; }
+    body { margin: 0; font-family: "Inter", system-ui, sans-serif; background: var(--bg); color: var(--ink); padding-bottom: 100px; }
+    .wrap { width: min(900px, 100% - 32px); margin-inline: auto; }
+    header { text-align: center; padding: 26px 0 8px; background: linear-gradient(180deg, #ffe3ef, transparent); }
+    .logo { font-family: "Chewy", cursive; font-size: 3rem; color: var(--pink); margin: 0; line-height: 1; }
+    header p { color: var(--muted); margin: 6px 0 0; }
+    h2 { font-family: "Chewy", cursive; font-weight: 400; font-size: 1.7rem; margin: 22px 0 10px; color: var(--choco); }
+    .sizes { display: grid; grid-template-columns: repeat(4, 1fr); gap: 10px; }
+    @media (max-width: 640px) { .sizes { grid-template-columns: 1fr 1fr; } }
+    .size { border: 2px solid var(--line); background: #fff; border-radius: 18px; padding: 14px 8px; cursor: pointer; text-align: center; font: inherit; color: inherit; }
+    .size .e { font-size: 2rem; display: block; }
+    .size small { display: block; color: var(--muted); }
+    .size .p { display: block; font-weight: 800; margin-top: 4px; color: var(--pink); }
+    .size.on { border-color: var(--pink); background: #fff0f6; }
+    .count { position: sticky; top: 34px; z-index: 10; background: var(--bg); padding: 8px 0; font-weight: 700; display: flex; gap: 8px; flex-wrap: wrap; align-items: center; }
+    .pill { background: #fff; border: 1.5px solid var(--pink); color: var(--pink); border-radius: 999px; padding: 4px 10px; font-size: .82rem; cursor: pointer; }
+    .group h3 { margin: 16px 0 8px; font-size: .95rem; color: var(--muted); text-transform: uppercase; letter-spacing: .06em; }
+    .flavors { display: grid; grid-template-columns: repeat(auto-fill, minmax(150px, 1fr)); gap: 8px; }
+    .fl { display: flex; align-items: center; gap: 8px; border: 2px solid var(--line); background: #fff; border-radius: 14px; padding: 10px; cursor: pointer; font: 600 .88rem "Inter"; text-align: left; color: var(--ink); }
+    .fl i { width: 22px; height: 22px; border-radius: 50%; flex: none; border: 2px solid #fff; box-shadow: 0 0 0 1px rgba(0,0,0,.08); }
+    .fl.on { border-color: var(--pink); background: #fff0f6; }
+    .fl:disabled { opacity: .45; cursor: default; }
+    .fl small { display: block; font-weight: 500; color: var(--muted); font-size: .72rem; }
+    .opts { display: flex; gap: 8px; flex-wrap: wrap; }
+    .opts label { display: flex; gap: 8px; align-items: center; background: #fff; border: 2px solid var(--line); border-radius: 12px; padding: 9px 12px; cursor: pointer; font-size: .9rem; }
+    .cart { position: fixed; left: 50%; transform: translateX(-50%); bottom: 16px; width: min(560px, 100% - 32px); border: 0; border-radius: 18px; background: #1fa855; color: #fff; padding: 15px 18px; font: 800 1rem "Inter"; display: flex; justify-content: space-between; text-decoration: none; z-index: 30; }
+    .cart.off { background: #c9b6bf; pointer-events: none; }
+    .sheet-fab { bottom: 86px; }
+  </style>
+</head>
+<body>
+  <header><h1 class="logo">Polo Sur</h1><p>Helado artesanal · Delivery hasta las 00 hs</p></header>
+  <main class="wrap">
+    <h2>1. ¿Cuánto helado?</h2>
+    <div class="sizes" id="sizes"></div>
+    <h2>2. Elegí los gustos</h2>
+    <div class="count" id="count"></div>
+    <div id="groups"></div>
+    <h2>3. Algo más</h2>
+    <div class="opts" id="opts"></div>
+  </main>
+  <a class="cart off" id="cart" target="_blank" rel="noopener"><span id="ct"></span><span id="cp"></span></a>
+
+  <script src="../demo.js"></script>
+  <script>
+    const $ = (id) => document.getElementById(id);
+    const SIZES = [["🍦", "Cucurucho", "2 gustos", 2, 4500], ["🥄", "1/4 kg", "Hasta 3 gustos", 3, 7500], ["🍨", "1/2 kg", "Hasta 4 gustos", 4, 13500], ["🧊", "1 kg", "Hasta 4 gustos", 4, 24000]];
+    // [grupo, gusto, color, disponible]
+    const FL = [
+      ["Dulce de leche", "Dulce de leche", "#c88a4a", 1], ["Dulce de leche", "Súper dulce de leche", "#a8692e", 1], ["Dulce de leche", "Dulce de leche granizado", "#b77b42", 1], ["Dulce de leche", "Dulce de leche con brownie", "#8d5a2b", 1],
+      ["Chocolates", "Chocolate", "#5b3420", 1], ["Chocolates", "Chocolate amargo", "#3b2015", 1], ["Chocolates", "Chocolate suizo", "#6e4129", 0], ["Chocolates", "Chocolate blanco", "#f2e8d5", 1],
+      ["Cremas", "Vainilla", "#f6e7b4", 1], ["Cremas", "Americana", "#fbf3e1", 1], ["Cremas", "Tramontana", "#e7d3b0", 1], ["Cremas", "Sambayón", "#f2d27a", 1], ["Cremas", "Menta granizada", "#bfeadc", 1], ["Cremas", "Banana split", "#f5e6a3", 1],
+      ["Frutales (al agua)", "Frutilla", "#f26d7d", 1], ["Frutales (al agua)", "Limón", "#f5ef8a", 1], ["Frutales (al agua)", "Maracuyá", "#f7c14a", 0], ["Frutales (al agua)", "Frutos del bosque", "#8e3a62", 1],
+    ];
+    const OPTS = [["Salsa de chocolate", 900], ["Cucuruchos x2", 600], ["Cucharitas extra", 0], ["Envío a domicilio", 1500]];
+    const st = { size: 2, picks: [], opts: new Set([3]) };
+    const max = () => SIZES[st.size][3];
+
+    function render() {
+      $("sizes").innerHTML = SIZES.map(([e, n, d, , p], i) => `<button class="size ${i === st.size ? "on" : ""}" data-size="${i}"><span class="e">${e}</span><b>${n}</b><small>${d}</small><span class="p">${pesos(p)}</span></button>`).join("");
+      if (st.picks.length > max()) st.picks.length = max();
+      $("count").innerHTML = `${st.picks.length} de ${max()} gustos ${st.picks.map((i) => `<span class="pill" data-rm="${i}">${FL[i][1]} ✕</span>`).join("")}`;
+      const groups = [...new Set(FL.map((f) => f[0]))];
+      $("groups").innerHTML = groups.map((g) => `<div class="group"><h3>${g}</h3><div class="flavors">${FL.map((f, i) => f[0] !== g ? "" : `<button class="fl ${st.picks.includes(i) ? "on" : ""}" data-f="${i}" ${f[3] ? "" : "disabled"}><i style="background:${f[2]}"></i><span>${f[1]}${f[3] ? "" : "<small>Se terminó por hoy</small>"}</span></button>`).join("")}</div></div>`).join("");
+      $("opts").innerHTML = OPTS.map(([n, p], i) => `<label><input type="checkbox" data-o="${i}" ${st.opts.has(i) ? "checked" : ""}> ${n}${p ? ` · ${pesos(p)}` : ""}</label>`).join("");
+      const total = SIZES[st.size][4] + [...st.opts].reduce((a, i) => a + OPTS[i][1], 0);
+      const ok = st.picks.length > 0;
+      $("cart").classList.toggle("off", !ok);
+      $("ct").textContent = ok ? `Pedir por WhatsApp` : "Elegí al menos un gusto";
+      $("cp").textContent = pesos(total);
+      $("cart").href = "https://wa.me/?text=" + encodeURIComponent([`Hola Polo Sur! 🍦 Quiero:`, `• ${SIZES[st.size][1]}: ${st.picks.map((i) => FL[i][1]).join(", ")}`, ...[...st.opts].map((i) => `• ${OPTS[i][0]}`), `Total: ${pesos(total)}`, st.opts.has(3) ? "Dirección: " : "Paso a retirar"].join("\n"));
+    }
+    document.querySelector("main").onclick = (e) => {
+      let el;
+      if ((el = e.target.closest("[data-size]"))) { st.size = +el.dataset.size; return render(); }
+      if ((el = e.target.closest("[data-rm]"))) { st.picks = st.picks.filter((i) => i !== +el.dataset.rm); return render(); }
+      if ((el = e.target.closest("[data-f]")) && !el.disabled) {
+        const i = +el.dataset.f;
+        if (st.picks.includes(i)) st.picks = st.picks.filter((x) => x !== i);
+        else if (st.picks.length < max()) st.picks.push(i);
+        else { st.picks.shift(); st.picks.push(i); }
+        return render();
+      }
+    };
+    $("opts").onchange = (e) => { const i = +e.target.dataset.o; e.target.checked ? st.opts.add(i) : st.opts.delete(i); render(); };
+    render();
+
+    sheetViewer({
+      title: "Gustos del día · Polo Sur",
+      note: "Cuando se termina un gusto, ponen \"No\" y deja de poder elegirse. Los precios de cada tamaño también se cambian acá.",
+      columns: ["Grupo", "Gusto", "Disponible hoy"],
+      rows: FL.map((f) => [f[0], f[1], f[3] ? "Sí" : "No"]),
+    });
+  </script>
+</body>
+</html>

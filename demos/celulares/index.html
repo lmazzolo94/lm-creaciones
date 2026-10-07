@@ -1,0 +1,131 @@
+<!doctype html>
+<html lang="es-AR">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>CeluFix · Servicio técnico · Demo LM Creaciones</title>
+  <meta name="robots" content="noindex">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=Space+Grotesk:wght@600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="../demo.css">
+  <style>
+    :root { --bg: #f2f5f9; --card: #fff; --line: #dde3ec; --ink: #121a26; --muted: #627089; --cyan: #00a6c7; --cyan-soft: #dff6fb; --green: #1fa855; --amber: #e39a0b; }
+    * { box-sizing: border-box; }
+    body { margin: 0; font-family: "Inter", system-ui, sans-serif; background: var(--bg); color: var(--ink); }
+    .wrap { width: min(860px, 100% - 32px); margin-inline: auto; }
+    header { background: var(--ink); color: #fff; }
+    header .wrap { display: flex; justify-content: space-between; align-items: center; gap: 12px; padding: 18px 0; flex-wrap: wrap; }
+    .logo { font-family: "Space Grotesk", sans-serif; font-size: 1.7rem; font-weight: 700; }
+    .logo span { color: #39d6f2; }
+    .switch { display: inline-flex; background: #1f2a3a; border-radius: 999px; padding: 4px; }
+    .switch button { border: 0; background: none; color: #a9b6c8; padding: 8px 14px; border-radius: 999px; font: 700 .85rem "Inter"; cursor: pointer; }
+    .switch button.on { background: #39d6f2; color: var(--ink); }
+    h1 { font-family: "Space Grotesk", sans-serif; font-size: 1.8rem; margin: 26px 0 4px; }
+    .lead { color: var(--muted); margin: 0 0 16px; }
+    .box { background: #fff; border: 1px solid var(--line); border-radius: 16px; padding: 18px; margin-bottom: 40px; }
+    label { display: block; font-size: .8rem; font-weight: 700; color: var(--muted); margin: 12px 0 6px; }
+    select, input { width: 100%; padding: 11px 12px; border: 1.5px solid var(--line); border-radius: 12px; font: inherit; background: #fff; }
+    .grid2 { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
+    @media (max-width: 600px) { .grid2 { grid-template-columns: 1fr; } }
+    .probs { display: grid; grid-template-columns: repeat(auto-fill, minmax(150px, 1fr)); gap: 8px; }
+    .pb { border: 1.5px solid var(--line); background: #fff; border-radius: 12px; padding: 12px; cursor: pointer; text-align: left; font: 600 .88rem "Inter"; color: var(--ink); }
+    .pb span { display: block; font-size: 1.4rem; }
+    .pb.on { border-color: var(--cyan); background: var(--cyan-soft); }
+    .quote { margin-top: 16px; background: var(--cyan-soft); border-radius: 14px; padding: 16px; }
+    .quote .p { font-family: "Space Grotesk", sans-serif; font-size: 1.8rem; font-weight: 700; }
+    .quote small { color: var(--muted); display: block; }
+    .cta { display: inline-block; margin-top: 12px; padding: 12px 18px; border: 0; border-radius: 12px; background: var(--green); color: #fff; font: 700 .95rem "Inter"; cursor: pointer; text-decoration: none; }
+    .search { display: flex; gap: 8px; }
+    .search input { font: 700 1.1rem "Space Grotesk", sans-serif; letter-spacing: .06em; }
+    .search button { border: 0; border-radius: 12px; background: var(--ink); color: #fff; padding: 0 18px; font: 700 .95rem "Inter"; cursor: pointer; }
+    .chips { margin-top: 8px; font-size: .82rem; color: var(--muted); }
+    .chips button { border: 1px dashed var(--muted); background: transparent; border-radius: 8px; padding: 3px 8px; cursor: pointer; font: 700 .8rem "Space Grotesk"; margin-left: 4px; }
+    .order { margin-top: 18px; }
+    .order .hd { display: flex; justify-content: space-between; gap: 10px; flex-wrap: wrap; align-items: center; }
+    .badge { font-size: .78rem; font-weight: 800; padding: 5px 11px; border-radius: 999px; background: var(--cyan-soft); color: #007f99; }
+    .steps { list-style: none; padding: 0; margin: 16px 0 0; display: grid; grid-template-columns: repeat(5, 1fr); gap: 6px; }
+    @media (max-width: 640px) { .steps { grid-template-columns: 1fr; } }
+    .steps li { background: #f2f5f9; border-radius: 10px; padding: 10px; font-size: .82rem; font-weight: 600; color: var(--muted); border-top: 4px solid var(--line); }
+    .steps li.done { border-top-color: var(--green); color: var(--ink); }
+    .steps li.now { border-top-color: var(--amber); background: #fff6e2; color: var(--ink); }
+    .note { margin-top: 14px; background: #fff6e2; border: 1px solid #f3dca6; border-radius: 12px; padding: 12px; font-size: .9rem; }
+    .row { display: flex; justify-content: space-between; padding: 7px 0; border-bottom: 1px solid var(--line); font-size: .92rem; }
+    .btns { display: flex; gap: 8px; flex-wrap: wrap; margin-top: 12px; }
+    .btn2 { border: 1.5px solid var(--line); background: #fff; border-radius: 12px; padding: 11px 16px; font: 700 .9rem "Inter"; cursor: pointer; }
+    .toast { position: fixed; bottom: 20px; left: 50%; transform: translateX(-50%); background: var(--ink); color: #fff; padding: 12px 18px; border-radius: 12px; font-weight: 600; z-index: 70; opacity: 0; transition: opacity .2s; pointer-events: none; max-width: 90vw; }
+    .toast.show { opacity: 1; }
+    .sheet-fab { bottom: 16px; }
+  </style>
+</head>
+<body>
+  <header><div class="wrap"><div class="logo">Celu<span>Fix</span></div><div class="switch" id="switch"><button data-v="cotizar" class="on">Cotizar reparación</button><button data-v="seguir">Seguir mi equipo</button></div></div></header>
+  <main class="wrap" id="main"></main>
+  <div class="toast" id="toast"></div>
+
+  <script src="../demo.js"></script>
+  <script>
+    const $ = (id) => document.getElementById(id);
+    const MODELS = { Samsung: ["Galaxy A15", "Galaxy A35", "Galaxy S23"], Motorola: ["Moto G24", "Moto G54", "Edge 40"], iPhone: ["iPhone 11", "iPhone 13", "iPhone 15"], Xiaomi: ["Redmi Note 13", "Redmi 13C", "Poco X6"] };
+    const TIER = { "Galaxy A15": 1, "Galaxy A35": 1.4, "Galaxy S23": 2.6, "Moto G24": 1, "Moto G54": 1.3, "Edge 40": 2, "iPhone 11": 2, "iPhone 13": 2.8, "iPhone 15": 3.8, "Redmi Note 13": 1.3, "Redmi 13C": 0.9, "Poco X6": 1.5 };
+    const PROBS = [["📱", "Pantalla rota", 85000, "Mismo día"], ["🔋", "Batería", 38000, "1 hora"], ["🔌", "Pin de carga", 26000, "1 hora"], ["📷", "Cámara", 45000, "24 hs"], ["🔊", "Parlante / micrófono", 24000, "24 hs"], ["💧", "Se mojó", 30000, "48 hs (diagnóstico)"]];
+    const STAGES = ["Recibido", "Diagnóstico", "Esperando aprobación", "En reparación", "Listo para retirar"];
+    const ORDERS = {
+      "CF-1042": { dev: "Samsung Galaxy A35", issue: "Pantalla rota", st: 3, budget: [["Módulo pantalla original", 98000], ["Mano de obra", 21000]] },
+      "CF-1057": { dev: "iPhone 13", issue: "Batería", st: 2, budget: [["Batería", 89000], ["Mano de obra", 18000]] },
+      "CF-1063": { dev: "Moto G54", issue: "Pin de carga", st: 4, budget: [["Pin de carga", 22000], ["Mano de obra", 12000]] },
+    };
+    const st = { view: "cotizar", brand: "Samsung", model: "Galaxy A35", prob: 0, order: null };
+    function toast(t) { const el = $("toast"); el.textContent = t; el.classList.add("show"); clearTimeout(el._h); el._h = setTimeout(() => el.classList.remove("show"), 2600); }
+    const quote = () => Math.round((PROBS[st.prob][2] * TIER[st.model]) / 500) * 500;
+
+    function cotizar() {
+      const p = PROBS[st.prob], q = quote();
+      const msg = `Hola CeluFix! Quiero reparar mi ${st.brand} ${st.model}: ${p[1]}. La web me cotizó ${pesos(q)}. ¿Cuándo lo puedo llevar?`;
+      return `<h1>¿Cuánto sale arreglar tu celu?</h1><p class="lead">Elegí tu equipo y qué le pasa: te damos un precio al toque, sin ir al local.</p>
+        <div class="box"><div class="grid2"><div><label for="brand">Marca</label><select id="brand">${Object.keys(MODELS).map((b) => `<option ${b === st.brand ? "selected" : ""}>${b}</option>`).join("")}</select></div>
+          <div><label for="model">Modelo</label><select id="model">${MODELS[st.brand].map((m) => `<option ${m === st.model ? "selected" : ""}>${m}</option>`).join("")}</select></div></div>
+          <label>¿Qué le pasa?</label><div class="probs">${PROBS.map(([e, n], i) => `<button class="pb ${i === st.prob ? "on" : ""}" data-p="${i}"><span>${e}</span>${n}</button>`).join("")}</div>
+          <div class="quote"><small>Precio estimado · ${st.brand} ${st.model} · ${p[1]}</small><div class="p">${p[1] === "Se mojó" ? "Desde " : ""}${pesos(q)}</div><small>⏱️ Demora: ${p[3]} · Garantía 90 días · Repuesto con IVA incluido</small>
+          <a class="cta" target="_blank" rel="noopener" href="https://wa.me/?text=${encodeURIComponent(msg)}">Reservar reparación por WhatsApp</a></div></div>`;
+    }
+    function seguir() {
+      const o = st.order && ORDERS[st.order];
+      const tot = o ? o.budget.reduce((a, [, p]) => a + p, 0) : 0;
+      return `<h1>¿Cómo va mi equipo?</h1><p class="lead">Poné el número de orden que figura en tu comprobante.</p>
+        <div class="box"><div class="search"><input id="num" placeholder="CF-0000" value="${st.order || ""}"><button id="look">Ver</button></div>
+        <div class="chips">Probá con:${Object.keys(ORDERS).map((k) => `<button data-o="${k}">${k}</button>`).join("")}</div>
+        ${st.order === false ? '<p class="lead" style="margin-top:14px">No encontramos esa orden. Revisá el número.</p>' : ""}
+        ${o ? `<div class="order"><div class="hd"><b>${o.dev} · ${o.issue}</b><span class="badge">${STAGES[o.st]}</span></div>
+          <ol class="steps">${STAGES.map((s, k) => `<li class="${k < o.st ? "done" : k === o.st ? "now" : ""}">${k < o.st ? "✓ " : ""}${s}</li>`).join("")}</ol>
+          ${o.st >= 2 ? `<div style="margin-top:14px">${o.budget.map(([n, p]) => `<div class="row"><span>${n}</span><span>${pesos(p)}</span></div>`).join("")}<div class="row"><b>Total</b><b>${pesos(tot)}</b></div></div>` : ""}
+          ${o.st === 2 ? `<div class="note">El técnico ya revisó tu equipo. ¿Aprobás el presupuesto para empezar la reparación?</div><div class="btns"><button class="cta" style="margin:0" data-ok>✓ Aprobar presupuesto</button><button class="btn2" data-no>No, lo retiro sin reparar</button></div>` : ""}
+          ${o.st === 4 ? `<div class="note" style="background:#e7f8ee;border-color:#bfe8cf">✅ ¡Tu equipo está listo! Podés retirarlo de lunes a sábados de 10 a 19 hs con tu comprobante.</div>` : ""}</div>` : ""}</div>`;
+    }
+    function render() {
+      $("main").innerHTML = st.view === "cotizar" ? cotizar() : seguir();
+      document.querySelectorAll("#switch button").forEach((b) => b.classList.toggle("on", b.dataset.v === st.view));
+    }
+    const look = (v) => { v = v.trim().toUpperCase(); st.order = ORDERS[v] ? v : false; render(); };
+    $("switch").onclick = (e) => { const b = e.target.closest("button"); if (b) { st.view = b.dataset.v; render(); } };
+    $("main").onchange = (e) => { if (e.target.id === "brand") { st.brand = e.target.value; st.model = MODELS[st.brand][0]; render(); } if (e.target.id === "model") { st.model = e.target.value; render(); } };
+    $("main").onclick = (e) => {
+      let el;
+      if ((el = e.target.closest("[data-p]"))) { st.prob = +el.dataset.p; return render(); }
+      if ((el = e.target.closest("[data-o]"))) return look(el.dataset.o);
+      if (e.target.closest("#look")) return look($("num").value);
+      if (e.target.closest("[data-ok]")) { ORDERS[st.order].st = 3; toast("✓ Presupuesto aprobado. El técnico ya arranca con la reparación."); return render(); }
+      if (e.target.closest("[data-no]")) return toast("Listo, te avisamos cuando puedas pasar a retirarlo.");
+    };
+    $("main").onkeydown = (e) => { if (e.key === "Enter" && e.target.id === "num") look(e.target.value); };
+    render();
+
+    sheetViewer({
+      title: "Lista de precios · CeluFix",
+      note: "El técnico carga el precio base de cada arreglo y un multiplicador por modelo (no es lo mismo una pantalla de A15 que de iPhone 15). La web calcula la cotización sola.",
+      columns: ["Reparación", "Precio base", "Demora", "Galaxy A15", "iPhone 15"],
+      rows: PROBS.map(([, n, p, d]) => [n, p, d, Math.round(p * TIER["Galaxy A15"]), Math.round(p * TIER["iPhone 15"])]),
+    });
+  </script>
+</body>
+</html>
