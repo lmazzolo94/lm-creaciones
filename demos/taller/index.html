@@ -1,0 +1,118 @@
+<!doctype html>
+<html lang="es-AR">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Taller El Pistón · Demo LM Creaciones</title>
+  <meta name="robots" content="noindex">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=Barlow+Condensed:wght@700;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="../demo.css">
+  <style>
+    :root { --bg: #eef0f2; --card: #fff; --line: #d9dde2; --ink: #1d2329; --muted: #67717b; --red: #d7261e; --yellow: #ffc61a; --green: #23a55a; --blue: #2d6cdf; }
+    * { box-sizing: border-box; }
+    body { margin: 0; font-family: "Inter", system-ui, sans-serif; background: var(--bg); color: var(--ink); }
+    .wrap { width: min(980px, 100% - 32px); margin-inline: auto; }
+    header { background: var(--ink); color: #fff; border-bottom: 5px solid var(--red); }
+    header .wrap { display: flex; justify-content: space-between; align-items: center; gap: 12px; padding: 16px 0; flex-wrap: wrap; }
+    .logo { font-family: "Barlow Condensed", sans-serif; font-weight: 800; font-size: 1.9rem; letter-spacing: .03em; text-transform: uppercase; }
+    .logo span { color: var(--yellow); }
+    .switch { display: inline-flex; background: #2b333b; border-radius: 999px; padding: 4px; }
+    .switch button { border: 0; background: none; color: #b8c0c8; padding: 8px 14px; border-radius: 999px; font: 700 .85rem "Inter"; cursor: pointer; }
+    .switch button.on { background: var(--yellow); color: #1d2329; }
+    h1 { font-family: "Barlow Condensed", sans-serif; text-transform: uppercase; font-size: 2rem; margin: 26px 0 4px; }
+    .lead { color: var(--muted); margin: 0 0 16px; }
+    .search { display: flex; gap: 8px; max-width: 460px; }
+    .search input { flex: 1; padding: 13px 14px; border: 2px solid var(--line); border-radius: 12px; font: 800 1.2rem "Inter"; text-transform: uppercase; letter-spacing: .1em; }
+    .btn { border: 0; border-radius: 12px; background: var(--red); color: #fff; padding: 12px 18px; font: 700 .95rem "Inter"; cursor: pointer; text-decoration: none; display: inline-block; }
+    .btn.y { background: var(--yellow); color: var(--ink); }
+    .btn.g { background: var(--green); }
+    .btn.sm { padding: 8px 12px; font-size: .82rem; }
+    .chips { display: flex; gap: 6px; flex-wrap: wrap; margin-top: 10px; font-size: .82rem; color: var(--muted); }
+    .chips button { border: 1px dashed var(--muted); background: transparent; border-radius: 8px; padding: 3px 8px; cursor: pointer; font: 700 .8rem "Inter"; letter-spacing: .06em; }
+    .card { background: #fff; border: 1px solid var(--line); border-radius: 16px; padding: 18px; margin: 18px 0 40px; }
+    .plate { display: inline-block; border: 2px solid #1d2329; border-radius: 8px; padding: 2px 10px; font: 800 1.1rem "Inter"; letter-spacing: .12em; background: #fff; }
+    .plate::before { content: "ARG"; display: block; font-size: .5rem; letter-spacing: .1em; text-align: center; background: #1f4fa3; color: #fff; margin: -2px -10px 2px; border-radius: 6px 6px 0 0; }
+    .timeline { list-style: none; padding: 0; margin: 18px 0 0; }
+    .timeline li { position: relative; padding: 0 0 18px 34px; }
+    .timeline li::before { content: ""; position: absolute; left: 9px; top: 22px; bottom: 0; width: 2px; background: var(--line); }
+    .timeline li:last-child::before { display: none; }
+    .dot { position: absolute; left: 0; top: 2px; width: 20px; height: 20px; border-radius: 50%; background: var(--line); display: grid; place-items: center; font-size: .7rem; color: #fff; }
+    .done .dot { background: var(--green); }
+    .now .dot { background: var(--yellow); box-shadow: 0 0 0 5px rgba(255,198,26,.3); }
+    .timeline b { display: block; }
+    .timeline small { color: var(--muted); }
+    .budget { margin-top: 10px; border: 1px solid var(--line); border-radius: 12px; overflow: hidden; }
+    .budget div { display: flex; justify-content: space-between; padding: 9px 12px; border-bottom: 1px solid var(--line); font-size: .9rem; }
+    .budget div:last-child { border: 0; font-weight: 800; background: #f7f8f9; }
+    .board { display: grid; grid-template-columns: repeat(4, 1fr); gap: 12px; margin: 16px 0 40px; }
+    @media (max-width: 860px) { .board { grid-template-columns: 1fr 1fr; } }
+    @media (max-width: 520px) { .board { grid-template-columns: 1fr; } }
+    .col { background: #e3e6ea; border-radius: 14px; padding: 10px; }
+    .col h3 { margin: 4px 4px 10px; font-size: .85rem; text-transform: uppercase; letter-spacing: .05em; display: flex; justify-content: space-between; }
+    .job { background: #fff; border-radius: 12px; padding: 12px; margin-bottom: 8px; border-left: 4px solid var(--blue); }
+    .job small { display: block; color: var(--muted); margin: 4px 0 8px; font-size: .8rem; }
+    .job .row { display: flex; gap: 6px; flex-wrap: wrap; }
+    .toast { position: fixed; bottom: 20px; left: 50%; transform: translateX(-50%); background: var(--ink); color: #fff; padding: 12px 18px; border-radius: 12px; font-weight: 600; z-index: 70; opacity: 0; transition: opacity .2s; pointer-events: none; max-width: 90vw; }
+    .toast.show { opacity: 1; }
+    .sheet-fab { display: none; }
+  </style>
+</head>
+<body>
+  <header><div class="wrap"><div class="logo">Taller <span>El Pistón</span></div><div class="switch" id="switch"><button data-v="cliente" class="on">Soy cliente</button><button data-v="taller">Panel del taller</button></div></div></header>
+  <main class="wrap" id="main"></main>
+  <div class="toast" id="toast"></div>
+
+  <script src="../demo.js"></script>
+  <script>
+    const $ = (id) => document.getElementById(id);
+    const STAGES = ["Recibido", "En diagnóstico", "Presupuesto enviado", "En reparación", "Listo para retirar"];
+    const JOBS = [
+      { plate: "AB123CD", car: "Fiat Cronos 2021", owner: "Marcelo", issue: "Ruido en tren delantero", stage: 3, items: [["Bujes de parrilla (x2)", 38000], ["Rótulas (x2)", 46000], ["Alineación y balanceo", 22000], ["Mano de obra", 55000]] },
+      { plate: "KLM456", car: "VW Gol Trend 2014", owner: "Silvia", issue: "Service 60.000 km", stage: 4, items: [["Aceite + filtros", 62000], ["Correa de distribución", 98000], ["Mano de obra", 70000]] },
+      { plate: "AE987FG", car: "Toyota Etios 2019", owner: "Ramiro", issue: "No arranca en frío", stage: 1, items: [] },
+      { plate: "OPQ789", car: "Peugeot 208 2017", owner: "Lorena", issue: "Cambio de pastillas", stage: 2, items: [["Pastillas de freno", 41000], ["Rectificado de discos", 28000], ["Mano de obra", 30000]] },
+      { plate: "AC555ZZ", car: "Chevrolet Onix 2020", owner: "Gustavo", issue: "Luz de check engine", stage: 0, items: [] },
+    ];
+    let view = "cliente", found = null;
+    function toast(t) { const el = $("toast"); el.textContent = t; el.classList.add("show"); clearTimeout(el._h); el._h = setTimeout(() => el.classList.remove("show"), 2600); }
+    const total = (j) => j.items.reduce((a, [, p]) => a + p, 0);
+
+    function cliente() {
+      const j = found;
+      return `<h1>¿Cómo va mi auto?</h1><p class="lead">Poné tu patente y mirá en qué etapa está, sin llamar ni esperar a que te atiendan.</p>
+        <div class="search"><input id="plate" maxlength="7" placeholder="AB123CD" value="${j ? j.plate : ""}"><button class="btn" id="look">Buscar</button></div>
+        <div class="chips">Probá con: ${JOBS.map((x) => `<button data-try="${x.plate}">${x.plate}</button>`).join("")}</div>
+        ${j === false ? '<div class="card">No encontramos esa patente. Revisá que esté bien escrita.</div>' : ""}
+        ${j ? `<div class="card"><span class="plate">${j.plate}</span> <b style="margin-left:8px">${j.car}</b><p class="lead" style="margin:8px 0 0">Motivo: ${j.issue}</p>
+          <ul class="timeline">${STAGES.map((s, k) => `<li class="${k < j.stage ? "done" : k === j.stage ? "now" : ""}"><span class="dot">${k < j.stage ? "✓" : ""}</span><b>${s}</b><small>${k < j.stage ? "Completado" : k === j.stage ? "Etapa actual" : "Pendiente"}</small>
+            ${k === 2 && j.items.length && k <= j.stage ? `<div class="budget">${j.items.map(([n, p]) => `<div><span>${n}</span><span>${pesos(p)}</span></div>`).join("")}<div><span>Total</span><span>${pesos(total(j))}</span></div></div>${j.stage === 2 ? '<div style="margin-top:10px;display:flex;gap:8px;flex-wrap:wrap"><button class="btn g sm" data-approve>✓ Aprobar presupuesto</button><button class="btn y sm" data-call>Tengo una consulta</button></div>' : ""}` : ""}</li>`).join("")}</ul></div>` : ""}`;
+    }
+
+    function taller() {
+      return `<h1>Autos en el taller</h1><p class="lead">Cada auto con su etapa. Al moverlo, el cliente lo ve al instante y le podés avisar por WhatsApp.</p>
+        <div class="board">${STAGES.slice(0, 4).map((s, k) => `<div class="col"><h3>${s}<span>${JOBS.filter((j) => j.stage === k || (k === 3 && j.stage === 4)).length}</span></h3>
+          ${JOBS.map((j, i) => (j.stage === k || (k === 3 && j.stage === 4)) ? `<div class="job" style="${j.stage === 4 ? "border-left-color:var(--green)" : ""}"><span class="plate" style="font-size:.85rem">${j.plate}</span><small>${j.car} · ${j.owner}<br>${j.issue}${j.stage === 4 ? "<br><b style='color:var(--green)'>✓ Listo para retirar</b>" : ""}</small>
+            <div class="row">${j.stage < 4 ? `<button class="btn y sm" data-next="${i}">${j.stage === 3 ? "Terminado ✓" : "Avanzar →"}</button>` : ""}<a class="btn g sm" target="_blank" rel="noopener" href="https://wa.me/?text=${encodeURIComponent(`Hola ${j.owner}! Te escribimos del Taller El Pistón 🔧 Tu ${j.car} (${j.plate}) está: ${STAGES[j.stage].toUpperCase()}.${j.stage === 4 ? ` Total: ${pesos(total(j))}. Podés pasar a buscarlo de 8 a 18 hs.` : ""}`)}">💬 Avisar</a></div></div>` : "").join("")}</div>`).join("")}</div>`;
+    }
+
+    function render() {
+      $("main").innerHTML = view === "cliente" ? cliente() : taller();
+      document.querySelectorAll("#switch button").forEach((b) => b.classList.toggle("on", b.dataset.v === view));
+    }
+    const look = (p) => { p = p.toUpperCase().replace(/\s/g, ""); found = JOBS.find((j) => j.plate === p) || false; render(); };
+    $("switch").onclick = (e) => { const b = e.target.closest("button"); if (b) { view = b.dataset.v; render(); } };
+    $("main").onclick = (e) => {
+      let el;
+      if ((el = e.target.closest("[data-try]"))) return look(el.dataset.try);
+      if (e.target.closest("#look")) return look($("plate").value);
+      if (e.target.closest("[data-approve]")) { found.stage = 3; toast("✓ Presupuesto aprobado. El taller ya recibió el aviso y arranca con la reparación."); return render(); }
+      if (e.target.closest("[data-call]")) return toast("Se abre el WhatsApp del taller con la patente ya escrita.");
+      if ((el = e.target.closest("[data-next]"))) { const j = JOBS[+el.dataset.next]; j.stage++; if (j.stage === 2 && !j.items.length) j.items = [["Diagnóstico computarizado", 25000], ["Repuestos", 60000], ["Mano de obra", 45000]]; toast(`${j.plate} → ${STAGES[j.stage]}`); return render(); }
+    };
+    $("main").onkeydown = (e) => { if (e.key === "Enter" && e.target.id === "plate") look(e.target.value); };
+    render();
+  </script>
+</body>
+</html>

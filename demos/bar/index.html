@@ -1,0 +1,141 @@
+<!doctype html>
+<html lang="es-AR">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Bar Andén · Menú QR · Demo LM Creaciones</title>
+  <meta name="robots" content="noindex">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=DM+Serif+Display&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="../demo.css">
+  <style>
+    :root { --bg: #1b1410; --card: #251c17; --line: #3a2d25; --cream: #f4e9dc; --muted: #b19f8c; --amber: #e9a23b; --green: #3fbf7f; }
+    * { box-sizing: border-box; }
+    body { margin: 0; font-family: "Inter", system-ui, sans-serif; background: var(--bg); color: var(--cream); padding-bottom: 100px; }
+    .wrap { width: min(640px, 100% - 32px); margin-inline: auto; }
+    header { padding: 26px 0 10px; text-align: center; }
+    .logo { font-family: "DM Serif Display", serif; font-size: 2.6rem; margin: 0; letter-spacing: .02em; }
+    .logo small { display: block; font: 500 .85rem "Inter", sans-serif; color: var(--muted); letter-spacing: .2em; text-transform: uppercase; }
+    .table { display: inline-flex; gap: 8px; align-items: center; margin-top: 14px; background: var(--card); border: 1px solid var(--line); border-radius: 999px; padding: 7px 14px; font-size: .88rem; }
+    .table b { color: var(--amber); }
+    .table select { background: transparent; color: var(--amber); border: 0; font: 700 .88rem "Inter"; }
+    .actions { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; margin: 16px 0 6px; }
+    .actions button { border: 1px solid var(--line); background: var(--card); color: var(--cream); border-radius: 12px; padding: 12px; font: 600 .9rem "Inter"; cursor: pointer; }
+    .tabs { position: sticky; top: 34px; z-index: 10; background: var(--bg); padding: 10px 0; display: flex; gap: 8px; overflow-x: auto; scrollbar-width: none; border-bottom: 1px solid var(--line); }
+    .tabs button { flex: none; border: 1px solid var(--line); background: transparent; color: var(--muted); border-radius: 999px; padding: 7px 14px; font: 600 .86rem "Inter"; cursor: pointer; }
+    .tabs button.on { background: var(--amber); color: #1b1410; border-color: var(--amber); }
+    h2 { font-family: "DM Serif Display", serif; font-weight: 400; font-size: 1.7rem; margin: 22px 0 8px; color: var(--amber); }
+    .it { display: flex; justify-content: space-between; gap: 14px; padding: 14px 0; border-bottom: 1px dashed var(--line); }
+    .it b { display: block; }
+    .it p { margin: 3px 0 0; font-size: .86rem; color: var(--muted); }
+    .it .r { text-align: right; flex: none; }
+    .it .pr { font-weight: 700; }
+    .add { margin-top: 8px; border: 1px solid var(--amber); background: transparent; color: var(--amber); border-radius: 9px; padding: 5px 12px; font: 700 .82rem "Inter"; cursor: pointer; }
+    .add.n { background: var(--amber); color: #1b1410; }
+    .tag { font-size: .7rem; font-weight: 700; padding: 2px 8px; border-radius: 999px; margin-left: 6px; background: #3a2d25; color: var(--amber); }
+    .happy { background: linear-gradient(90deg, #4a2f14, #2b1d12); border: 1px solid #6b4520; border-radius: 14px; padding: 12px 14px; margin: 14px 0; font-size: .9rem; }
+    .orderbar { position: fixed; left: 50%; transform: translateX(-50%); bottom: 16px; width: min(560px, 100% - 32px); border: 0; border-radius: 16px; background: var(--amber); color: #1b1410; padding: 15px 18px; font: 800 1rem "Inter"; display: flex; justify-content: space-between; cursor: pointer; z-index: 30; }
+    .orderbar[hidden] { display: none; }
+    .panel { position: fixed; inset: 0; z-index: 60; background: rgba(0,0,0,.6); display: flex; align-items: flex-end; justify-content: center; }
+    .panel[hidden] { display: none; }
+    .pc { background: var(--card); border-radius: 22px 22px 0 0; width: min(560px, 100%); padding: 20px; max-height: 90vh; overflow: auto; }
+    .pc h3 { font-family: "DM Serif Display", serif; font-weight: 400; font-size: 1.6rem; margin: 0 0 10px; }
+    .ln { display: flex; justify-content: space-between; padding: 8px 0; border-bottom: 1px solid var(--line); }
+    .tot { display: flex; justify-content: space-between; font-weight: 800; font-size: 1.15rem; margin: 12px 0; }
+    textarea { width: 100%; background: #1b1410; color: var(--cream); border: 1px solid var(--line); border-radius: 10px; padding: 10px; font: inherit; }
+    .cta { width: 100%; margin-top: 12px; padding: 14px; border: 0; border-radius: 12px; background: var(--amber); color: #1b1410; font: 800 1rem "Inter"; cursor: pointer; }
+    .cta.ghost { background: transparent; color: var(--cream); border: 1px solid var(--line); }
+    .kitchen { margin-top: 12px; background: #f4e9dc; color: #1b1410; border-radius: 12px; padding: 14px; font-family: ui-monospace, monospace; font-size: .88rem; white-space: pre-wrap; }
+    .muted { color: var(--muted); font-size: .85rem; }
+    .toast { position: fixed; top: 50px; left: 50%; transform: translateX(-50%); background: var(--green); color: #fff; padding: 12px 18px; border-radius: 12px; font-weight: 700; z-index: 70; opacity: 0; transition: opacity .2s; pointer-events: none; }
+    .toast.show { opacity: 1; }
+    .sheet-fab { bottom: 86px; }
+  </style>
+</head>
+<body>
+  <header class="wrap">
+    <h1 class="logo">Andén<small>Bar · Café · Cervecería</small></h1>
+    <div class="table">📍 Estás en la <b>Mesa</b><select id="mesa" aria-label="Mesa"></select></div>
+    <p class="muted">Escaneaste el QR de tu mesa: pedí desde acá y te lo traemos.</p>
+    <div class="actions"><button id="waiter">🙋 Llamar al mozo</button><button id="bill">🧾 Pedir la cuenta</button></div>
+  </header>
+  <nav class="tabs wrap" id="tabs"></nav>
+  <main class="wrap" id="menu"></main>
+  <button class="orderbar" id="orderbar" hidden><span id="oc"></span><span id="ot"></span></button>
+
+  <div class="panel" id="panel" hidden><div class="pc" id="pc"></div></div>
+  <div class="toast" id="toast"></div>
+
+  <script src="../demo.js"></script>
+  <script>
+    const $ = (id) => document.getElementById(id);
+    const MENU = [
+      { cat: "Café", n: "Café en jarrito", d: "", p: 2900 }, { cat: "Café", n: "Cortado", d: "", p: 3100 },
+      { cat: "Café", n: "Café con leche + 2 medialunas", d: "El clásico de la mañana", p: 5900, tag: "Promo" }, { cat: "Café", n: "Submarino", d: "", p: 4200 },
+      { cat: "Cervezas", n: "Pinta IPA tirada", d: "Cervecería artesanal de la zona", p: 5200 }, { cat: "Cervezas", n: "Pinta Honey", d: "", p: 4900 },
+      { cat: "Cervezas", n: "Pinta Stout", d: "", p: 5200, off: true },
+      { cat: "Para picar", n: "Papas con cheddar y panceta", d: "Para compartir", p: 9800, tag: "La más pedida" }, { cat: "Para picar", n: "Rabas", d: "Con limón y alioli", p: 13500 },
+      { cat: "Para picar", n: "Tabla de fiambres y quesos", d: "Para 2–3 personas", p: 16900 },
+      { cat: "Platos", n: "Milanesa a caballo con fritas", d: "", p: 13900 }, { cat: "Platos", n: "Hamburguesa Andén", d: "Doble smash, cheddar, cebolla caramelizada", p: 12500 },
+      { cat: "Platos", n: "Ensalada César", d: "Con pollo grillado", p: 10200 },
+      { cat: "Postres", n: "Flan mixto", d: "", p: 4800 }, { cat: "Postres", n: "Chocotorta", d: "", p: 5600 },
+      { cat: "Sin alcohol", n: "Limonada con menta y jengibre", d: "Jarra 1 L", p: 6500 }, { cat: "Sin alcohol", n: "Gaseosa línea Coca-Cola", d: "500 ml", p: 3200 },
+    ];
+    const order = new Map(), sent = [];
+    const cats = [...new Set(MENU.map((m) => m.cat))];
+    $("mesa").innerHTML = [...Array(16)].map((_, i) => `<option ${i === 6 ? "selected" : ""}>${i + 1}</option>`).join("");
+    const mesa = () => $("mesa").value;
+    function toast(t) { const el = $("toast"); el.textContent = t; el.classList.add("show"); clearTimeout(el._h); el._h = setTimeout(() => el.classList.remove("show"), 2400); }
+
+    $("tabs").innerHTML = cats.map((c, i) => `<button class="${i ? "" : "on"}" data-c="${c}">${c}</button>`).join("");
+    $("tabs").onclick = (e) => { const b = e.target.closest("button"); if (!b) return; document.querySelectorAll("#tabs button").forEach((x) => x.classList.toggle("on", x === b)); $("cat-" + cats.indexOf(b.dataset.c)).scrollIntoView({ behavior: "smooth" }); };
+
+    function renderMenu() {
+      const h = new Date().getHours();
+      $("menu").innerHTML = (h >= 18 && h < 21 ? '<div class="happy">🍺 <b>Happy hour hasta las 21:</b> 2x1 en pintas.</div>' : '<div class="happy">🍺 <b>Happy hour de 18 a 21:</b> 2x1 en pintas.</div>') +
+        cats.map((c, ci) => `<h2 id="cat-${ci}" style="scroll-margin-top:96px">${c}</h2>` + MENU.map((m, i) => m.cat !== c ? "" : `
+          <div class="it" style="${m.off ? "opacity:.45" : ""}"><div><b>${m.n}${m.tag ? `<span class="tag">${m.tag}</span>` : ""}${m.off ? '<span class="tag">Se terminó</span>' : ""}</b>${m.d ? `<p>${m.d}</p>` : ""}</div>
+          <div class="r"><span class="pr">${pesos(m.p)}</span><br>${m.off ? "" : `<button class="add ${order.get(i) ? "n" : ""}" data-i="${i}">${order.get(i) ? `${order.get(i)} · +` : "Agregar"}</button>`}</div></div>`).join("")).join("");
+      const count = [...order.values()].reduce((a, b) => a + b, 0);
+      $("orderbar").hidden = !count;
+      $("oc").textContent = `Ver pedido (${count})`;
+      $("ot").textContent = pesos([...order].reduce((a, [i, n]) => a + MENU[i].p * n, 0));
+    }
+    $("menu").onclick = (e) => { const b = e.target.closest("[data-i]"); if (b) { const i = +b.dataset.i; order.set(i, (order.get(i) || 0) + 1); renderMenu(); } };
+
+    function showOrder() {
+      const total = [...order].reduce((a, [i, n]) => a + MENU[i].p * n, 0);
+      $("pc").innerHTML = `<h3>Tu pedido · Mesa ${mesa()}</h3>
+        ${[...order].map(([i, n]) => `<div class="ln"><span>${n} × ${MENU[i].n}</span><span>${pesos(MENU[i].p * n)} <button class="add" data-rm="${i}" style="margin:0 0 0 6px">−</button></span></div>`).join("")}
+        <div class="tot"><span>Total</span><span>${pesos(total)}</span></div>
+        <textarea id="nota" rows="2" placeholder="Aclaraciones (ej.: la hamburguesa sin cebolla)"></textarea>
+        <button class="cta" id="send">Enviar pedido a la cocina</button><button class="cta ghost" data-close>Seguir mirando</button>`;
+      $("panel").hidden = false;
+    }
+    $("orderbar").onclick = showOrder;
+    $("pc").onclick = (e) => {
+      const rm = e.target.closest("[data-rm]"); if (rm) { const i = +rm.dataset.rm, n = order.get(i) - 1; n ? order.set(i, n) : order.delete(i); renderMenu(); return order.size ? showOrder() : ($("panel").hidden = true); }
+      if (e.target.closest("[data-close]")) return ($("panel").hidden = true);
+      if (e.target.closest("#send")) {
+        const nota = $("nota").value.trim();
+        const t = new Date().toLocaleTimeString("es-AR", { hour: "2-digit", minute: "2-digit" });
+        const ticket = `MESA ${mesa()} · ${t}\n────────────────\n${[...order].map(([i, n]) => `${n}x ${MENU[i].n}`).join("\n")}${nota ? `\n\nNOTA: ${nota}` : ""}`;
+        sent.push(ticket); order.clear(); renderMenu();
+        $("pc").innerHTML = `<h3>¡Pedido enviado! 🙌</h3><p class="muted">Así le aparece en la pantalla de la cocina y la barra, al instante:</p><div class="kitchen">${ticket}</div><button class="cta" data-close>Listo</button>`;
+      }
+    };
+    $("panel").onclick = (e) => { if (e.target === $("panel")) $("panel").hidden = true; };
+    $("waiter").onclick = () => toast(`🙋 Avisamos al mozo: Mesa ${mesa()} lo necesita`);
+    $("bill").onclick = () => toast(`🧾 La cuenta de la Mesa ${mesa()} ya va en camino`);
+    renderMenu();
+
+    sheetViewer({
+      title: "Carta · Bar Andén",
+      note: "La carta vive en una planilla: si se termina una cerveza ponés \"No\" y desaparece del pedido. Cada mesa tiene su QR pegado y los pedidos llegan a una pantalla en la cocina.",
+      columns: ["Categoría", "Producto", "Descripción", "Precio", "Disponible", "Etiqueta"],
+      rows: MENU.map((m) => [m.cat, m.n, m.d, m.p, m.off ? "No" : "Sí", m.tag || ""]),
+    });
+  </script>
+</body>
+</html>

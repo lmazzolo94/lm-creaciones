@@ -1,0 +1,120 @@
+<!doctype html>
+<html lang="es-AR">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Oeste Propiedades · Demo LM Creaciones</title>
+  <meta name="robots" content="noindex">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Libre+Baskerville:wght@700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="../demo.css">
+  <style>
+    :root { --bg: #f5f6f8; --card: #fff; --line: #e1e4ea; --ink: #18202e; --muted: #687387; --navy: #1b2f55; --gold: #b8913d; }
+    * { box-sizing: border-box; }
+    body { margin: 0; font-family: "Inter", system-ui, sans-serif; background: var(--bg); color: var(--ink); }
+    .wrap { width: min(1100px, 100% - 32px); margin-inline: auto; }
+    header { background: var(--navy); color: #fff; }
+    header .wrap { display: flex; justify-content: space-between; align-items: center; padding: 16px 0; gap: 12px; }
+    .logo { font-family: "Libre Baskerville", serif; font-size: 1.35rem; }
+    .logo span { color: var(--gold); }
+    header small { color: #b9c3d6; }
+    .hero { background: linear-gradient(180deg, var(--navy), #24406f); color: #fff; padding: 20px 0 30px; }
+    .hero h1 { font-family: "Libre Baskerville", serif; font-size: clamp(1.5rem, 3.5vw, 2.1rem); margin: 0 0 16px; }
+    .filters { background: #fff; color: var(--ink); border-radius: 16px; padding: 12px; display: grid; grid-template-columns: auto 1fr 1fr 1fr; gap: 10px; align-items: end; }
+    @media (max-width: 760px) { .filters { grid-template-columns: 1fr 1fr; } }
+    .seg { display: inline-flex; background: var(--bg); border-radius: 10px; padding: 3px; }
+    .seg button { border: 0; background: none; padding: 9px 14px; border-radius: 8px; font: 600 .9rem "Inter"; cursor: pointer; color: var(--muted); }
+    .seg button.on { background: var(--navy); color: #fff; }
+    label { display: block; font-size: .75rem; font-weight: 600; color: var(--muted); margin-bottom: 4px; }
+    select { width: 100%; padding: 9px 10px; border: 1px solid var(--line); border-radius: 10px; font: inherit; background: #fff; }
+    .count { color: var(--muted); margin: 18px 0 10px; font-size: .92rem; }
+    .grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(290px, 1fr)); gap: 16px; padding-bottom: 60px; }
+    .prop { background: #fff; border: 1px solid var(--line); border-radius: 16px; overflow: hidden; cursor: pointer; text-align: left; padding: 0; font: inherit; color: inherit; transition: transform .15s; }
+    .prop:hover { transform: translateY(-3px); }
+    .ph { height: 170px; position: relative; display: grid; place-items: center; font-size: 4rem; }
+    .op { position: absolute; top: 10px; left: 10px; background: var(--navy); color: #fff; font-size: .72rem; font-weight: 700; padding: 4px 10px; border-radius: 999px; }
+    .op.alq { background: var(--gold); }
+    .b { padding: 14px; }
+    .price { font-size: 1.25rem; font-weight: 700; }
+    .price small { font-size: .8rem; color: var(--muted); font-weight: 500; }
+    .addr { color: var(--muted); font-size: .88rem; margin: 2px 0 10px; }
+    .feat { display: flex; gap: 12px; font-size: .84rem; color: var(--ink); flex-wrap: wrap; }
+    .panel { position: fixed; inset: 0; z-index: 60; background: rgba(10,20,40,.55); display: grid; place-items: center; padding: 16px; }
+    .panel[hidden] { display: none; }
+    .pc { background: #fff; width: min(720px, 100%); max-height: 92vh; overflow: auto; border-radius: 20px; }
+    .pc .ph { height: 220px; font-size: 5rem; }
+    .pc .in { padding: 20px; }
+    .x { position: absolute; top: 12px; right: 12px; border: 0; background: #fff; width: 36px; height: 36px; border-radius: 50%; cursor: pointer; }
+    .specs { display: grid; grid-template-columns: repeat(4, 1fr); gap: 8px; margin: 14px 0; }
+    @media (max-width: 560px) { .specs { grid-template-columns: 1fr 1fr; } }
+    .specs div { background: var(--bg); border-radius: 10px; padding: 10px; text-align: center; font-size: .8rem; color: var(--muted); }
+    .specs b { display: block; font-size: 1.05rem; color: var(--ink); }
+    .cta { display: block; text-align: center; text-decoration: none; padding: 14px; border-radius: 12px; background: #1fa855; color: #fff; font-weight: 700; margin-top: 14px; }
+    .empty { color: var(--muted); }
+  </style>
+</head>
+<body>
+  <header><div class="wrap"><div class="logo">Oeste <span>Propiedades</span></div><small>Ramos Mejía · Haedo · Ciudadela</small></div></header>
+  <section class="hero"><div class="wrap">
+    <h1>Encontrá tu próximo hogar en zona oeste</h1>
+    <div class="filters" id="filters">
+      <div class="seg" id="op"><button data-op="Venta" class="on">Comprar</button><button data-op="Alquiler">Alquilar</button></div>
+      <div><label for="tipo">Tipo</label><select id="tipo"><option>Todos</option><option>Departamento</option><option>Casa</option><option>PH</option><option>Local</option></select></div>
+      <div><label for="amb">Ambientes</label><select id="amb"><option value="0">Todos</option><option value="1">1</option><option value="2">2</option><option value="3">3</option><option value="4">4 o más</option></select></div>
+      <div><label for="barrio">Barrio</label><select id="barrio"><option>Todos</option><option>Ramos Mejía</option><option>Haedo</option><option>Ciudadela</option><option>Villa Sarmiento</option></select></div>
+    </div>
+  </div></section>
+  <main class="wrap"><p class="count" id="count"></p><div class="grid" id="grid"></div></main>
+  <div class="panel" id="panel" hidden><div class="pc" id="pc"></div></div>
+
+  <script src="../demo.js"></script>
+  <script>
+    const $ = (id) => document.getElementById(id);
+    const PROPS = [
+      ["Venta", "Departamento", 3, "Ramos Mejía", "Belgrano al 100", 118000, "USD", 72, "🏢", "#dfe7f5", "Balcón al frente, cochera, a 4 cuadras de la estación."],
+      ["Venta", "Casa", 4, "Haedo", "Zona residencial", 185000, "USD", 160, "🏡", "#e5efe1", "Lote propio, parque con pileta, quincho."],
+      ["Venta", "PH", 3, "Ramos Mejía", "A 6 cuadras del centro", 98000, "USD", 85, "🏘️", "#f3e8dc", "Sin expensas, terraza propia, patio."],
+      ["Venta", "Departamento", 2, "Ciudadela", "Cerca de la estación", 72000, "USD", 48, "🏢", "#e8e5f5", "Luminoso, apto crédito, bajas expensas."],
+      ["Venta", "Local", 1, "Ramos Mejía", "Av. de Mayo", 210000, "USD", 90, "🏬", "#f5e3e3", "Excelente ubicación comercial, vidriera amplia."],
+      ["Venta", "Casa", 3, "Villa Sarmiento", "Calle tranquila", 135000, "USD", 120, "🏠", "#e1eef0", "Reciclada a nuevo, garage para 2 autos."],
+      ["Alquiler", "Departamento", 2, "Ramos Mejía", "Rivadavia al 13.000", 520000, "$", 50, "🏢", "#dfe7f5", "Contrato 3 años, expensas $ 85.000."],
+      ["Alquiler", "Departamento", 1, "Haedo", "Frente a la plaza", 390000, "$", 35, "🏢", "#e8e5f5", "Monoambiente divisible, amoblado."],
+      ["Alquiler", "Casa", 3, "Ramos Mejía", "Zona Ramos Sur", 850000, "$", 110, "🏡", "#e5efe1", "Jardín, parrilla, se aceptan mascotas."],
+      ["Alquiler", "Local", 1, "Ciudadela", "Sobre avenida", 700000, "$", 60, "🏬", "#f5e3e3", "Ideal gastronomía, baño y depósito."],
+      ["Alquiler", "PH", 2, "Villa Sarmiento", "Planta baja", 480000, "$", 55, "🏘️", "#f3e8dc", "Patio propio, sin expensas."],
+    ].map(([op, tipo, amb, barrio, dir, precio, mon, m2, e, bg, desc], i) => ({ id: 1040 + i, op, tipo, amb, barrio, dir, precio, mon, m2, e, bg, desc }));
+    const f = { op: "Venta" };
+    const money = (p) => (p.mon === "USD" ? "USD " + p.precio.toLocaleString("es-AR") : pesos(p.precio) + " /mes");
+
+    function render() {
+      const tipo = $("tipo").value, amb = +$("amb").value, barrio = $("barrio").value;
+      const list = PROPS.filter((p) => p.op === f.op && (tipo === "Todos" || p.tipo === tipo) && (!amb || (amb === 4 ? p.amb >= 4 : p.amb === amb)) && (barrio === "Todos" || p.barrio === barrio));
+      $("count").textContent = `${list.length} propiedad${list.length === 1 ? "" : "es"} en ${f.op.toLowerCase()}`;
+      $("grid").innerHTML = list.map((p) => `<button class="prop" data-id="${p.id}"><div class="ph" style="background:${p.bg}">${p.e}<span class="op ${p.op === "Alquiler" ? "alq" : ""}">${p.op}</span></div>
+        <div class="b"><div class="price">${money(p)}</div><div class="addr">${p.tipo} · ${p.dir}, ${p.barrio}</div><div class="feat"><span>🛏️ ${p.amb} amb.</span><span>📐 ${p.m2} m²</span><span>🔖 Cód. ${p.id}</span></div></div></button>`).join("") || '<p class="empty">No hay propiedades con esos filtros. Probá cambiando alguno.</p>';
+      document.querySelectorAll("#op button").forEach((b) => b.classList.toggle("on", b.dataset.op === f.op));
+    }
+    $("op").onclick = (e) => { const b = e.target.closest("button"); if (b) { f.op = b.dataset.op; render(); } };
+    $("filters").onchange = render;
+    $("grid").onclick = (e) => {
+      const b = e.target.closest(".prop"); if (!b) return;
+      const p = PROPS.find((x) => x.id === +b.dataset.id);
+      $("pc").innerHTML = `<div class="ph" style="background:${p.bg};position:relative">${p.e}<span class="op ${p.op === "Alquiler" ? "alq" : ""}">${p.op}</span><button class="x" data-x aria-label="Cerrar">✕</button></div>
+        <div class="in"><div class="price">${money(p)}</div><div class="addr">${p.tipo} · ${p.dir}, ${p.barrio}</div><p>${p.desc}</p>
+        <div class="specs"><div><b>${p.amb}</b>ambientes</div><div><b>${p.m2} m²</b>cubiertos</div><div><b>${p.tipo}</b>tipo</div><div><b>${p.id}</b>código</div></div>
+        <a class="cta" target="_blank" rel="noopener" href="https://wa.me/?text=${encodeURIComponent(`Hola Oeste Propiedades! Me interesa la propiedad cód. ${p.id} (${p.tipo} en ${p.barrio}, ${money(p)}). ¿Podemos coordinar una visita?`)}">Consultar por WhatsApp</a></div>`;
+      $("panel").hidden = false;
+    };
+    $("panel").onclick = (e) => { if (e.target === $("panel") || e.target.closest("[data-x]")) $("panel").hidden = true; };
+    render();
+
+    sheetViewer({
+      title: "Propiedades · Oeste Propiedades",
+      note: "Cada fila es una propiedad. Cuando se vende o se alquila, ponen \"No\" en Publicada y desaparece de la web.",
+      columns: ["Código", "Operación", "Tipo", "Ambientes", "Barrio", "Precio", "m²", "Publicada"],
+      rows: PROPS.map((p) => [p.id, p.op, p.tipo, p.amb, p.barrio, money(p), p.m2, "Sí"]),
+    });
+  </script>
+</body>
+</html>

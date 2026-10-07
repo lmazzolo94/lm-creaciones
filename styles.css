@@ -188,3 +188,9 @@ section { padding: 72px 0; }
 
 .footer { padding: 32px 0 48px; color: var(--muted); font-size: 0.9rem; }
 .footer .wrap { display: flex; justify-content: space-between; flex-wrap: wrap; gap: 12px; }
+
+/* Filtro de demos */
+.demo-filters { display: flex; flex-wrap: wrap; gap: 8px; margin-bottom: 20px; }
+.demo-filters button { border: 1px solid var(--line); background: var(--card); color: var(--ink); border-radius: 999px; padding: 8px 15px; font: 600 0.9rem "Inter", sans-serif; cursor: pointer; }
+.demo-filters button.on { background: var(--ink); color: #fff; border-color: var(--ink); }
+.demo-card[hidden] { display: none; }

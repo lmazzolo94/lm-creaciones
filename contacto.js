@@ -7,7 +7,7 @@ const CONTACTO = {
 };
 
 (function () {
-  const msg = encodeURIComponent("Hola! Vi tu portafolio de LM Creaciones y quiero consultarte por mi negocio.");
+  const msg = encodeURIComponent("Hola! Vi la web de LM Creaciones y quiero consultarles por mi negocio.");
   const set = (selector, href) =>
     document.querySelectorAll(selector).forEach((a) => {
       if (href) a.href = href;

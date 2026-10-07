@@ -22,7 +22,7 @@
         <a href="#trabajos">Trabajos</a>
         <a href="#demos">Demos</a>
         <a href="#servicios">Servicios</a>
-        <a href="#como">Cómo trabajo</a>
+        <a href="#como">Cómo trabajamos</a>
         <a href="#preguntas">Preguntas</a>
       </nav>
       <a class="btn btn-primary btn-sm js-wa" href="#contacto">Hablemos</a>
@@ -34,16 +34,16 @@
       <div class="wrap">
         <div>
           <span class="eyebrow">📍 Ramos Mejía y zona oeste</span>
-          <h1>Tu negocio, <em>más fácil</em>. Y lo manejás vos.</h1>
-          <p class="lead">Te armo la web o la app que tu negocio necesita: menú, catálogo, turnos, socios o control de stock. La manejás vos desde el celu, sin saber nada de computación y sin depender de nadie para cambiar un precio.</p>
+          <h1>Vos ponés el negocio. <em>Nosotros ponemos el orden.</em></h1>
+          <p class="lead">Armamos la web o la app que tu negocio necesita: menú, catálogo, turnos, socios o control de stock. La manejás vos desde el celu, sin saber nada de computación y sin depender de nadie para cambiar un precio.</p>
           <div class="hero-ctas">
             <a class="btn btn-primary" href="#demos">Mirá cómo quedaría</a>
-            <a class="btn btn-ghost" href="#trabajos">Mis trabajos</a>
+            <a class="btn btn-ghost" href="#trabajos">Nuestros trabajos</a>
           </div>
           <ul class="hero-points">
             <li>Listo en días</li>
             <li>Pedidos y turnos a tu WhatsApp</li>
-            <li>Alguien de la zona, que te atiende</li>
+            <li>Somos de la zona: te atendemos en persona</li>
           </ul>
         </div>
         <div class="hero-visual" aria-hidden="true">
@@ -78,7 +78,7 @@
       <div class="wrap">
         <div class="section-head">
           <span class="tag">Trabajos reales</span>
-          <h2>Cosas que ya armé y andan</h2>
+          <h2>Proyectos que ya armamos y andan</h2>
           <p>No son ejemplos: son proyectos funcionando hoy, con visitas y clientes reales. Entrá y chusmeá.</p>
         </div>
         <div class="grid-2">
@@ -119,7 +119,7 @@
               <h3>Mi-Cocina</h3>
               <p>Sistema para un emprendimiento de comida: costo real de cada receta, precio sugerido, pedidos, comandas en vivo en la cocina, cobros pendientes y lista de compras. Funciona en celular, tablet y PC.</p>
               <ul class="chips"><li>Costos y ganancias</li><li>Comandas en vivo</li><li>Uso interno</li></ul>
-              <a class="btn btn-ghost btn-sm" href="#contacto">Pedir una demo</a>
+              <a class="btn btn-ghost btn-sm" href="#contacto">Pedinos una demo</a>
             </div>
           </article>
         </div>
@@ -131,38 +131,105 @@
         <div class="section-head">
           <span class="tag">Demos para probar</span>
           <h2>Mirá cómo quedaría tu negocio</h2>
-          <p>Negocios inventados para que pruebes cada idea como si fueras un cliente. Tocá el de tu rubro (o el más parecido).</p>
+          <p>Negocios inventados para que pruebes cada idea como si fueras un cliente. Buscá el de tu rubro (o el más parecido) y jugá un rato.</p>
         </div>
-        <div class="grid-4">
-          <a class="card demo-card" href="demos/rotiseria/index.html">
-            <div class="demo-top" style="background:linear-gradient(135deg,#ffd9b8,#ff9f6b)"><span class="badge">Gastronomía</span>🍗</div>
+        <div class="demo-filters" id="demofilters">
+          <button class="on" data-g="">Todas</button><button data-g="Gastronomía">🍽️ Gastronomía</button><button data-g="Comercio">🛍️ Comercios</button><button data-g="Turnos">🗓️ Turnos</button><button data-g="Gestión">⚙️ Gestión interna</button>
+        </div>
+        <div class="grid-4" id="demogrid">
+          <a class="card demo-card" href="demos/rotiseria/index.html" data-g="Gastronomía">
+            <div class="demo-top" style="background:linear-gradient(135deg,#ffd9b8,#ff9f6b);"><span class="badge">Gastronomía</span>🍗</div>
             <div class="demo-body">
               <h3>Menú online y pedidos</h3>
               <p>Rotisería con menú por categorías, carrito y pedido armado directo a WhatsApp.</p>
               <span class="go">Probar demo →</span>
             </div>
           </a>
-          <a class="card demo-card" href="demos/barberia/index.html">
-            <div class="demo-top" style="background:linear-gradient(135deg,#3a3a3c,#141416);color:#fff"><span class="badge">Servicios</span>💈</div>
+          <a class="card demo-card" href="demos/bar/index.html" data-g="Gastronomía">
+            <div class="demo-top" style="background:linear-gradient(135deg,#4a3326,#1b1410);color:#fff"><span class="badge">Gastronomía</span>☕</div>
             <div class="demo-body">
-              <h3>Turnos online</h3>
-              <p>Barbería con servicios, elección de profesional, día y horario libre.</p>
+              <h3>Menú QR por mesa</h3>
+              <p>Bar donde cada mesa pide desde el celu, llama al mozo y pide la cuenta.</p>
               <span class="go">Probar demo →</span>
             </div>
           </a>
-          <a class="card demo-card" href="demos/tienda/index.html">
-            <div class="demo-top" style="background:linear-gradient(135deg,#e7defc,#b9a6f5)"><span class="badge">Comercio</span>👗</div>
+          <a class="card demo-card" href="demos/pasteleria/index.html" data-g="Gastronomía">
+            <div class="demo-top" style="background:linear-gradient(135deg,#fde2ec,#f4a3c0);"><span class="badge">Gastronomía</span>🎂</div>
+            <div class="demo-body">
+              <h3>Tortas a pedido</h3>
+              <p>Pastelería con tamaños, rellenos, fecha de entrega y seña calculada sola.</p>
+              <span class="go">Probar demo →</span>
+            </div>
+          </a>
+          <a class="card demo-card" href="demos/dietetica/index.html" data-g="Comercio">
+            <div class="demo-top" style="background:linear-gradient(135deg,#eef0d9,#b8c98a);"><span class="badge">Comercio</span>🌾</div>
+            <div class="demo-body">
+              <h3>Precios por kilo</h3>
+              <p>Dietética donde elegís 100 g, 250 g o 1 kg y el precio se calcula solo.</p>
+              <span class="go">Probar demo →</span>
+            </div>
+          </a>
+          <a class="card demo-card" href="demos/tienda/index.html" data-g="Comercio">
+            <div class="demo-top" style="background:linear-gradient(135deg,#e7defc,#b9a6f5);"><span class="badge">Comercio</span>👗</div>
             <div class="demo-body">
               <h3>Catálogo con stock</h3>
               <p>Tienda de ropa con filtros, talles, colores y stock que se carga desde una planilla.</p>
               <span class="go">Probar demo →</span>
             </div>
           </a>
-          <a class="card demo-card" href="demos/stock/index.html">
-            <div class="demo-top" style="background:linear-gradient(135deg,#c9f2e7,#69cdb5)"><span class="badge">Gestión interna</span>📦</div>
+          <a class="card demo-card" href="demos/inmobiliaria/index.html" data-g="Comercio">
+            <div class="demo-top" style="background:linear-gradient(135deg,#dfe7f5,#8fa7d6);"><span class="badge">Comercio</span>🏡</div>
+            <div class="demo-body">
+              <h3>Propiedades con filtros</h3>
+              <p>Inmobiliaria con venta y alquiler, filtros por barrio y consulta por WhatsApp.</p>
+              <span class="go">Probar demo →</span>
+            </div>
+          </a>
+          <a class="card demo-card" href="demos/barberia/index.html" data-g="Turnos">
+            <div class="demo-top" style="background:linear-gradient(135deg,#3a3a3c,#141416);color:#fff"><span class="badge">Turnos</span>💈</div>
+            <div class="demo-body">
+              <h3>Turnos online</h3>
+              <p>Barbería con servicios, elección de barbero, día y horario libre.</p>
+              <span class="go">Probar demo →</span>
+            </div>
+          </a>
+          <a class="card demo-card" href="demos/consultorio/index.html" data-g="Turnos">
+            <div class="demo-top" style="background:linear-gradient(135deg,#e3f1fa,#8cc6ea);"><span class="badge">Turnos</span>🦷</div>
+            <div class="demo-body">
+              <h3>Turnos y recordatorios</h3>
+              <p>Consultorio con obra social, calendario, agenda del día y aviso por WhatsApp.</p>
+              <span class="go">Probar demo →</span>
+            </div>
+          </a>
+          <a class="card demo-card" href="demos/veterinaria/index.html" data-g="Turnos">
+            <div class="demo-top" style="background:linear-gradient(135deg,#fff0dd,#f6b26b);"><span class="badge">Turnos</span>🐾</div>
+            <div class="demo-body">
+              <h3>Veterinaria y pet shop</h3>
+              <p>Baño y corte con turno, alimentos con envío y aviso de vacunas.</p>
+              <span class="go">Probar demo →</span>
+            </div>
+          </a>
+          <a class="card demo-card" href="demos/gimnasio/index.html" data-g="Gestión">
+            <div class="demo-top" style="background:linear-gradient(135deg,#2a2d22,#0e0f12);color:#c6f432"><span class="badge">Gestión</span>🏋️</div>
+            <div class="demo-body">
+              <h3>Clases y cuotas</h3>
+              <p>Gimnasio donde el socio reserva su clase y el dueño controla quién debe la cuota.</p>
+              <span class="go">Probar demo →</span>
+            </div>
+          </a>
+          <a class="card demo-card" href="demos/taller/index.html" data-g="Gestión">
+            <div class="demo-top" style="background:linear-gradient(135deg,#ffe28a,#ffc61a);"><span class="badge">Gestión</span>🔧</div>
+            <div class="demo-body">
+              <h3>Estado del auto</h3>
+              <p>Taller mecánico: el cliente sigue su auto por patente y aprueba el presupuesto.</p>
+              <span class="go">Probar demo →</span>
+            </div>
+          </a>
+          <a class="card demo-card" href="demos/stock/index.html" data-g="Gestión">
+            <div class="demo-top" style="background:linear-gradient(135deg,#c9f2e7,#69cdb5);"><span class="badge">Gestión</span>📦</div>
             <div class="demo-body">
               <h3>Stock y caja</h3>
-              <p>Sistema interno para un comercio: ventas, stock que se descuenta solo, alertas y caja del día.</p>
+              <p>Almacén con ventas, stock que se descuenta solo, alertas y caja del día.</p>
               <span class="go">Probar demo →</span>
             </div>
           </a>
@@ -174,8 +241,8 @@
       <div class="wrap">
         <div class="section-head">
           <span class="tag">Servicios</span>
-          <h2>Te doy la herramienta, vos manejás tu negocio</h2>
-          <p>No te vendo horas ni posteos: te armo algo que te sirva todos los días y te enseño a usarlo. Vos seguís al frente de tu negocio, pero con todo más ordenado.</p>
+          <h2>Te damos la herramienta, vos manejás tu negocio</h2>
+          <p>No te vendemos horas ni posteos: te armamos algo que te sirva todos los días y te enseñamos a usarlo. Vos seguís al frente de tu negocio, pero con todo más ordenado.</p>
         </div>
         <div class="grid-3">
           <div class="svc">
@@ -204,14 +271,14 @@
     <section id="como">
       <div class="wrap">
         <div class="section-head">
-          <span class="tag">Cómo trabajo</span>
+          <span class="tag">Cómo trabajamos</span>
           <h2>Así trabajamos</h2>
         </div>
         <div class="grid-4 steps">
-          <div class="step"><h3>Charlamos</h3><p>Me contás cómo trabajás hoy y qué te complica. Por WhatsApp o tomando un café, que estoy en la zona.</p></div>
-          <div class="step"><h3>Te muestro una propuesta</h3><p>Con un ejemplo armado con tu negocio, para que veas cómo quedaría antes de decidir.</p></div>
-          <div class="step"><h3>Lo armo</h3><p>En días. Lo probamos juntos y ajustamos lo que haga falta.</p></div>
-          <div class="step"><h3>Lo manejás vos</h3><p>Te enseño a usarlo y queda a tu nombre. Si necesitás algo, estoy a un mensaje.</p></div>
+          <div class="step"><h3>Charlamos</h3><p>Nos contás cómo trabajás hoy y qué te complica. Por WhatsApp o tomando un café, que somos de la zona.</p></div>
+          <div class="step"><h3>Te mostramos una propuesta</h3><p>Con un ejemplo armado con tu negocio, para que veas cómo quedaría antes de decidir.</p></div>
+          <div class="step"><h3>Lo armamos</h3><p>En días. Lo probamos juntos y ajustamos lo que haga falta.</p></div>
+          <div class="step"><h3>Lo manejás vos</h3><p>Te enseñamos a usarlo y queda a tu nombre. Si necesitás algo, estamos a un mensaje.</p></div>
         </div>
       </div>
     </section>
@@ -220,13 +287,13 @@
       <div class="wrap">
         <div class="section-head">
           <span class="tag">Preguntas frecuentes</span>
-          <h2>Lo que siempre me preguntan</h2>
+          <h2>Lo que siempre nos preguntan</h2>
         </div>
         <div class="faq">
-          <details><summary>¿Tengo que saber de computación?</summary><p>No. Si sabés usar WhatsApp, podés manejarlo. Te dejo una guía corta y un video explicándote lo que vas a usar.</p></details>
+          <details><summary>¿Tengo que saber de computación?</summary><p>No. Si sabés usar WhatsApp, podés manejarlo. Te dejamos una guía corta y un video explicándote lo que vas a usar.</p></details>
           <details><summary>¿Cómo cambio un precio o agrego un producto?</summary><p>En las webs con planilla, editás la planilla de Google desde el celular o la compu y en minutos se ve en la web. En las apps a medida, desde un panel con tu usuario.</p></details>
           <details><summary>¿De quién es la web y los datos?</summary><p>Tuyos. El dominio va a tu nombre y la planilla o la base de datos quedan en tu cuenta. Si algún día querés seguir con otra persona, te llevás todo.</p></details>
-          <details><summary>¿Cuánto cuesta?</summary><p>Depende de lo que necesites. Hay una parte que se paga una sola vez (el armado) y un abono mensual chico por mantenimiento y soporte. Escribime y te paso un presupuesto sin compromiso.</p></details>
+          <details><summary>¿Cuánto cuesta?</summary><p>Depende de lo que necesites. Hay una parte que se paga una sola vez (el armado) y un abono mensual chico por mantenimiento y soporte. Escribinos y te pasamos un presupuesto sin compromiso.</p></details>
           <details><summary>¿Cuánto tarda?</summary><p>Una web con planilla, entre 2 y 5 días. Una app a medida, entre 1 y 3 semanas según lo que haga.</p></details>
         </div>
       </div>
@@ -237,11 +304,11 @@
         <div class="contact-box">
           <div>
             <h2>¿Charlamos de tu negocio?</h2>
-            <p>Contame qué hacés y qué te gustaría resolver. Te respondo en el día con una idea concreta, sin compromiso.</p>
+            <p>Contanos qué hacés y qué te gustaría resolver. Te respondemos en el día con una idea concreta, sin compromiso.</p>
           </div>
           <div class="contact-actions">
-            <a class="btn btn-wa js-wa" href="#contacto" target="_blank" rel="noopener">Escribime por WhatsApp</a>
-            <a class="btn js-mail" href="#contacto">Mandame un email</a>
+            <a class="btn btn-wa js-wa" href="#contacto" target="_blank" rel="noopener">Escribinos por WhatsApp</a>
+            <a class="btn js-mail" href="#contacto">Mandanos un email</a>
             <a class="btn js-ig" href="#contacto" target="_blank" rel="noopener">Instagram</a>
           </div>
         </div>
@@ -251,12 +318,19 @@
 
   <footer class="footer">
     <div class="wrap">
-      <span>© <span id="year"></span> LM Creaciones · Webs y apps para negocios</span>
+      <span>© <span id="year"></span> LM Creaciones · Vos ponés el negocio, nosotros ponemos el orden.</span>
       <span>Hecho en Argentina 🇦🇷</span>
     </div>
   </footer>
 
 
+  <script>
+    document.getElementById("demofilters").onclick = (e) => {
+      const b = e.target.closest("button"); if (!b) return;
+      document.querySelectorAll("#demofilters button").forEach((x) => x.classList.toggle("on", x === b));
+      document.querySelectorAll("#demogrid .demo-card").forEach((c) => (c.hidden = !!b.dataset.g && c.dataset.g !== b.dataset.g));
+    };
+  </script>
   <script src="contacto.js"></script>
   <script>document.getElementById("year").textContent = new Date().getFullYear();</script>
 </body>

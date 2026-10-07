@@ -1,0 +1,114 @@
+<!doctype html>
+<html lang="es-AR">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Dulce Abril · Pastelería · Demo LM Creaciones</title>
+  <meta name="robots" content="noindex">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Pacifico&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="../demo.css">
+  <style>
+    :root { --bg: #fff6f8; --card: #fff; --line: #f6dbe3; --ink: #3a2230; --muted: #8b6b7a; --pink: #e05587; --pink-dark: #c23b6c; --soft: #fde8ef; --mint: #2fae86; }
+    * { box-sizing: border-box; }
+    body { margin: 0; font-family: "Inter", system-ui, sans-serif; background: var(--bg); color: var(--ink); }
+    .wrap { width: min(1000px, 100% - 32px); margin-inline: auto; }
+    header { text-align: center; padding: 30px 0 10px; }
+    .logo { font-family: "Pacifico", cursive; font-size: 2.6rem; color: var(--pink); margin: 0; font-weight: 400; }
+    header p { color: var(--muted); margin: 4px 0 0; }
+    .note { display: inline-block; margin-top: 12px; background: #fff; border: 1px dashed var(--pink); border-radius: 999px; padding: 6px 14px; font-size: .85rem; color: var(--pink-dark); font-weight: 600; }
+    .grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(220px, 1fr)); gap: 16px; padding: 22px 0 60px; }
+    .cake { background: #fff; border: 1px solid var(--line); border-radius: 20px; overflow: hidden; cursor: pointer; text-align: left; padding: 0; font: inherit; color: inherit; transition: transform .15s; }
+    .cake:hover { transform: translateY(-3px); }
+    .cake .pic { height: 150px; display: grid; place-items: center; font-size: 4rem; }
+    .cake .b { padding: 14px; }
+    .cake h3 { margin: 0; font-size: 1.02rem; }
+    .cake p { margin: 4px 0 8px; color: var(--muted); font-size: .86rem; }
+    .cake .pr { font-weight: 700; color: var(--pink-dark); }
+    .panel { position: fixed; inset: 0; z-index: 60; background: rgba(60,20,40,.5); display: grid; place-items: center; padding: 16px; }
+    .panel[hidden] { display: none; }
+    .pc { background: #fff; border-radius: 22px; width: min(560px, 100%); max-height: 92vh; overflow: auto; }
+    .pc .pic { height: 130px; display: grid; place-items: center; font-size: 4rem; }
+    .pc .in { padding: 20px; }
+    .pc h2 { margin: 0 0 4px; }
+    .x { float: right; border: 0; background: var(--soft); width: 34px; height: 34px; border-radius: 50%; cursor: pointer; }
+    .lbl { font-size: .8rem; font-weight: 700; color: var(--muted); margin: 16px 0 6px; text-transform: uppercase; letter-spacing: .04em; }
+    .opts { display: flex; flex-wrap: wrap; gap: 8px; }
+    .o { border: 1.5px solid var(--line); background: #fff; border-radius: 12px; padding: 9px 12px; font: 600 .88rem "Inter"; cursor: pointer; color: var(--ink); }
+    .o small { display: block; font-weight: 500; color: var(--muted); font-size: .75rem; }
+    .o.on { border-color: var(--pink); background: var(--soft); }
+    input, textarea { width: 100%; padding: 10px 12px; border: 1.5px solid var(--line); border-radius: 12px; font: inherit; }
+    .sum { margin-top: 16px; background: var(--soft); border-radius: 14px; padding: 14px; }
+    .sum div { display: flex; justify-content: space-between; padding: 3px 0; }
+    .sum .t { font-weight: 800; font-size: 1.1rem; border-top: 1px solid #f3c6d6; margin-top: 6px; padding-top: 8px; }
+    .cta { display: block; text-align: center; text-decoration: none; width: 100%; margin-top: 14px; padding: 14px; border: 0; border-radius: 14px; background: var(--mint); color: #fff; font: 700 1rem "Inter"; cursor: pointer; }
+    .hint { font-size: .8rem; color: var(--muted); }
+  </style>
+</head>
+<body>
+  <header class="wrap">
+    <h1 class="logo">Dulce Abril</h1>
+    <p>Tortas y mesas dulces a pedido · Ramos Mejía</p>
+    <span class="note">🗓️ Pedidos con 48 hs de anticipación · seña del 50%</span>
+  </header>
+  <main class="wrap"><div class="grid" id="grid"></div></main>
+  <div class="panel" id="panel" hidden><div class="pc" id="pc"></div></div>
+
+  <script src="../demo.js"></script>
+  <script>
+    const $ = (id) => document.getElementById(id);
+    const CAKES = [
+      { e: "🎂", bg: "#fde8ef", n: "Torta de cumpleaños", d: "Bizcochuelo, relleno y decoración a elección.", base: 28000 },
+      { e: "🍫", bg: "#efe2d9", n: "Chocotorta", d: "La de siempre, con mucho dulce de leche.", base: 22000 },
+      { e: "🍓", bg: "#fde3e3", n: "Cheesecake de frutos rojos", d: "Base crocante y coulis casero.", base: 26000 },
+      { e: "🍋", bg: "#fbf3cf", n: "Lemon pie", d: "Merengue italiano flambeado.", base: 21000 },
+      { e: "🥧", bg: "#f6e6d3", n: "Rogel", d: "Hojaldre, dulce de leche y merengue.", base: 30000 },
+      { e: "🧁", bg: "#e6eefb", n: "Docena de cupcakes", d: "Decorados con la temática que quieras.", base: 18000, noSize: true },
+      { e: "🍰", bg: "#e7f5ee", n: "Mesa dulce", d: "Torta + 3 tartas + bocaditos.", base: 85000, noSize: true },
+    ];
+    const SIZES = [["Chica", "8 porciones", 1], ["Mediana", "15 porciones", 1.6], ["Grande", "25 porciones", 2.4]];
+    const FLAVORS = ["Vainilla", "Chocolate", "Red velvet", "Marmolado"];
+    const FILLS = [["Dulce de leche", 0], ["DDL + merengue", 2000], ["Crema y frutillas", 4000], ["Mousse de chocolate", 3500], ["Oreo", 3000]];
+    const minDate = () => { const d = new Date(); d.setDate(d.getDate() + 2); return d.toISOString().slice(0, 10); };
+
+    $("grid").innerHTML = CAKES.map((c, i) => `<button class="cake" data-i="${i}"><div class="pic" style="background:${c.bg}">${c.e}</div><div class="b"><h3>${c.n}</h3><p>${c.d}</p><span class="pr">desde ${pesos(c.base)}</span></div></button>`).join("");
+    $("grid").onclick = (e) => { const b = e.target.closest(".cake"); if (b) open(+b.dataset.i); };
+
+    function open(i) {
+      const c = CAKES[i], s = { size: 0, flavor: 0, fill: 0, date: minDate(), msg: "" };
+      const price = () => Math.round((c.noSize ? c.base : c.base * SIZES[s.size][2]) + (c.noSize ? 0 : FILLS[s.fill][1]));
+      const draw = () => {
+        const p = price();
+        const text = [`Hola Dulce Abril! Quiero encargar:`, `🎂 ${c.n}`, c.noSize ? null : `• Tamaño: ${SIZES[s.size][0]} (${SIZES[s.size][1]})`, i === 0 ? `• Bizcochuelo: ${FLAVORS[s.flavor]}` : null, c.noSize ? null : `• Relleno: ${FILLS[s.fill][0]}`, s.msg ? `• Escrito en la torta: "${s.msg}"` : null, `• Para el: ${new Date(s.date + "T12:00").toLocaleDateString("es-AR", { weekday: "long", day: "numeric", month: "long" })}`, `Total: ${pesos(p)} · Seña (50%): ${pesos(p / 2)}`].filter(Boolean).join("\n");
+        $("pc").innerHTML = `<div class="pic" style="background:${c.bg}">${c.e}</div><div class="in"><button class="x" data-x aria-label="Cerrar">✕</button><h2>${c.n}</h2><p class="hint">${c.d}</p>
+          ${c.noSize ? "" : `<div class="lbl">Tamaño</div><div class="opts">${SIZES.map(([n, d], k) => `<button class="o ${k === s.size ? "on" : ""}" data-size="${k}">${n}<small>${d}</small></button>`).join("")}</div>`}
+          ${i === 0 ? `<div class="lbl">Bizcochuelo</div><div class="opts">${FLAVORS.map((f, k) => `<button class="o ${k === s.flavor ? "on" : ""}" data-flavor="${k}">${f}</button>`).join("")}</div>` : ""}
+          ${c.noSize ? "" : `<div class="lbl">Relleno</div><div class="opts">${FILLS.map(([f, x], k) => `<button class="o ${k === s.fill ? "on" : ""}" data-fill="${k}">${f}${x ? `<small>+ ${pesos(x)}</small>` : ""}</button>`).join("")}</div>`}
+          ${c.noSize ? "" : `<div class="lbl">Texto en la torta (opcional)</div><input id="msg" maxlength="40" placeholder="Ej.: ¡Feliz cumple Martu!" value="${s.msg}">`}
+          <div class="lbl">¿Para cuándo?</div><input type="date" id="date" min="${minDate()}" value="${s.date}">
+          <div class="sum"><div><span>Total</span><span>${pesos(p)}</span></div><div><span>Seña para reservar (50%)</span><span>${pesos(p / 2)}</span></div><div class="t"><span>Resto al retirar</span><span>${pesos(p / 2)}</span></div></div>
+          <a class="cta" target="_blank" rel="noopener" href="https://wa.me/?text=${encodeURIComponent(text)}">Encargar por WhatsApp</a>
+          <p class="hint">El pedido llega a la pastelería con todos los detalles y la fecha. La dueña lo ve en su agenda de entregas y confirma cuando entra la seña.</p></div>`;
+      };
+      $("pc").onclick = (e) => {
+        let el;
+        if (e.target.closest("[data-x]")) return ($("panel").hidden = true);
+        if ((el = e.target.closest("[data-size]"))) { s.size = +el.dataset.size; return draw(); }
+        if ((el = e.target.closest("[data-flavor]"))) { s.flavor = +el.dataset.flavor; return draw(); }
+        if ((el = e.target.closest("[data-fill]"))) { s.fill = +el.dataset.fill; return draw(); }
+      };
+      $("pc").onchange = (e) => { if (e.target.id === "date") { s.date = e.target.value < minDate() ? minDate() : e.target.value; draw(); } if (e.target.id === "msg") { s.msg = e.target.value.replace(/"/g, ""); draw(); } };
+      draw(); $("panel").hidden = false;
+    }
+    $("panel").onclick = (e) => { if (e.target === $("panel")) $("panel").hidden = true; };
+
+    sheetViewer({
+      title: "Tortas y precios · Dulce Abril",
+      note: "La dueña actualiza precios, rellenos y adicionales en la planilla. El precio de cada tamaño se calcula solo.",
+      columns: ["Producto", "Precio base (chica)", "Mediana", "Grande"],
+      rows: CAKES.map((c) => [c.n, c.base, c.noSize ? "—" : Math.round(c.base * 1.6), c.noSize ? "—" : Math.round(c.base * 2.4)]),
+    });
+  </script>
+</body>
+</html>

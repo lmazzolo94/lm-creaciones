@@ -1,0 +1,103 @@
+<!doctype html>
+<html lang="es-AR">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Grano Verde · Dietética · Demo LM Creaciones</title>
+  <meta name="robots" content="noindex">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Fraunces:opsz,wght@9..144,700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="../demo.css">
+  <style>
+    :root { --bg: #f5f2e9; --card: #fffdf7; --line: #e4dccb; --ink: #2c3320; --muted: #737a62; --green: #4f7a2a; --green-soft: #e6eed8; --brown: #8a5a2b; }
+    * { box-sizing: border-box; }
+    body { margin: 0; font-family: "Inter", system-ui, sans-serif; background: var(--bg); color: var(--ink); padding-bottom: 100px; }
+    .wrap { width: min(1000px, 100% - 32px); margin-inline: auto; }
+    header { padding: 26px 0 8px; }
+    .logo { font-family: "Fraunces", serif; font-size: 2.2rem; margin: 0; color: var(--green); }
+    header p { margin: 2px 0 0; color: var(--muted); }
+    .bar { display: flex; gap: 8px; flex-wrap: wrap; align-items: center; margin: 18px 0; }
+    .chip { border: 1px solid var(--line); background: var(--card); border-radius: 999px; padding: 7px 13px; font: 600 .86rem "Inter"; cursor: pointer; color: var(--ink); }
+    .chip.on { background: var(--green); color: #fff; border-color: var(--green); }
+    .chip.tacc.on { background: var(--brown); border-color: var(--brown); }
+    .bar input { margin-left: auto; padding: 9px 14px; border: 1px solid var(--line); border-radius: 999px; font: inherit; min-width: 200px; background: var(--card); }
+    @media (max-width: 640px) { .bar input { margin-left: 0; width: 100%; } }
+    .list { display: grid; grid-template-columns: repeat(auto-fill, minmax(280px, 1fr)); gap: 12px; }
+    .p { background: var(--card); border: 1px solid var(--line); border-radius: 16px; padding: 14px; display: grid; grid-template-columns: 54px 1fr; gap: 12px; }
+    .p .e { width: 54px; height: 54px; border-radius: 14px; background: var(--green-soft); display: grid; place-items: center; font-size: 1.7rem; }
+    .p h3 { margin: 0; font-size: .98rem; }
+    .p .k { font-size: .82rem; color: var(--muted); }
+    .badge { font-size: .68rem; font-weight: 700; padding: 2px 7px; border-radius: 999px; background: #f3e4d2; color: var(--brown); margin-left: 4px; }
+    .grams { grid-column: 1 / -1; display: flex; gap: 6px; flex-wrap: wrap; align-items: center; }
+    .grams button { border: 1px solid var(--line); background: #fff; border-radius: 9px; padding: 6px 9px; font: 600 .8rem "Inter"; cursor: pointer; }
+    .grams button.on { background: var(--ink); color: #fff; border-color: var(--ink); }
+    .grams .sum { margin-left: auto; font-weight: 700; }
+    .add { grid-column: 1 / -1; border: 0; border-radius: 10px; background: var(--green); color: #fff; padding: 9px; font: 700 .88rem "Inter"; cursor: pointer; }
+    .cartbar { position: fixed; left: 50%; transform: translateX(-50%); bottom: 16px; width: min(560px, 100% - 32px); border: 0; border-radius: 16px; background: #1fa855; color: #fff; padding: 15px 18px; font: 800 1rem "Inter"; display: flex; justify-content: space-between; z-index: 30; text-decoration: none; }
+    .cartbar[hidden] { display: none; }
+    .lines { margin: 18px 0 0; background: var(--card); border: 1px solid var(--line); border-radius: 16px; padding: 14px; }
+    .lines[hidden] { display: none; }
+    .lines div { display: flex; justify-content: space-between; padding: 6px 0; border-bottom: 1px dashed var(--line); font-size: .9rem; }
+    .lines button { border: 0; background: none; cursor: pointer; color: var(--muted); }
+    .sheet-fab { bottom: 86px; }
+  </style>
+</head>
+<body>
+  <header class="wrap"><h1 class="logo">🌾 Grano Verde</h1><p>Dietética · Almacén natural · Sin TACC</p></header>
+  <main class="wrap">
+    <div class="bar" id="bar"></div>
+    <div class="list" id="list"></div>
+    <div class="lines" id="lines" hidden></div>
+  </main>
+  <a class="cartbar" id="cartbar" hidden target="_blank" rel="noopener"><span id="cc"></span><span id="ct"></span></a>
+
+  <script src="../demo.js"></script>
+  <script>
+    const $ = (id) => document.getElementById(id);
+    // Precio por kilo, como lo carga el dueño en la planilla.
+    const P = [
+      ["Frutos secos", "🥜", "Almendras", 19800, true], ["Frutos secos", "🌰", "Nueces mariposa", 16500, true], ["Frutos secos", "🥜", "Maní tostado sin sal", 5200, true],
+      ["Frutos secos", "🍇", "Pasas de uva", 7900, true], ["Frutos secos", "🥥", "Mix tropical", 13900, false],
+      ["Semillas", "🌻", "Semillas de girasol", 6400, true], ["Semillas", "🫘", "Chía", 9800, true], ["Semillas", "⚫", "Lino", 4300, true],
+      ["Harinas y cereales", "🌾", "Avena arrollada", 3600, false], ["Harinas y cereales", "🍚", "Harina de almendras", 24000, true], ["Harinas y cereales", "🥣", "Granola casera", 8900, false],
+      ["Legumbres", "🫛", "Lentejas", 3900, true], ["Legumbres", "🫘", "Garbanzos", 4200, true],
+      ["Especias", "🌶️", "Pimentón dulce", 12000, true], ["Especias", "🧂", "Sal marina", 2800, true],
+    ].map(([cat, e, n, kg, tacc]) => ({ cat, e, n, kg, tacc }));
+    const GR = [100, 250, 500, 1000];
+    const pick = P.map(() => 250), cart = [];
+    let cat = "Todo", onlyTacc = false, q = "";
+    const g = (x) => (x >= 1000 ? `${x / 1000} kg` : `${x} g`);
+
+    function renderBar() {
+      $("bar").innerHTML = ["Todo", ...new Set(P.map((p) => p.cat))].map((c) => `<button class="chip ${c === cat ? "on" : ""}" data-cat="${c}">${c}</button>`).join("") +
+        `<button class="chip tacc ${onlyTacc ? "on" : ""}" data-tacc>🌾 Sin TACC</button><input id="q" type="search" placeholder="Buscar…" aria-label="Buscar" value="${q}">`;
+      $("q").oninput = (e) => { q = e.target.value.toLowerCase(); renderList(); };
+    }
+    function renderList() {
+      $("list").innerHTML = P.map((p, i) => (cat !== "Todo" && p.cat !== cat) || (onlyTacc && !p.tacc) || !p.n.toLowerCase().includes(q) ? "" : `
+        <div class="p"><span class="e">${p.e}</span><div><h3>${p.n}${p.tacc ? '<span class="badge">Sin TACC</span>' : ""}</h3><span class="k">${pesos(p.kg)} el kilo</span></div>
+          <div class="grams">${GR.map((x) => `<button class="${pick[i] === x ? "on" : ""}" data-i="${i}" data-g="${x}">${g(x)}</button>`).join("")}<span class="sum">${pesos((p.kg * pick[i]) / 1000)}</span></div>
+          <button class="add" data-add="${i}">Agregar ${g(pick[i])}</button></div>`).join("");
+    }
+    function renderCart() {
+      const total = cart.reduce((a, c) => a + (P[c.i].kg * c.g) / 1000, 0);
+      $("lines").hidden = $("cartbar").hidden = !cart.length;
+      $("lines").innerHTML = "<b>Tu pedido</b>" + cart.map((c, k) => `<div><span>${g(c.g)} de ${P[c.i].n}</span><span>${pesos((P[c.i].kg * c.g) / 1000)} <button data-rm="${k}" aria-label="Quitar">✕</button></span></div>`).join("");
+      $("cc").textContent = `Pedir por WhatsApp (${cart.length})`; $("ct").textContent = pesos(total);
+      $("cartbar").href = "https://wa.me/?text=" + encodeURIComponent(["Hola Grano Verde! Quiero pedir:", ...cart.map((c) => `• ${g(c.g)} de ${P[c.i].n} — ${pesos((P[c.i].kg * c.g) / 1000)}`), `Total aprox.: ${pesos(total)}`, "¿Lo paso a buscar o me lo mandan?"].join("\n"));
+    }
+    $("bar").onclick = (e) => { let el; if ((el = e.target.closest("[data-cat]"))) { cat = el.dataset.cat; renderBar(); renderList(); } if (e.target.closest("[data-tacc]")) { onlyTacc = !onlyTacc; renderBar(); renderList(); } };
+    $("list").onclick = (e) => { let el; if ((el = e.target.closest("[data-g]"))) { pick[+el.dataset.i] = +el.dataset.g; renderList(); } if ((el = e.target.closest("[data-add]"))) { const i = +el.dataset.add, ex = cart.find((c) => c.i === i); ex ? (ex.g += pick[i]) : cart.push({ i, g: pick[i] }); renderCart(); } };
+    $("lines").onclick = (e) => { const el = e.target.closest("[data-rm]"); if (el) { cart.splice(+el.dataset.rm, 1); renderCart(); } };
+    renderBar(); renderList(); renderCart();
+
+    sheetViewer({
+      title: "Precios por kilo · Grano Verde",
+      note: "El dueño solo actualiza el precio por kilo: la web calcula sola cuánto salen 100 g, 250 g o medio kilo.",
+      columns: ["Categoría", "Producto", "Precio x kg", "Sin TACC"],
+      rows: P.map((p) => [p.cat, p.n, p.kg, p.tacc ? "Sí" : "No"]),
+    });
+  </script>
+</body>
+</html>
