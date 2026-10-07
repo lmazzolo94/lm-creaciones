@@ -1,8 +1,8 @@
 // Datos de contacto de LM Creaciones: se completan acá y se usan en todas las
 // páginas (portafolio y demos). Vacío = el botón se oculta.
 const CONTACTO = {
-  whatsapp: "", // con código de país, sin + ni espacios: "5491112345678"
-  email: "",
+  whatsapp: "5491139339282", // con código de país, sin + ni espacios
+  email: "l.mazzolo94@gmail.com",
   instagram: "", // usuario sin @
 };
 
