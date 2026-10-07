@@ -1,0 +1,156 @@
+<!doctype html>
+<html lang="es-AR">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Centro Odontológico Sonríe · Demo LM Creaciones</title>
+  <meta name="robots" content="noindex">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Manrope:wght@700;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="../demo.css">
+  <style>
+    :root { --bg: #f4f9fb; --card: #fff; --line: #dfeaf0; --ink: #0f2a3a; --muted: #5f7686; --blue: #1478b8; --blue-soft: #e3f1fa; --mint: #20b38a; --mint-soft: #e2f6ef; --amber: #c27a0e; }
+    * { box-sizing: border-box; }
+    body { margin: 0; font-family: "Inter", system-ui, sans-serif; background: var(--bg); color: var(--ink); }
+    .wrap { width: min(960px, 100% - 32px); margin-inline: auto; }
+    header { background: #fff; border-bottom: 1px solid var(--line); }
+    header .wrap { display: flex; align-items: center; justify-content: space-between; gap: 12px; padding: 16px 0; flex-wrap: wrap; }
+    .logo { font-family: "Manrope", sans-serif; font-weight: 800; font-size: 1.3rem; display: flex; gap: 10px; align-items: center; }
+    .logo i { font-style: normal; width: 38px; height: 38px; border-radius: 12px; background: var(--blue); color: #fff; display: grid; place-items: center; }
+    .logo small { display: block; font: 500 .78rem "Inter", sans-serif; color: var(--muted); }
+    .switch { display: inline-flex; background: var(--bg); border: 1px solid var(--line); border-radius: 999px; padding: 4px; }
+    .switch button { border: 0; background: none; color: var(--muted); padding: 8px 14px; border-radius: 999px; font: 600 .85rem "Inter", sans-serif; cursor: pointer; }
+    .switch button.on { background: var(--blue); color: #fff; }
+    h1 { font-family: "Manrope", sans-serif; font-size: clamp(1.6rem, 4vw, 2.2rem); margin: 28px 0 6px; }
+    .lead { color: var(--muted); margin: 0 0 18px; }
+    .steps { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; padding-bottom: 60px; }
+    @media (max-width: 760px) { .steps { grid-template-columns: 1fr; } }
+    .box { background: var(--card); border: 1px solid var(--line); border-radius: 16px; padding: 18px; }
+    .box h3 { margin: 0 0 12px; font-size: 1rem; }
+    .num { display: inline-grid; place-items: center; width: 24px; height: 24px; background: var(--blue); color: #fff; border-radius: 50%; font-size: .78rem; margin-right: 6px; }
+    .pros { display: grid; gap: 8px; }
+    .pro { display: flex; gap: 12px; align-items: center; padding: 10px; border: 1.5px solid var(--line); border-radius: 12px; background: #fff; cursor: pointer; text-align: left; font: inherit; color: inherit; }
+    .pro.on { border-color: var(--blue); background: var(--blue-soft); }
+    .pro .av { width: 42px; height: 42px; border-radius: 50%; display: grid; place-items: center; font-size: 1.3rem; background: var(--blue-soft); flex: none; }
+    .pro small { display: block; color: var(--muted); }
+    label { display: block; font-size: .8rem; font-weight: 600; color: var(--muted); margin: 12px 0 4px; }
+    select, input { width: 100%; padding: 10px 12px; border: 1px solid var(--line); border-radius: 10px; font: inherit; background: #fff; }
+    .cal { display: grid; grid-template-columns: repeat(7, 1fr); gap: 4px; text-align: center; font-size: .82rem; }
+    .cal .h { color: var(--muted); font-weight: 600; padding: 4px 0; }
+    .cal button { border: 0; background: var(--blue-soft); color: var(--ink); padding: 9px 0; border-radius: 9px; font: 600 .85rem "Inter", sans-serif; cursor: pointer; }
+    .cal button.on { background: var(--blue); color: #fff; }
+    .cal button:disabled { background: transparent; color: #b5c3cc; cursor: default; }
+    .slots { display: grid; grid-template-columns: repeat(auto-fill, minmax(72px, 1fr)); gap: 6px; margin-top: 14px; }
+    .slots button { border: 1px solid var(--line); background: #fff; padding: 9px 0; border-radius: 9px; font: 600 .85rem "Inter", sans-serif; cursor: pointer; }
+    .slots button.on { background: var(--mint); color: #fff; border-color: var(--mint); }
+    .slots button:disabled { opacity: .35; text-decoration: line-through; cursor: default; }
+    .cta { width: 100%; margin-top: 16px; padding: 14px; border: 0; border-radius: 12px; background: var(--blue); color: #fff; font: 700 1rem "Inter", sans-serif; cursor: pointer; }
+    .cta:disabled { opacity: .4; cursor: default; }
+    .done { text-align: center; padding: 30px 18px; }
+    .done .big { font-size: 3rem; }
+    .remind { margin-top: 14px; background: var(--mint-soft); border: 1px solid #bfe9da; border-radius: 12px; padding: 12px; font-size: .9rem; text-align: left; white-space: pre-wrap; }
+    .agenda { display: grid; gap: 8px; padding-bottom: 60px; }
+    .ap { display: grid; grid-template-columns: 64px 1fr auto; gap: 12px; align-items: center; background: #fff; border: 1px solid var(--line); border-radius: 12px; padding: 12px 14px; }
+    .ap .t { font-family: "Manrope", sans-serif; font-weight: 800; font-size: 1.05rem; }
+    .ap small { color: var(--muted); display: block; }
+    .tag { font-size: .74rem; font-weight: 700; padding: 4px 10px; border-radius: 999px; white-space: nowrap; }
+    .tag.c { background: var(--mint-soft); color: #15805f; }
+    .tag.p { background: #fff3dd; color: var(--amber); }
+    .tag.a { background: #fde8e8; color: #c43c3c; }
+    .tag.x { background: var(--blue-soft); color: var(--blue); }
+    .kpis { display: grid; grid-template-columns: repeat(4, 1fr); gap: 10px; margin-bottom: 14px; }
+    @media (max-width: 700px) { .kpis { grid-template-columns: 1fr 1fr; } .ap { grid-template-columns: 54px 1fr; } .ap .tag { grid-column: 2; justify-self: start; } }
+    .kpi { background: #fff; border: 1px solid var(--line); border-radius: 12px; padding: 12px; }
+    .kpi small { color: var(--muted); } .kpi b { display: block; font-size: 1.4rem; }
+    .sheet-fab { display: none; }
+  </style>
+</head>
+<body>
+  <header>
+    <div class="wrap">
+      <div class="logo"><i>🦷</i><div>Sonríe<small>Centro odontológico</small></div></div>
+      <div class="switch" id="switch"><button data-v="paciente" class="on">Sacar turno</button><button data-v="agenda">Agenda del consultorio</button></div>
+    </div>
+  </header>
+  <main class="wrap" id="main"></main>
+
+  <script src="../demo.js"></script>
+  <script>
+    const $ = (id) => document.getElementById(id);
+    const PROS = [
+      { name: "Dra. Laura Méndez", spec: "Odontología general", icon: "🦷", days: [1, 3, 5] },
+      { name: "Dr. Pablo Ferreyra", spec: "Ortodoncia", icon: "😁", days: [2, 4] },
+      { name: "Lic. Ana Quiroga", spec: "Higiene y limpieza", icon: "✨", days: [1, 2, 3, 4, 5] },
+    ];
+    const OS = ["Particular", "OSDE", "Swiss Medical", "Galeno", "IOMA", "PAMI", "Otra"];
+    const DOW = ["Do", "Lu", "Ma", "Mi", "Ju", "Vi", "Sá"];
+    const st = { view: "paciente", pro: 0, date: null, time: null, done: null };
+    const today = new Date(); today.setHours(0, 0, 0, 0);
+    const busy = (d, t, p) => (((d.getDate() * 37 + parseInt(t) * 11 + parseInt(t.slice(3)) + p * 5) * 9301 + 49297) % 233280) / 233280 < 0.42;
+    const long = (d) => d.toLocaleDateString("es-AR", { weekday: "long", day: "numeric", month: "long" });
+
+    function paciente() {
+      if (st.done) return `<div class="box done"><div class="big">✅</div><h1 style="margin:6px 0">¡Turno confirmado!</h1><p class="lead">${st.done.text}</p>
+        <div class="remind"><b>📲 Recordatorio que le llega al paciente el día anterior:</b>\n\n${st.done.remind}</div>
+        <button class="cta" id="again">Sacar otro turno</button></div>`;
+      const p = PROS[st.pro];
+      const first = new Date(today), cells = [];
+      for (let i = 0; i < 21; i++) { const d = new Date(first); d.setDate(d.getDate() + i); cells.push(d); }
+      const pad = cells[0].getDay();
+      const times = []; for (let h = 9; h < 18; h++) for (const m of ["00", "30"]) if (h !== 13) times.push(`${String(h).padStart(2, "0")}:${m}`);
+      return `<h1>Sacá tu turno online</h1><p class="lead">Elegí profesional, día y horario. Te llega la confirmación y un recordatorio por WhatsApp.</p>
+      <div class="steps">
+        <div class="box"><h3><span class="num">1</span>Profesional</h3>
+          <div class="pros">${PROS.map((x, i) => `<button class="pro ${i === st.pro ? "on" : ""}" data-pro="${i}"><span class="av">${x.icon}</span><span><b>${x.name}</b><small>${x.spec} · ${x.days.map((d) => DOW[d]).join(", ")}</small></span></button>`).join("")}</div>
+          <label for="os">Obra social / prepaga</label><select id="os">${OS.map((o) => `<option>${o}</option>`).join("")}</select>
+          <label for="motivo">Motivo de la consulta</label><select id="motivo"><option>Control</option><option>Dolor / urgencia</option><option>Limpieza</option><option>Arreglo de caries</option><option>Consulta de ortodoncia</option></select>
+        </div>
+        <div class="box"><h3><span class="num">2</span>Día y horario</h3>
+          <div class="cal">${DOW.map((d) => `<span class="h">${d}</span>`).join("")}${"<span></span>".repeat(pad)}${cells.map((d) => { const ok = p.days.includes(d.getDay()); return `<button data-date="${d.toISOString()}" class="${st.date && +st.date === +d ? "on" : ""}" ${ok ? "" : "disabled"}>${d.getDate()}</button>`; }).join("")}</div>
+          ${st.date ? `<div class="slots">${times.map((t) => { const at = new Date(st.date); at.setHours(+t.slice(0, 2), +t.slice(3)); const dis = at <= new Date() || busy(st.date, t, st.pro); return `<button data-time="${t}" class="${t === st.time ? "on" : ""}" ${dis ? "disabled" : ""}>${t}</button>`; }).join("")}</div>` : '<p class="lead" style="margin-top:14px">Elegí un día del calendario.</p>'}
+          <label for="name">Nombre y apellido</label><input id="name" placeholder="Como figura en tu DNI">
+          <label for="tel">Celular</label><input id="tel" inputmode="tel" placeholder="11 2345 6789">
+          <button class="cta" id="confirm" ${st.date && st.time ? "" : "disabled"}>Confirmar turno${st.time ? ` · ${st.time}` : ""}</button>
+        </div>
+      </div>`;
+    }
+
+    function agenda() {
+      const rows = [
+        ["09:00", "Romina Acosta", "Control", "OSDE", "c"], ["09:30", "Héctor Giménez", "Dolor / urgencia", "PAMI", "c"],
+        ["10:30", "Sofía Benítez", "Limpieza", "Particular", "p"], ["11:00", "Carlos Ibarra", "Arreglo de caries", "IOMA", "a"],
+        ["12:00", "Micaela Ortiz", "Control", "Galeno", "c"], ["15:00", "Federico Luna", "Consulta de ortodoncia", "Swiss Medical", "p"],
+        ["16:30", "Julieta Ramos", "Limpieza", "OSDE", "x"],
+      ];
+      const L = { c: "Confirmó ✓", p: "Recordatorio enviado", a: "Canceló · se liberó", x: "Turno nuevo (online)" };
+      return `<h1>Agenda de hoy</h1><p class="lead">${long(today)} · Dra. Laura Méndez</p>
+      <div class="kpis"><div class="kpi"><small>Turnos</small><b>7</b></div><div class="kpi"><small>Confirmados</small><b style="color:#15805f">3</b></div><div class="kpi"><small>Sin responder</small><b style="color:var(--amber)">2</b></div><div class="kpi"><small>Ausencias evitadas</small><b style="color:var(--blue)">1</b></div></div>
+      <div class="agenda">${rows.map(([t, n, m, o, s]) => `<div class="ap"><span class="t">${t}</span><div><b>${n}</b><small>${m} · ${o}</small></div><span class="tag ${s}">${L[s]}</span></div>`).join("")}</div>`;
+    }
+
+    function render() {
+      $("main").innerHTML = st.view === "paciente" ? paciente() : agenda();
+      document.querySelectorAll("#switch button").forEach((b) => b.classList.toggle("on", b.dataset.v === st.view));
+    }
+    $("switch").onclick = (e) => { const b = e.target.closest("button"); if (b) { st.view = b.dataset.v; render(); } };
+    $("main").onclick = (e) => {
+      const keep = () => ({ name: $("name")?.value, tel: $("tel")?.value, os: $("os")?.value, motivo: $("motivo")?.value });
+      const restore = (v) => { if (!$("name")) return; $("name").value = v.name || ""; $("tel").value = v.tel || ""; $("os").value = v.os; $("motivo").value = v.motivo; };
+      const p = e.target.closest("[data-pro]"); if (p) { const v = keep(); st.pro = +p.dataset.pro; st.date = st.time = null; render(); return restore(v); }
+      const d = e.target.closest("[data-date]"); if (d && !d.disabled) { const v = keep(); st.date = new Date(d.dataset.date); st.time = null; render(); return restore(v); }
+      const t = e.target.closest("[data-time]"); if (t && !t.disabled) { const v = keep(); st.time = t.dataset.time; render(); return restore(v); }
+      if (e.target.closest("#confirm")) {
+        const name = $("name").value.trim() || "Paciente", pro = PROS[st.pro];
+        st.done = {
+          text: `${name}, te esperamos el ${long(st.date)} a las ${st.time} con ${pro.name}.`,
+          remind: `Hola ${name.split(" ")[0]}! Te recordamos tu turno de mañana a las ${st.time} con ${pro.name} en Sonríe 🦷\nRespondé 1 para CONFIRMAR o 2 para CANCELAR.`,
+        };
+        return render();
+      }
+      if (e.target.closest("#again")) { st.done = null; st.date = st.time = null; return render(); }
+    };
+    render();
+  </script>
+</body>
+</html>

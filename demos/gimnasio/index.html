@@ -1,0 +1,149 @@
+<!doctype html>
+<html lang="es-AR">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Pulso Estudio · Demo LM Creaciones</title>
+  <meta name="robots" content="noindex">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=Archivo+Black&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="../demo.css">
+  <style>
+    :root { --bg: #0e0f12; --card: #17191e; --line: #262932; --lime: #c6f432; --text: #f2f3f5; --muted: #9096a3; --red: #ff5d5d; --amber: #ffb547; --green: #42d392; }
+    * { box-sizing: border-box; }
+    body { margin: 0; font-family: "Inter", system-ui, sans-serif; background: var(--bg); color: var(--text); }
+    .wrap { width: min(1000px, 100% - 32px); margin-inline: auto; }
+    header { padding: 26px 0 0; }
+    .logo { font-family: "Archivo Black", sans-serif; font-size: 2rem; letter-spacing: .02em; }
+    .logo span { color: var(--lime); }
+    .sub { color: var(--muted); margin: 4px 0 18px; }
+    .switch { display: inline-flex; background: var(--card); border: 1px solid var(--line); border-radius: 999px; padding: 4px; }
+    .switch button { border: 0; background: none; color: var(--muted); padding: 9px 16px; border-radius: 999px; font: 700 .9rem "Inter", sans-serif; cursor: pointer; }
+    .switch button.on { background: var(--lime); color: #111; }
+    h2 { font-size: 1.15rem; margin: 28px 0 12px; }
+    .days { display: flex; gap: 8px; overflow-x: auto; scrollbar-width: none; }
+    .day { flex: none; padding: 10px 14px; border-radius: 12px; border: 1px solid var(--line); background: var(--card); color: var(--text); font: 600 .9rem "Inter", sans-serif; cursor: pointer; text-transform: capitalize; }
+    .day.on { border-color: var(--lime); color: var(--lime); }
+    .classes { display: grid; gap: 10px; margin-top: 14px; padding-bottom: 80px; }
+    .cls { display: grid; grid-template-columns: 70px 1fr auto; gap: 14px; align-items: center; background: var(--card); border: 1px solid var(--line); border-radius: 14px; padding: 14px; }
+    .cls .time { font-family: "Archivo Black", sans-serif; font-size: 1.1rem; }
+    .cls b { display: block; }
+    .cls small { color: var(--muted); }
+    .bar { height: 5px; background: var(--line); border-radius: 9px; margin-top: 8px; overflow: hidden; max-width: 220px; }
+    .bar i { display: block; height: 100%; background: var(--lime); }
+    .cls button { border: 0; border-radius: 10px; padding: 10px 14px; font: 700 .85rem "Inter", sans-serif; cursor: pointer; background: var(--lime); color: #111; white-space: nowrap; }
+    .cls button.in { background: transparent; color: var(--lime); border: 1px solid var(--lime); }
+    .cls button:disabled { background: var(--line); color: var(--muted); cursor: default; }
+    .kpis { display: grid; grid-template-columns: repeat(4, 1fr); gap: 10px; margin-top: 18px; }
+    @media (max-width: 700px) { .kpis { grid-template-columns: 1fr 1fr; } .cls { grid-template-columns: 56px 1fr; } .cls button { grid-column: 1 / -1; } }
+    .kpi { background: var(--card); border: 1px solid var(--line); border-radius: 14px; padding: 14px; }
+    .kpi small { color: var(--muted); }
+    .kpi b { display: block; font-size: 1.5rem; margin-top: 4px; }
+    .filters { display: flex; gap: 8px; flex-wrap: wrap; margin: 16px 0 10px; }
+    .chip { border: 1px solid var(--line); background: var(--card); color: var(--text); border-radius: 999px; padding: 7px 13px; font: 600 .82rem "Inter", sans-serif; cursor: pointer; }
+    .chip.on { background: var(--text); color: #111; }
+    .members { display: grid; gap: 8px; padding-bottom: 80px; }
+    .mem { display: flex; align-items: center; gap: 12px; background: var(--card); border: 1px solid var(--line); border-radius: 14px; padding: 12px 14px; flex-wrap: wrap; }
+    .av { width: 40px; height: 40px; border-radius: 50%; display: grid; place-items: center; font-weight: 800; color: #111; flex: none; }
+    .mem .who { flex: 1; min-width: 150px; }
+    .mem small { color: var(--muted); display: block; }
+    .st { font-size: .75rem; font-weight: 800; padding: 4px 10px; border-radius: 999px; white-space: nowrap; }
+    .st.ok { background: rgba(66,211,146,.15); color: var(--green); }
+    .st.soon { background: rgba(255,181,71,.15); color: var(--amber); }
+    .st.late { background: rgba(255,93,93,.15); color: var(--red); }
+    .acts { display: flex; gap: 6px; }
+    .acts button, .acts a { border: 1px solid var(--line); background: #1f2229; color: var(--text); border-radius: 9px; padding: 8px 11px; font: 600 .8rem "Inter", sans-serif; cursor: pointer; text-decoration: none; }
+    .acts a { background: #1d3b2b; border-color: #285c40; }
+    .toast { position: fixed; bottom: 20px; left: 50%; transform: translateX(-50%); background: var(--lime); color: #111; padding: 12px 18px; border-radius: 12px; font-weight: 700; z-index: 70; opacity: 0; transition: opacity .2s; pointer-events: none; }
+    .toast.show { opacity: 1; }
+    .sheet-fab { display: none; }
+  </style>
+</head>
+<body>
+  <header class="wrap">
+    <div class="logo">PULSO<span>.</span></div>
+    <p class="sub">Estudio de funcional, pilates y yoga</p>
+    <div class="switch" id="switch"><button data-v="socio" class="on">📱 Vista del socio</button><button data-v="duenio">🧑‍💼 Vista del dueño</button></div>
+  </header>
+  <main class="wrap" id="main"></main>
+  <div class="toast" id="toast"></div>
+
+  <script src="../demo.js"></script>
+  <script>
+    const $ = (id) => document.getElementById(id);
+    const TYPES = { Funcional: "#c6f432", Pilates: "#7fd1ff", Yoga: "#ffb3d1", Spinning: "#ffb547" };
+    const SCHEDULE = [
+      ["08:00", "Funcional", "Caro", 15], ["09:30", "Pilates", "Sofi", 8], ["12:30", "Funcional", "Leo", 15],
+      ["18:00", "Spinning", "Leo", 20], ["19:00", "Funcional", "Caro", 15], ["19:30", "Yoga", "Meli", 12], ["20:30", "Pilates", "Sofi", 8],
+    ];
+    const seeded = (n) => ((n * 9301 + 49297) % 233280) / 233280;
+    const days = [...Array(6)].map((_, i) => { const d = new Date(); d.setDate(d.getDate() + i); return d; }).filter((d) => d.getDay() !== 0);
+    const booked = new Set();
+    let view = "socio", day = 0, filter = "todos";
+
+    const today = new Date(); today.setHours(0, 0, 0, 0);
+    const addDays = (n) => { const d = new Date(today); d.setDate(d.getDate() + n); return d; };
+    const MEMBERS = [
+      ["Lucía Fernández", "Pase libre", 32000, 12], ["Martín Gómez", "3 veces x semana", 26000, 2], ["Valentina Ruiz", "Pilates 2x", 24000, -4],
+      ["Diego Sosa", "Pase libre", 32000, 20], ["Camila Torres", "Yoga 2x", 22000, 1], ["Joaquín Díaz", "3 veces x semana", 26000, -11],
+      ["Florencia Paz", "Pase libre", 32000, 6], ["Nicolás Romero", "Funcional 2x", 22000, -1], ["Agustina Molina", "Pilates 2x", 24000, 25],
+      ["Tomás Herrera", "Pase libre", 32000, 3],
+    ].map(([name, plan, fee, due], i) => ({ name, plan, fee, due: addDays(due), color: Object.values(TYPES)[i % 4] }));
+    const status = (m) => { const d = Math.round((m.due - today) / 864e5); return d < 0 ? "late" : d <= 3 ? "soon" : "ok"; };
+    const fmt = (d) => d.toLocaleDateString("es-AR", { day: "numeric", month: "short" });
+
+    function toast(t) { const el = $("toast"); el.textContent = t; el.classList.add("show"); clearTimeout(el._h); el._h = setTimeout(() => el.classList.remove("show"), 2200); }
+
+    function socio() {
+      const d = days[day];
+      return `<h2>Reservá tu lugar</h2>
+      <div class="days">${days.map((x, i) => `<button class="day ${i === day ? "on" : ""}" data-day="${i}">${i === 0 ? "Hoy" : x.toLocaleDateString("es-AR", { weekday: "short", day: "numeric" })}</button>`).join("")}</div>
+      <div class="classes">${SCHEDULE.map(([time, type, coach, cap], k) => {
+        const key = d.toDateString() + time; const mine = booked.has(key);
+        let taken = Math.floor(seeded(d.getDate() * 10 + k) * (cap + 1)); if (mine) taken = Math.min(cap, taken + 1);
+        const past = day === 0 && +time.slice(0, 2) <= new Date().getHours();
+        const full = taken >= cap && !mine;
+        return `<div class="cls"><span class="time">${time}</span><div><b style="color:${TYPES[type]}">${type}</b><small>con ${coach} · ${past ? "ya empezó" : full ? "Sin lugares" : `quedan ${cap - taken} de ${cap} lugares`}</small><div class="bar"><i style="width:${(taken / cap) * 100}%"></i></div></div>
+          <button data-book="${key}" class="${mine ? "in" : ""}" ${past || full ? "disabled" : ""}>${mine ? "✓ Reservado · cancelar" : full ? "Completo" : "Reservar"}</button></div>`;
+      }).join("")}</div>`;
+    }
+
+    function duenio() {
+      const c = { ok: 0, soon: 0, late: 0 }; MEMBERS.forEach((m) => c[status(m)]++);
+      const debt = MEMBERS.filter((m) => status(m) === "late").reduce((a, m) => a + m.fee, 0);
+      const list = MEMBERS.filter((m) => filter === "todos" || status(m) === filter).sort((a, b) => a.due - b.due);
+      return `<div class="kpis">
+          <div class="kpi"><small>Socios activos</small><b>${MEMBERS.length}</b></div>
+          <div class="kpi"><small>Al día</small><b style="color:var(--green)">${c.ok}</b></div>
+          <div class="kpi"><small>Vencen esta semana</small><b style="color:var(--amber)">${c.soon}</b></div>
+          <div class="kpi"><small>Cuotas vencidas</small><b style="color:var(--red)">${c.late} · ${pesos(debt)}</b></div>
+        </div>
+        <div class="filters">${[["todos", "Todos"], ["late", "Vencidas"], ["soon", "Por vencer"], ["ok", "Al día"]].map(([k, l]) => `<button class="chip ${filter === k ? "on" : ""}" data-f="${k}">${l}</button>`).join("")}</div>
+        <div class="members">${list.map((m) => {
+          const s = status(m), i = MEMBERS.indexOf(m);
+          const msg = s === "late" ? `Hola ${m.name.split(" ")[0]}! Te escribimos de Pulso 💪 Tu cuota (${m.plan}, ${pesos(m.fee)}) venció el ${fmt(m.due)}. ¿Te paso el alias para transferir?` : `Hola ${m.name.split(" ")[0]}! Te recordamos que tu cuota de Pulso vence el ${fmt(m.due)} (${pesos(m.fee)}). ¡Gracias!`;
+          return `<div class="mem"><span class="av" style="background:${m.color}">${m.name[0]}</span>
+            <div class="who"><b>${m.name}</b><small>${m.plan} · ${pesos(m.fee)}</small></div>
+            <span class="st ${s}">${{ ok: "Al día · vence " + fmt(m.due), soon: "Vence el " + fmt(m.due), late: "Vencida el " + fmt(m.due) }[s]}</span>
+            <div class="acts">${s !== "ok" ? `<a href="https://wa.me/?text=${encodeURIComponent(msg)}" target="_blank" rel="noopener">💬 Recordar</a>` : ""}<button data-pay="${i}">💵 Pagó</button></div></div>`;
+        }).join("")}</div>`;
+    }
+
+    function render() {
+      $("main").innerHTML = view === "socio" ? socio() : duenio();
+      document.querySelectorAll("#switch button").forEach((b) => b.classList.toggle("on", b.dataset.v === view));
+    }
+    $("switch").onclick = (e) => { const b = e.target.closest("button"); if (b) { view = b.dataset.v; render(); } };
+    $("main").onclick = (e) => {
+      const d = e.target.closest("[data-day]"); if (d) { day = +d.dataset.day; return render(); }
+      const b = e.target.closest("[data-book]");
+      if (b && !b.disabled) { const k = b.dataset.book; booked.has(k) ? (booked.delete(k), toast("Reserva cancelada")) : (booked.add(k), toast("¡Listo! Lugar reservado 💪")); return render(); }
+      const f = e.target.closest("[data-f]"); if (f) { filter = f.dataset.f; return render(); }
+      const p = e.target.closest("[data-pay]");
+      if (p) { const m = MEMBERS[+p.dataset.pay]; const n = new Date(Math.max(m.due, today)); n.setMonth(n.getMonth() + 1); m.due = n; toast(`Pago registrado: ${m.name.split(" ")[0]} al día hasta el ${fmt(n)}`); return render(); }
+    };
+    render();
+  </script>
+</body>
+</html>
