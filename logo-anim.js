@@ -45,10 +45,11 @@
     word.textContent = WORD.slice(0, typed);
     const x0 = +open.getAttribute("x");
     const wOpen = open.getComputedTextLength();
-    word.setAttribute("x", x0 + wOpen - 6);
-    const wWord = typed ? word.getComputedTextLength() + 6 : 0;
-    close.setAttribute("x", x0 + wOpen + wWord + (typed ? 4 : 2));
-    caret.setAttribute("x", x0 + wOpen + wWord + (typed ? 2 : 0));
+    const wx = x0 + wOpen + 3;
+    word.setAttribute("x", wx);
+    const end = typed ? wx + word.getComputedTextLength() + 4 : x0 + wOpen;
+    caret.setAttribute("x", end);
+    close.setAttribute("x", end + (typed ? 3 : 2));
   }
   const wait = (ms) => new Promise((r) => setTimeout(r, ms));
   async function loop() {
