@@ -1,0 +1,294 @@
+<!doctype html>
+<html lang="es-AR">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Maxikiosco El Faro · Demo LM Creaciones</title>
+  <meta name="robots" content="noindex">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=Rubik:wght@600;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="../demo.css">
+  <style>
+    :root { --bg: #f3f4f8; --card: #fff; --line: #e1e4ee; --ink: #141a2e; --muted: #626b84; --azul: #1f4fd8; --azul-soft: #e6edff; --amarillo: #ffc928; --rojo: #e0403a; --rojo-soft: #fde9e8; --verde: #18a058; --verde-soft: #e3f6ec; --naranja: #e98a12; --naranja-soft: #fff1dc; }
+    * { box-sizing: border-box; }
+    body { margin: 0; font-family: "Inter", system-ui, sans-serif; background: var(--bg); color: var(--ink); }
+    .app { display: grid; grid-template-columns: 230px 1fr; min-height: calc(100vh - 34px); }
+    aside { background: var(--ink); color: #c8cde0; padding: 18px 12px; display: flex; flex-direction: column; gap: 4px; }
+    .marca { font-family: "Rubik", sans-serif; font-weight: 800; color: #fff; font-size: 1.15rem; padding: 0 10px 4px; display: flex; gap: 8px; align-items: center; }
+    .marca i { font-style: normal; width: 34px; height: 34px; border-radius: 10px; background: var(--amarillo); display: grid; place-items: center; }
+    .turno-chip { margin: 6px 10px 14px; font-size: .78rem; background: #222a45; border-radius: 10px; padding: 8px 10px; }
+    .turno-chip b { color: #fff; display: block; }
+    .nav { border: 0; background: none; color: inherit; text-align: left; padding: 11px 12px; border-radius: 10px; font: 600 .93rem "Inter"; cursor: pointer; display: flex; gap: 10px; align-items: center; }
+    .nav.on { background: #26305a; color: #fff; }
+    .nav .n { margin-left: auto; color: #fff; border-radius: 999px; font-size: .72rem; padding: 1px 7px; }
+    .reset { margin-top: auto; border: 1px solid #2c3556; background: none; color: #8f97b5; border-radius: 10px; padding: 9px; font: 500 .8rem "Inter"; cursor: pointer; }
+    main { padding: 22px; min-width: 0; }
+    h1 { margin: 0 0 4px; font-size: 1.5rem; font-family: "Rubik", sans-serif; }
+    .sub { color: var(--muted); margin: 0 0 18px; font-size: .92rem; }
+    .box { background: var(--card); border: 1px solid var(--line); border-radius: 14px; padding: 16px; }
+    .kpis { display: grid; grid-template-columns: repeat(4, 1fr); gap: 12px; margin-bottom: 16px; }
+    .kpi { background: var(--card); border: 1px solid var(--line); border-radius: 14px; padding: 13px 14px; }
+    .kpi small { color: var(--muted); font-size: .8rem; }
+    .kpi b { display: block; font-size: 1.3rem; margin-top: 3px; }
+    .pos { display: grid; grid-template-columns: 1.5fr 1fr; gap: 16px; align-items: start; }
+    .scan { display: flex; gap: 8px; }
+    .scan input { flex: 1; padding: 12px 14px; border: 2px solid var(--line); border-radius: 12px; font: 600 1rem "Inter"; }
+    .scan input:focus { outline: none; border-color: var(--azul); }
+    .scan button, .cta { border: 0; border-radius: 12px; background: var(--azul); color: #fff; font: 700 .95rem "Inter"; padding: 12px 18px; cursor: pointer; }
+    .cta:disabled { opacity: .4; cursor: default; }
+    .cta.verde { background: var(--verde); }
+    .cta.full { width: 100%; padding: 14px; font-size: 1rem; }
+    .hint { font-size: .8rem; color: var(--muted); margin: 6px 0 12px; }
+    .rapidos { display: grid; grid-template-columns: repeat(auto-fill, minmax(118px, 1fr)); gap: 8px; }
+    .rap { border: 1px solid var(--line); background: #fbfcff; border-radius: 12px; padding: 10px; text-align: left; cursor: pointer; font: inherit; color: inherit; }
+    .rap:hover { border-color: var(--azul); }
+    .rap .e { font-size: 1.4rem; display: block; }
+    .rap b { display: block; font-size: .82rem; line-height: 1.2; margin-top: 2px; }
+    .rap span { font-size: .8rem; color: var(--muted); }
+    .rap:disabled { opacity: .4; }
+    .tl { display: flex; align-items: center; gap: 8px; padding: 8px 0; border-bottom: 1px dashed var(--line); font-size: .9rem; }
+    .tl .nm { flex: 1; }
+    .tl button { border: 1px solid var(--line); background: #fff; width: 26px; height: 26px; border-radius: 8px; cursor: pointer; }
+    .tt { display: flex; justify-content: space-between; font-size: 1.4rem; font-weight: 800; margin: 14px 0; }
+    .pays { display: grid; grid-template-columns: repeat(3, 1fr); gap: 6px; margin-bottom: 12px; }
+    .pays button { padding: 9px 4px; border: 1px solid var(--line); background: #fff; border-radius: 10px; font: 600 .82rem "Inter"; cursor: pointer; }
+    .pays button.on { background: var(--ink); color: #fff; border-color: var(--ink); }
+    table { width: 100%; border-collapse: collapse; font-size: .88rem; }
+    th { text-align: left; color: var(--muted); font-weight: 600; font-size: .78rem; padding: 8px; border-bottom: 1px solid var(--line); }
+    td { padding: 9px 8px; border-bottom: 1px solid var(--line); }
+    .tbl { overflow-x: auto; }
+    .pill { font-size: .74rem; font-weight: 700; padding: 3px 9px; border-radius: 999px; white-space: nowrap; display: inline-block; }
+    .pill.rojo { background: var(--rojo-soft); color: var(--rojo); }
+    .pill.nar { background: var(--naranja-soft); color: var(--naranja); }
+    .pill.verde { background: var(--verde-soft); color: var(--verde); }
+    .pill.azul { background: var(--azul-soft); color: var(--azul); }
+    .form { display: flex; gap: 10px; flex-wrap: wrap; align-items: end; margin-bottom: 14px; }
+    label { display: block; font-size: .78rem; font-weight: 600; color: var(--muted); }
+    select, .inp { display: block; margin-top: 4px; padding: 10px 12px; border: 1px solid var(--line); border-radius: 10px; font: inherit; background: #fff; min-width: 160px; }
+    .sube { color: var(--rojo); font-weight: 700; }
+    .prov { margin-bottom: 14px; }
+    .prov h3 { margin: 0 0 8px; font-size: 1rem; display: flex; justify-content: space-between; align-items: center; gap: 10px; flex-wrap: wrap; }
+    .wa { text-decoration: none; background: #1fa855; color: #fff; border-radius: 10px; padding: 7px 12px; font-size: .82rem; font-weight: 700; }
+    .row2 { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; }
+    .split { display: flex; justify-content: space-between; padding: 9px 0; border-bottom: 1px solid var(--line); font-size: .93rem; }
+    .split.big { font-weight: 800; font-size: 1.1rem; border: 0; }
+    .toast { position: fixed; bottom: 20px; left: 50%; transform: translateX(-50%); background: var(--ink); color: #fff; padding: 12px 18px; border-radius: 12px; font-weight: 600; z-index: 70; opacity: 0; transition: opacity .2s; pointer-events: none; max-width: 92vw; }
+    .toast.show { opacity: 1; }
+    .sheet-fab { display: none; }
+    @media (max-width: 900px) {
+      .app { grid-template-columns: 1fr; }
+      aside { flex-direction: row; overflow-x: auto; padding: 8px; gap: 4px; position: sticky; top: 34px; z-index: 20; }
+      .marca, .reset, .turno-chip { display: none; }
+      .nav { flex: none; padding: 9px 11px; font-size: .85rem; }
+      main { padding: 16px; }
+      .kpis { grid-template-columns: 1fr 1fr; }
+      .pos, .row2 { grid-template-columns: 1fr; }
+    }
+  </style>
+</head>
+<body>
+  <div class="app">
+    <aside>
+      <div class="marca"><i>🗼</i>El Faro</div>
+      <div class="turno-chip" id="turnochip"></div>
+      <button class="nav on" data-v="vender">🧾 Vender</button>
+      <button class="nav" data-v="aumentos">💲 Aumentos</button>
+      <button class="nav" data-v="vencimientos">⏰ Vencimientos <span class="n" id="nvenc" style="background:var(--rojo)" hidden></span></button>
+      <button class="nav" data-v="pedidos">🚚 Pedidos <span class="n" id="nped" style="background:var(--naranja)" hidden></span></button>
+      <button class="nav" data-v="caja">💰 Caja y turnos</button>
+      <button class="reset" id="reset">↺ Reiniciar demo</button>
+    </aside>
+    <main id="main"></main>
+  </div>
+  <div class="toast" id="toast"></div>
+
+  <script src="../demo.js"></script>
+  <script>
+    const $ = (id) => document.getElementById(id);
+    const KEY = "lm-demo-kiosco-v1";
+    const PAYS = ["Efectivo", "Transferencia", "Mercado Pago"];
+    const hhmm = (d = new Date()) => d.toLocaleTimeString("es-AR", { hour: "2-digit", minute: "2-digit", hourCycle: "h23" });
+    const haceH = (h) => hhmm(new Date(Date.now() - h * 3600000));
+    const dia = (n) => { const d = new Date(); d.setHours(0, 0, 0, 0); d.setDate(d.getDate() + n); return d.toISOString().slice(0, 10); };
+    // [código, emoji, nombre, categoría, distribuidora, costo, precio, stock, mínimo, vence en (días) o null]
+    const SEED = () => ({
+      productos: [
+        ["7790580", "🍫", "Alfajor Jorgito", "Golosinas", "Arcor", 520, 900, 42, 24, 40],
+        ["7790407", "🍫", "Alfajor Guaymallén", "Golosinas", "Arcor", 290, 500, 60, 30, 25],
+        ["7790040", "🍬", "Caramelos Media Hora", "Golosinas", "Arcor", 60, 120, 180, 100, 120],
+        ["7790310", "🍫", "Chocolate Cofler 55 g", "Golosinas", "Arcor", 900, 1600, 14, 12, 6],
+        ["7622300", "🍪", "Galletitas Oreo", "Galletitas", "Mondelez", 980, 1700, 9, 10, 60],
+        ["7622201", "🍫", "Milka Oreo 55 g", "Golosinas", "Mondelez", 1150, 2000, 6, 8, 3],
+        ["7790895", "🥤", "Coca-Cola 500 ml", "Bebidas", "Coca-Cola FEMSA", 950, 1700, 30, 24, 90],
+        ["7790896", "🥤", "Coca-Cola 1,5 L", "Bebidas", "Coca-Cola FEMSA", 1900, 3300, 7, 12, 90],
+        ["7798062", "💧", "Agua Villavicencio 500 ml", "Bebidas", "Coca-Cola FEMSA", 520, 1000, 20, 24, 180],
+        ["7790950", "⚡", "Speed 250 ml", "Bebidas", "Distribuidora Oeste", 900, 1600, 11, 12, 120],
+        ["7790742", "🧃", "Cindor 1 L", "Lácteos", "La Serenísima", 1600, 2600, 5, 6, 2],
+        ["7790743", "🥛", "Yogur bebible 200 ml", "Lácteos", "La Serenísima", 700, 1200, 8, 6, -1],
+        ["2000101", "🥪", "Sándwich de miga J y Q (x2)", "Sándwiches", "Panadería Don Luis", 1100, 2200, 6, 4, 1],
+        ["7798100", "🚬", "Marlboro Box 20", "Cigarrillos", "Massalin", 3900, 4600, 22, 20, null],
+        ["7798101", "🚬", "Philip Morris Box 20", "Cigarrillos", "Massalin", 3600, 4300, 9, 20, null],
+        ["7790111", "🔋", "Pilas AA Duracell x2", "Varios", "Distribuidora Oeste", 1900, 3400, 12, 6, null],
+        ["2000202", "📲", "Carga SUBE / celular", "Servicios", "—", 0, 0, 9999, 0, null],
+      ].map(([codigo, e, nombre, cat, prov, costo, precio, stock, min, vence]) => ({ codigo, e, nombre, cat, prov, costo, precio, stock, min, vence: vence === null ? null : dia(vence) })),
+      ventas: [],
+      turnos: [{ empleado: "Rocío", inicio: haceH(9), fin: haceH(3), apertura: 30000, efectivo: 148500, contado: 148000, ventas: 236400 }],
+      turno: { empleado: "Matías", inicio: haceH(3), apertura: 40000, egresos: [{ t: haceH(1.5), desc: "Pago a Distribuidora Oeste", monto: 18000 }] },
+    });
+    const load = () => { try { const s = JSON.parse(localStorage.getItem(KEY)); if (s?.productos) return s; } catch {} return SEED(); };
+    const save = () => { try { localStorage.setItem(KEY, JSON.stringify(S)); } catch {} };
+    let S = load();
+    if (!S._sembrado) {
+      // Algunas ventas del turno para que la caja no arranque vacía.
+      [[[0, 2], [6, 1]], [[13, 1]], [[1, 4], [8, 2]], [[16, 1, 2000]], [[7, 1], [12, 1]], [[13, 2]]].forEach((v, i) => {
+        const items = v.map(([idx, q, monto]) => ({ i: idx, q, precio: monto ?? S.productos[idx].precio }));
+        S.ventas.push({ t: haceH(2.5 - i * 0.4), pay: PAYS[i % 3], items, total: items.reduce((a, x) => a + x.q * x.precio, 0) });
+      });
+      S._sembrado = true; save();
+    }
+
+    let view = "vender", ticket = new Map(), pay = "Efectivo", cargaMonto = 2000;
+    let filtro = { tipo: "prov", valor: "Arcor", pct: 8, redondeo: 50 };
+    function toast(t) { const el = $("toast"); el.textContent = t; el.classList.add("show"); clearTimeout(el._h); el._h = setTimeout(() => el.classList.remove("show"), 2600); }
+    const P = () => S.productos;
+    const dias = (f) => Math.round((new Date(f + "T00:00") - new Date(dia(0) + "T00:00")) / 864e5);
+    const venc = () => P().filter((p) => p.vence && dias(p.vence) <= 7 && p.stock > 0).sort((a, b) => a.vence.localeCompare(b.vence));
+    const bajos = () => P().filter((p) => p.min > 0 && p.stock < p.min);
+    const vendido = () => S.ventas.reduce((a, v) => a + v.total, 0);
+    const ganancia = () => S.ventas.reduce((a, v) => a + v.items.reduce((b, it) => b + it.q * (it.precio - (P()[it.i].costo || it.precio * 0.9)), 0), 0);
+    // Siempre para arriba: un aumento nunca deja el precio igual o más bajo.
+    const redondear = (x, r) => (r ? Math.ceil(x / r - 1e-9) * r : Math.ceil(x));
+
+
+    function kpis() {
+      return `<div class="kpis"><div class="kpi"><small>Vendido en el turno</small><b>${pesos(vendido())}</b></div><div class="kpi"><small>Ganancia estimada</small><b>${pesos(ganancia())}</b></div><div class="kpi"><small>Ventas</small><b>${S.ventas.length}</b></div><div class="kpi"><small>Vencen esta semana</small><b style="color:${venc().length ? "var(--rojo)" : "inherit"}">${venc().length} productos</b></div></div>`;
+    }
+
+    const views = {
+      vender() {
+        const sum = [...ticket].reduce((a, [i, q]) => a + q * (i === 16 ? cargaMonto : P()[i].precio), 0);
+        return `<h1>Vender</h1><p class="sub">Escaneá el código (o escribilo) y cobrá. El stock se descuenta solo.</p>${kpis()}
+        <div class="pos"><div class="box">
+          <form class="scan" id="scan"><input id="cod" placeholder="📷 Escaneá o escribí el código…" autocomplete="off"><button>Agregar</button></form>
+          <p class="hint">Probá con <b>7790580</b> (Jorgito) o <b>7790895</b> (Coca 500). Con un lector de códigos USB se escanea directo.</p>
+          <div class="rapidos">${P().map((p, i) => `<button class="rap" data-add="${i}" ${p.stock <= 0 ? "disabled" : ""}><span class="e">${p.e}</span><b>${p.nombre}</b><span>${i === 16 ? "monto libre" : pesos(p.precio)}</span></button>`).join("")}</div>
+        </div><div class="box"><h3 style="margin:0 0 8px">Ticket</h3>
+          ${[...ticket].map(([i, q]) => `<div class="tl"><span class="nm">${P()[i].e} ${P()[i].nombre}${i === 16 ? ` <input class="inp" id="carga" type="number" value="${cargaMonto}" style="display:inline-block;min-width:0;width:90px;padding:4px 6px;margin:0">` : ""}</span><button data-q="${i}" data-d="-1">−</button><b>${q}</b><button data-q="${i}" data-d="1">+</button><span>${pesos(q * (i === 16 ? cargaMonto : P()[i].precio))}</span></div>`).join("") || '<p class="sub">Todavía no agregaste productos.</p>'}
+          <div class="tt"><span>Total</span><span>${pesos(sum)}</span></div>
+          <div class="pays">${PAYS.map((x) => `<button data-pay="${x}" class="${x === pay ? "on" : ""}">${x}</button>`).join("")}</div>
+          <button class="cta full" id="cobrar" ${ticket.size ? "" : "disabled"}>Cobrar ${pesos(sum)}</button>
+        </div></div>`;
+      },
+      aumentos() {
+        const lista = [...new Set(P().map((p) => (filtro.tipo === "prov" ? p.prov : p.cat)))].filter((x) => x !== "—" && x !== "Servicios");
+        if (!lista.includes(filtro.valor)) filtro.valor = lista[0];
+        const afectados = P().map((p, i) => ({ p, i })).filter(({ p }) => (filtro.tipo === "prov" ? p.prov : p.cat) === filtro.valor && p.precio > 0);
+        return `<h1>Aumentos de precios</h1><p class="sub">¿Llegó la lista nueva de un proveedor? Subí todos sus productos de una vez, con el redondeo que uses.</p>
+        <div class="box"><div class="form">
+          <label>Aumentar por<select id="ftipo"><option value="prov" ${filtro.tipo === "prov" ? "selected" : ""}>Distribuidora</option><option value="cat" ${filtro.tipo === "cat" ? "selected" : ""}>Categoría</option></select></label>
+          <label>${filtro.tipo === "prov" ? "Distribuidora" : "Categoría"}<select id="fvalor">${lista.map((x) => `<option ${x === filtro.valor ? "selected" : ""}>${x}</option>`).join("")}</select></label>
+          <label>Aumento %<input class="inp" id="fpct" type="number" value="${filtro.pct}" style="min-width:0;width:100px"></label>
+          <label>Redondear a<select id="fred">${[0, 10, 50, 100].map((r) => `<option value="${r}" ${r === filtro.redondeo ? "selected" : ""}>${r ? "$ " + r : "sin redondeo"}</option>`).join("")}</select></label>
+          <button class="cta" id="aplicar">Aplicar a ${afectados.length} productos</button>
+        </div>
+        <div class="tbl"><table><thead><tr><th>Producto</th><th>Costo</th><th>Precio actual</th><th>Precio nuevo</th><th>Margen</th></tr></thead><tbody>
+        ${afectados.map(({ p }) => { const nuevo = redondear(p.precio * (1 + filtro.pct / 100), filtro.redondeo); const costoN = Math.round(p.costo * (1 + filtro.pct / 100)); return `<tr><td>${p.e} ${p.nombre}</td><td>${pesos(p.costo)} → ${pesos(costoN)}</td><td>${pesos(p.precio)}</td><td class="sube">${pesos(nuevo)}</td><td>${Math.round((nuevo / costoN - 1) * 100)}%</td></tr>`; }).join("")}
+        </tbody></table></div></div>`;
+      },
+      vencimientos() {
+        const lista = venc();
+        return `<h1>Vencimientos</h1><p class="sub">Lo que vence en los próximos 7 días. Sacalo antes con una promo y no lo tires.</p>
+        <div class="box tbl"><table><thead><tr><th>Producto</th><th>Stock</th><th>Vence</th><th>Estado</th><th>Sugerencia</th></tr></thead><tbody>
+        ${lista.map((p) => { const d = dias(p.vence); const st = d < 0 ? ["rojo", "Vencido"] : d <= 2 ? ["rojo", d === 0 ? "Vence hoy" : `En ${d} día${d > 1 ? "s" : ""}`] : ["nar", `En ${d} días`]; return `<tr><td>${p.e} ${p.nombre}</td><td>${p.stock}</td><td>${new Date(p.vence + "T12:00").toLocaleDateString("es-AR", { day: "numeric", month: "short" })}</td><td><span class="pill ${st[0]}">${st[1]}</span></td><td>${d < 0 ? "Retirar de la góndola" : d <= 2 ? "Promo 2x1 o −30% hoy" : "Ponelo adelante y a la vista"}</td></tr>`; }).join("") || '<tr><td colspan="5">Nada vence esta semana 🎉</td></tr>'}
+        </tbody></table></div>`;
+      },
+      pedidos() {
+        const por = {}; bajos().forEach((p) => (por[p.prov] ??= []).push(p));
+        return `<h1>Pedidos a proveedores</h1><p class="sub">Se arma solo con lo que quedó por debajo del mínimo. Un toque y le llega a cada distribuidora por WhatsApp.</p>
+        ${Object.entries(por).map(([prov, ps]) => { const txt = [`Hola! Pedido de Maxikiosco El Faro:`, ...ps.map((p) => `• ${p.nombre}: ${Math.max(p.min * 2 - p.stock, p.min)} u.`), "Gracias!"].join("\n"); return `<div class="box prov"><h3>🚚 ${prov}<a class="wa" target="_blank" rel="noopener" href="https://wa.me/?text=${encodeURIComponent(txt)}">Enviar pedido por WhatsApp</a></h3>
+          <div class="tbl"><table><thead><tr><th>Producto</th><th>Stock</th><th>Mínimo</th><th>A pedir</th></tr></thead><tbody>${ps.map((p) => `<tr><td>${p.e} ${p.nombre}</td><td><span class="pill rojo">${p.stock}</span></td><td>${p.min}</td><td><b>${Math.max(p.min * 2 - p.stock, p.min)}</b></td></tr>`).join("")}</tbody></table></div></div>`; }).join("") || '<div class="box">Todo el stock está por encima del mínimo 👌</div>'}`;
+      },
+      caja() {
+        const by = Object.fromEntries(PAYS.map((p) => [p, 0])); S.ventas.forEach((v) => (by[v.pay] += v.total));
+        const egr = S.turno.egresos.reduce((a, e) => a + e.monto, 0);
+        const esperado = S.turno.apertura + by.Efectivo - egr;
+        return `<h1>Caja y turnos</h1><p class="sub">Cada empleado abre y cierra su turno. Al cerrar, cuenta la plata y el sistema muestra si sobra o falta.</p>${kpis()}
+        <div class="row2"><div class="box"><h3 style="margin-top:0">Turno de ${S.turno.empleado} (desde las ${S.turno.inicio})</h3>
+          <div class="split"><span>Apertura de caja</span><b>${pesos(S.turno.apertura)}</b></div>
+          ${PAYS.map((p) => `<div class="split"><span>Ventas en ${p.toLowerCase()}</span><b>${pesos(by[p])}</b></div>`).join("")}
+          ${S.turno.egresos.map((e) => `<div class="split"><span>− ${e.t} · ${e.desc}</span><b>${pesos(e.monto)}</b></div>`).join("")}
+          <div class="split big"><span>Efectivo que debería haber</span><span>${pesos(esperado)}</span></div>
+          <div class="form" style="margin:10px 0 0"><label>Efectivo contado<input class="inp" id="contado" type="number" placeholder="${esperado}"></label><button class="cta verde" id="cerrar">Cerrar turno</button></div>
+        </div><div class="box"><h3 style="margin-top:0">Turnos anteriores</h3>
+          <div class="tbl"><table><thead><tr><th>Empleado</th><th>Horario</th><th>Vendió</th><th>Diferencia</th></tr></thead><tbody>
+          ${[...S.turnos].reverse().map((t) => { const dif = t.contado - t.efectivo; return `<tr><td>${t.empleado}</td><td>${t.inicio} a ${t.fin}</td><td>${pesos(t.ventas)}</td><td><span class="pill ${dif === 0 ? "verde" : dif > 0 ? "azul" : "rojo"}">${dif === 0 ? "Justo" : (dif > 0 ? "Sobran " : "Faltan ") + pesos(Math.abs(dif))}</span></td></tr>`; }).join("")}
+          </tbody></table></div></div></div>`;
+      },
+    };
+
+    function render() {
+      $("main").innerHTML = views[view]();
+      document.querySelectorAll(".nav").forEach((b) => b.classList.toggle("on", b.dataset.v === view));
+      const nv = venc().length, np = bajos().length;
+      $("nvenc").hidden = !nv; $("nvenc").textContent = nv; $("nped").hidden = !np; $("nped").textContent = np;
+      $("turnochip").innerHTML = `Turno abierto<b>${S.turno.empleado} · desde ${S.turno.inicio}</b>`;
+      if (view === "vender") $("cod")?.focus();
+    }
+    const agregar = (i) => {
+      const p = P()[i];
+      if ((ticket.get(i) || 0) >= p.stock) return toast("No hay más stock de " + p.nombre);
+      ticket.set(i, (ticket.get(i) || 0) + 1); render();
+    };
+    document.querySelector("aside").onclick = (e) => { const b = e.target.closest(".nav"); if (b) { view = b.dataset.v; render(); } };
+    $("main").addEventListener("submit", (e) => {
+      if (e.target.id !== "scan") return;
+      e.preventDefault();
+      const cod = $("cod").value.trim(), i = P().findIndex((p) => p.codigo === cod);
+      if (i < 0) return toast(`No encontramos el código ${cod || "(vacío)"}`);
+      agregar(i);
+    });
+    $("main").addEventListener("change", (e) => {
+      if (e.target.id === "ftipo") { filtro.tipo = e.target.value; filtro.valor = ""; render(); }
+      if (e.target.id === "fvalor") { filtro.valor = e.target.value; render(); }
+      if (e.target.id === "fpct") { filtro.pct = Math.max(0, Number(e.target.value) || 0); render(); }
+      if (e.target.id === "fred") { filtro.redondeo = Number(e.target.value); render(); }
+      if (e.target.id === "carga") { cargaMonto = Math.max(100, Number(e.target.value) || 0); render(); }
+    });
+    $("main").addEventListener("click", (e) => {
+      let el;
+      if ((el = e.target.closest("[data-add]")) && !el.disabled) return agregar(+el.dataset.add);
+      if ((el = e.target.closest("[data-q]"))) { const i = +el.dataset.q, n = ticket.get(i) + +el.dataset.d; if (n <= 0) ticket.delete(i); else if (n <= P()[i].stock) ticket.set(i, n); return render(); }
+      if ((el = e.target.closest("[data-pay]"))) { pay = el.dataset.pay; return render(); }
+      if (e.target.closest("#cobrar")) {
+        const items = [...ticket].map(([i, q]) => ({ i, q, precio: i === 16 ? cargaMonto : P()[i].precio }));
+        items.forEach((it) => { if (it.i !== 16) P()[it.i].stock -= it.q; });
+        const total = items.reduce((a, it) => a + it.q * it.precio, 0);
+        S.ventas.push({ t: hhmm(), pay, items, total }); ticket = new Map(); save();
+        const bajo = items.map((it) => P()[it.i]).find((p) => p.min > 0 && p.stock < p.min);
+        toast(`✅ Venta registrada: ${pesos(total)}${bajo ? ` · 🚚 ${bajo.nombre} pasó a la lista de pedidos` : ""}`);
+        return render();
+      }
+      if (e.target.closest("#aplicar")) {
+        let n = 0;
+        P().forEach((p) => { if ((filtro.tipo === "prov" ? p.prov : p.cat) === filtro.valor && p.precio > 0) { p.costo = Math.round(p.costo * (1 + filtro.pct / 100)); p.precio = redondear(p.precio * (1 + filtro.pct / 100), filtro.redondeo); n++; } });
+        save(); toast(`💲 ${n} precios de ${filtro.valor} actualizados (+${filtro.pct}%)`); return render();
+      }
+      if (e.target.closest("#cerrar")) {
+        const by = S.ventas.filter((v) => v.pay === "Efectivo").reduce((a, v) => a + v.total, 0);
+        const egr = S.turno.egresos.reduce((a, x) => a + x.monto, 0);
+        const efectivo = S.turno.apertura + by - egr;
+        const contado = Number($("contado").value) || efectivo;
+        S.turnos.push({ empleado: S.turno.empleado, inicio: S.turno.inicio, fin: hhmm(), apertura: S.turno.apertura, efectivo, contado, ventas: vendido() });
+        const dif = contado - efectivo;
+        S.turno = { empleado: S.turno.empleado === "Matías" ? "Luciana" : "Matías", inicio: hhmm(), apertura: contado, egresos: [] };
+        S.ventas = []; save();
+        toast(dif === 0 ? "✅ Turno cerrado: la caja dio justo" : `Turno cerrado: ${dif > 0 ? "sobran" : "faltan"} ${pesos(Math.abs(dif))}`);
+        return render();
+      }
+    });
+    $("reset").onclick = () => { try { localStorage.removeItem(KEY); } catch {} location.reload(); };
+    render();
+  </script>
+</body>
+</html>
