@@ -12,7 +12,7 @@
   <style>
     :root { --bg: #f3f4f8; --card: #fff; --line: #e1e4ee; --ink: #141a2e; --muted: #626b84; --azul: #1f4fd8; --azul-soft: #e6edff; --amarillo: #ffc928; --rojo: #e0403a; --rojo-soft: #fde9e8; --verde: #18a058; --verde-soft: #e3f6ec; --naranja: #e98a12; --naranja-soft: #fff1dc; }
     * { box-sizing: border-box; }
-    body { margin: 0; font-family: "Inter", system-ui, sans-serif; background: var(--bg); color: var(--ink); }
+    body { margin: 0; font-family: "Inter", system-ui, sans-serif; background: var(--bg); color: var(--ink); overflow-x: clip; }
     .app { display: grid; grid-template-columns: 230px 1fr; min-height: calc(100vh - 34px); }
     aside { background: var(--ink); color: #c8cde0; padding: 18px 12px; display: flex; flex-direction: column; gap: 4px; }
     .marca { font-family: "Rubik", sans-serif; font-weight: 800; color: #fff; font-size: 1.15rem; padding: 0 10px 4px; display: flex; gap: 8px; align-items: center; }
@@ -73,6 +73,18 @@
     .row2 { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; }
     .split { display: flex; justify-content: space-between; padding: 9px 0; border-bottom: 1px solid var(--line); font-size: .93rem; }
     .split.big { font-weight: 800; font-size: 1.1rem; border: 0; }
+    dialog { border: 0; border-radius: 16px; padding: 0; width: min(520px, 94vw); box-shadow: 0 30px 80px rgba(0,0,0,.35); }
+    dialog::backdrop { background: rgba(10,14,30,.55); }
+    .dlg { padding: 20px; display: grid; gap: 12px; }
+    .dlg h2 { margin: 0; font-family: "Rubik", sans-serif; font-size: 1.25rem; }
+    .dlg .g2 { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; }
+    .dlg .inp, .dlg select { width: 100%; min-width: 0; }
+    .dlg textarea { width: 100%; min-height: 170px; padding: 10px; border: 1px solid var(--line); border-radius: 10px; font: .85rem ui-monospace, monospace; }
+    .dlg .pie { display: flex; justify-content: flex-end; gap: 8px; }
+    .btn2 { border: 1px solid var(--line); background: #fff; border-radius: 12px; padding: 11px 16px; font: 600 .9rem "Inter"; cursor: pointer; }
+    .barra { display: flex; gap: 8px; flex-wrap: wrap; align-items: center; margin-bottom: 14px; }
+    .barra .inp { flex: 1; min-width: 200px; margin: 0; }
+    .recibidos { font-size: .88rem; max-height: 160px; overflow: auto; }
     .toast { position: fixed; bottom: 20px; left: 50%; transform: translateX(-50%); background: var(--ink); color: #fff; padding: 12px 18px; border-radius: 12px; font-weight: 600; z-index: 70; opacity: 0; transition: opacity .2s; pointer-events: none; max-width: 92vw; }
     .toast.show { opacity: 1; }
     .sheet-fab { display: none; }
@@ -93,6 +105,7 @@
       <div class="marca"><i>🗼</i>El Faro</div>
       <div class="turno-chip" id="turnochip"></div>
       <button class="nav on" data-v="vender">🧾 Vender</button>
+      <button class="nav" data-v="productos">📦 Productos</button>
       <button class="nav" data-v="aumentos">💲 Aumentos</button>
       <button class="nav" data-v="vencimientos">⏰ Vencimientos <span class="n" id="nvenc" style="background:var(--rojo)" hidden></span></button>
       <button class="nav" data-v="pedidos">🚚 Pedidos <span class="n" id="nped" style="background:var(--naranja)" hidden></span></button>
@@ -102,6 +115,7 @@
     <main id="main"></main>
   </div>
   <div class="toast" id="toast"></div>
+  <dialog id="dlg"></dialog>
 
   <script src="../demo.js"></script>
   <script>
@@ -148,7 +162,9 @@
       S._sembrado = true; save();
     }
 
-    let view = "vender", ticket = new Map(), pay = "Efectivo", cargaMonto = 2000;
+    let view = "vender", ticket = new Map(), pay = "Efectivo", cargaMonto = 2000, buscar = "";
+    const EMOJI = { Golosinas: "🍫", Galletitas: "🍪", Bebidas: "🥤", "Lácteos": "🥛", "Sándwiches": "🥪", Cigarrillos: "🚬", Almacén: "🛒", Varios: "🛒" };
+    const CATEGORIAS = ["Golosinas", "Galletitas", "Bebidas", "Lácteos", "Sándwiches", "Cigarrillos", "Almacén", "Varios"];
     let filtro = { tipo: "prov", valor: "Arcor", pct: 8, redondeo: 50 };
     function toast(t) { const el = $("toast"); el.textContent = t; el.classList.add("show"); clearTimeout(el._h); el._h = setTimeout(() => el.classList.remove("show"), 2600); }
     const P = () => S.productos;
@@ -166,6 +182,15 @@
     }
 
     const views = {
+      productos() {
+        const lista = P().map((p, i) => ({ p, i })).filter(({ p, i }) => i !== 16 && (p.nombre + " " + p.codigo + " " + p.prov).toLowerCase().includes(buscar));
+        return `<h1>Productos</h1><p class="sub">Todo lo que vendés, con su código, precios y stock. Los cargás una vez (escaneando el código) y después se actualizan solos con cada venta y cada compra.</p>
+        <div class="barra"><input class="inp" id="psearch" placeholder="🔎 Buscar por nombre, código o distribuidora…" value="${buscar}">
+          <button class="cta" id="nuevo">+ Nuevo producto</button><button class="btn2" id="recibir">📥 Recibir mercadería</button><button class="btn2" id="importar">📄 Importar desde Excel</button></div>
+        <div class="box tbl"><table><thead><tr><th>Producto</th><th>Código</th><th>Distribuidora</th><th>Costo</th><th>Precio</th><th>Margen</th><th>Stock</th><th>Vence</th><th></th></tr></thead><tbody>
+        ${lista.map(({ p, i }) => `<tr><td>${p.e} <b>${p.nombre}</b><br><small style="color:var(--muted)">${p.cat}</small></td><td style="font-family:ui-monospace,monospace;font-size:.8rem">${p.codigo}</td><td>${p.prov}</td><td>${pesos(p.costo)}</td><td><b>${pesos(p.precio)}</b></td><td>${p.costo ? Math.round((p.precio / p.costo - 1) * 100) + "%" : "—"}</td><td><span class="pill ${p.stock < p.min ? "rojo" : "verde"}">${p.stock}</span> <small style="color:var(--muted)">mín ${p.min}</small></td><td>${p.vence ? new Date(p.vence + "T12:00").toLocaleDateString("es-AR", { day: "numeric", month: "short" }) : "—"}</td><td><button class="btn2" style="padding:6px 10px" data-editar="${i}">Editar</button></td></tr>`).join("") || '<tr><td colspan="9">No encontramos productos con esa búsqueda.</td></tr>'}
+        </tbody></table></div>`;
+      },
       vender() {
         const sum = [...ticket].reduce((a, [i, q]) => a + q * (i === 16 ? cargaMonto : P()[i].precio), 0);
         return `<h1>Vender</h1><p class="sub">Escaneá el código (o escribilo) y cobrá. El stock se descuenta solo.</p>${kpis()}
@@ -227,6 +252,77 @@
       },
     };
 
+    // ---------- Altas, edición, recepción e importación ----------
+    const dlg = $("dlg");
+    dlg.addEventListener("click", (e) => { if (e.target === dlg || e.target.closest("[data-cerrar]")) dlg.close(); });
+    function formProducto(i, codigoNuevo = "") {
+      const p = i == null ? { codigo: codigoNuevo, nombre: "", cat: "Golosinas", prov: "", costo: "", precio: "", stock: "", min: 6, vence: "" } : P()[i];
+      const provs = [...new Set(P().map((x) => x.prov).filter((x) => x && x !== "—"))];
+      dlg.innerHTML = `<form class="dlg" id="fprod"><h2>${i == null ? "Nuevo producto" : "Editar producto"}</h2>
+        <label>Código de barras<input class="inp" name="codigo" required value="${p.codigo}" placeholder="Escaneá el producto o escribí el código" ${i == null && !codigoNuevo ? "autofocus" : ""}></label>
+        <label>Nombre<input class="inp" name="nombre" required value="${p.nombre}" placeholder="Ej.: Alfajor Fantoche triple" ${codigoNuevo ? "autofocus" : ""}></label>
+        <div class="g2"><label>Categoría<select name="cat">${CATEGORIAS.map((c) => `<option ${c === p.cat ? "selected" : ""}>${c}</option>`).join("")}</select></label>
+          <label>Distribuidora<input class="inp" name="prov" list="provs" value="${p.prov}" placeholder="Arcor, Coca-Cola…"><datalist id="provs">${provs.map((x) => `<option value="${x}">`).join("")}</datalist></label></div>
+        <div class="g2"><label>Costo ($)<input class="inp" name="costo" type="number" min="0" value="${p.costo}"></label><label>Precio de venta ($)<input class="inp" name="precio" type="number" min="0" required value="${p.precio}"></label></div>
+        <div class="g2"><label>Stock<input class="inp" name="stock" type="number" min="0" value="${p.stock}"></label><label>Avisar cuando quede menos de<input class="inp" name="min" type="number" min="0" value="${p.min}"></label></div>
+        <label>Vencimiento (opcional)<input class="inp" name="vence" type="date" value="${p.vence || ""}"></label>
+        <div class="pie"><button type="button" class="btn2" data-cerrar>Cancelar</button><button class="cta">Guardar</button></div></form>`;
+      dlg.showModal();
+      $("fprod").onsubmit = (e) => {
+        e.preventDefault();
+        const f = Object.fromEntries(new FormData(e.target));
+        const otro = P().findIndex((x, k) => x.codigo === f.codigo.trim() && k !== i);
+        if (otro >= 0) return toast(`Ese código ya es de "${P()[otro].nombre}"`);
+        const datos = { codigo: f.codigo.trim(), nombre: f.nombre.trim(), cat: f.cat, prov: f.prov.trim() || "Sin distribuidora", costo: Number(f.costo) || 0, precio: Number(f.precio) || 0, stock: Number(f.stock) || 0, min: Number(f.min) || 0, vence: f.vence || null };
+        if (i == null) P().push({ e: EMOJI[datos.cat] || "🛒", ...datos }); else Object.assign(P()[i], datos, { e: P()[i].cat === datos.cat ? P()[i].e : EMOJI[datos.cat] || "🛒" });
+        save(); dlg.close(); toast(i == null ? `✅ ${datos.nombre} agregado` : `✅ ${datos.nombre} actualizado`); render();
+      };
+    }
+    function recibirMercaderia() {
+      const recibidos = [];
+      dlg.innerHTML = `<form class="dlg" id="frec"><h2>📥 Recibir mercadería</h2>
+        <p class="sub" style="margin:0">Llegó el pedido: escaneá cada producto y poné cuántos llegaron. Se suma al stock.</p>
+        <div class="g2"><label>Código<input class="inp" name="codigo" required autofocus placeholder="Escaneá el producto"></label><label>Cantidad<input class="inp" name="cant" type="number" min="1" value="12" required></label></div>
+        <button class="cta">Sumar al stock</button><div class="recibidos" id="recibidos"></div>
+        <div class="pie"><button type="button" class="btn2" data-cerrar>Listo</button></div>
+        <p class="hint" style="margin:0">Probá con 7622300 (Oreo) o 7790896 (Coca 1,5 L).</p></form>`;
+      dlg.showModal();
+      $("frec").onsubmit = (e) => {
+        e.preventDefault();
+        const f = new FormData(e.target), cod = String(f.get("codigo")).trim(), cant = Number(f.get("cant")) || 0;
+        const i = P().findIndex((x) => x.codigo === cod);
+        if (i < 0) { dlg.close(); toast("Código nuevo: completá los datos del producto"); return formProducto(null, cod); }
+        P()[i].stock += cant; save();
+        recibidos.unshift(`<div class="split"><span>${P()[i].e} ${P()[i].nombre}</span><b>+${cant} → ${P()[i].stock}</b></div>`);
+        $("recibidos").innerHTML = recibidos.join("");
+        e.target.codigo.value = ""; e.target.codigo.focus(); render();
+      };
+    }
+    const EJEMPLO = "código;nombre;categoría;distribuidora;costo;precio;stock\n7790060;Papas Lays 85 g;Golosinas;PepsiCo;1300;2300;18\n7790061;Chizitos 70 g;Golosinas;PepsiCo;800;1500;24\n7790580;Alfajor Jorgito;Golosinas;Arcor;540;950;60";
+    function importar() {
+      dlg.innerHTML = `<form class="dlg" id="fimp"><h2>📄 Importar desde Excel</h2>
+        <p class="sub" style="margin:0">Copiá las columnas de tu Excel o planilla (código, nombre, categoría, distribuidora, costo, precio y stock) y pegalas acá. Si el código ya existe, se actualiza.</p>
+        <textarea name="txt" placeholder="${EJEMPLO.replace(/\n/g, "&#10;")}"></textarea>
+        <div class="pie"><button type="button" class="btn2" id="ejemplo">Pegar un ejemplo</button><button type="button" class="btn2" data-cerrar>Cancelar</button><button class="cta">Importar</button></div></form>`;
+      dlg.showModal();
+      $("ejemplo").onclick = () => ($("fimp").txt.value = EJEMPLO);
+      $("fimp").onsubmit = (e) => {
+        e.preventDefault();
+        let nuevos = 0, act = 0;
+        for (const linea of e.target.txt.value.split(/\r?\n/)) {
+          const c = linea.split(/\t|;/).map((x) => x.trim());
+          if (c.length < 6 || !/\d/.test(c[0])) continue;
+          const datos = { codigo: c[0], nombre: c[1], cat: CATEGORIAS.includes(c[2]) ? c[2] : "Varios", prov: c[3] || "Sin distribuidora", costo: Number(c[4]) || 0, precio: Number(c[5]) || 0 };
+          const i = P().findIndex((x) => x.codigo === datos.codigo);
+          if (i >= 0) { Object.assign(P()[i], datos); if (c[6]) P()[i].stock = Number(c[6]) || 0; act++; }
+          else { P().push({ e: EMOJI[datos.cat] || "🛒", ...datos, stock: Number(c[6]) || 0, min: 6, vence: null }); nuevos++; }
+        }
+        save(); dlg.close();
+        toast(nuevos + act ? `✅ ${nuevos} productos nuevos y ${act} actualizados` : "No encontramos filas válidas para importar");
+        render();
+      };
+    }
+
     function render() {
       $("main").innerHTML = views[view]();
       document.querySelectorAll(".nav").forEach((b) => b.classList.toggle("on", b.dataset.v === view));
@@ -245,7 +341,7 @@
       if (e.target.id !== "scan") return;
       e.preventDefault();
       const cod = $("cod").value.trim(), i = P().findIndex((p) => p.codigo === cod);
-      if (i < 0) return toast(`No encontramos el código ${cod || "(vacío)"}`);
+      if (i < 0) { if (!cod) return; toast("Código nuevo: cargá el producto"); return formProducto(null, cod); }
       agregar(i);
     });
     $("main").addEventListener("change", (e) => {
@@ -255,8 +351,19 @@
       if (e.target.id === "fred") { filtro.redondeo = Number(e.target.value); render(); }
       if (e.target.id === "carga") { cargaMonto = Math.max(100, Number(e.target.value) || 0); render(); }
     });
+    $("main").addEventListener("input", (e) => {
+      if (e.target.id !== "psearch") return;
+      buscar = e.target.value.toLowerCase();
+      const pos = e.target.selectionStart;
+      render();
+      const n = $("psearch"); n.focus(); n.setSelectionRange(pos, pos);
+    });
     $("main").addEventListener("click", (e) => {
       let el;
+      if ((el = e.target.closest("[data-editar]"))) return formProducto(+el.dataset.editar);
+      if (e.target.closest("#nuevo")) return formProducto(null);
+      if (e.target.closest("#recibir")) return recibirMercaderia();
+      if (e.target.closest("#importar")) return importar();
       if ((el = e.target.closest("[data-add]")) && !el.disabled) return agregar(+el.dataset.add);
       if ((el = e.target.closest("[data-q]"))) { const i = +el.dataset.q, n = ticket.get(i) + +el.dataset.d; if (n <= 0) ticket.delete(i); else if (n <= P()[i].stock) ticket.set(i, n); return render(); }
       if ((el = e.target.closest("[data-pay]"))) { pay = el.dataset.pay; return render(); }
