@@ -405,9 +405,9 @@ api.get('/recetario/buscar', h(async (req, res) => {
   try {
     const r = await fetchReal(`https://www.paulinacocina.net/wp-json/wp/v2/posts?search=${encodeURIComponent(q)}&per_page=12&_fields=link,title`);
     const lista = r.ok ? await r.json() : [];
-    res.json({ resultados: lista.map((p) => ({ titulo: deco(p.title.rendered), url: p.link, sitio: 'Paulina Cocina' })), fallaron: ['Cocineros Argentinos'] });
+    res.json({ resultados: lista.map((p) => ({ titulo: deco(p.title.rendered), url: p.link, sitio: 'Paulina Cocina' })), fallaron: [] });
   } catch {
-    res.json({ resultados: [], fallaron: ['Cocineros Argentinos', 'Paulina Cocina'] });
+    res.json({ resultados: [], fallaron: ['Paulina Cocina'] });
   }
 }));
 

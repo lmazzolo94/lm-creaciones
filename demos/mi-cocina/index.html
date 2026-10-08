@@ -18,7 +18,9 @@
     .demo-tip { position: fixed; right: 16px; bottom: 16px; z-index: 40; max-width: 300px; background: #17142e; color: #e9e6f5; border-radius: 14px; padding: 12px 14px; font: 0.85rem/1.4 system-ui, sans-serif; box-shadow: 0 10px 30px rgba(0,0,0,.3); }
     .demo-tip b { color: #fff; }
     .demo-tip button { float: right; border: 0; background: none; color: #aaa; cursor: pointer; font-size: 1rem; margin: -4px -4px 0 6px; }
-    @media (max-width: 760px) { .demo-tip { left: 16px; right: 16px; bottom: 76px; max-width: none; } }
+    /* Solo en PC (en el celu habla de "otra pestaña" y taparía el botón de guardar) y fuera de los formularios. */
+    @media (max-width: 899px) { .demo-tip { display: none !important; } }
+    body:not(.tip-ok) .demo-tip { display: none !important; }
   </style>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/sql.js/1.14.2/sql-wasm.js"></script>
 </head>
@@ -62,6 +64,9 @@
     medir();
     addEventListener("resize", medir);
     try { if (!localStorage.getItem("lm-demo-micocina-tip")) document.getElementById("tip").hidden = false; } catch { document.getElementById("tip").hidden = false; }
+    const rutaTip = () => document.body.classList.toggle("tip-ok", ["", "#/", "#/pedidos"].includes(location.hash));
+    rutaTip();
+    addEventListener("hashchange", rutaTip);
   </script>
   <script type="module" src="demo-backend.js"></script>
   <script type="module" src="app.js"></script>

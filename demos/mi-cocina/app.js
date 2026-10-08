@@ -1171,7 +1171,7 @@ async function recetario(el, param, vigente) {
   const ultima = sessionStorage.getItem('busquedaRecetario') || '';
   el.innerHTML = `
     <div class="cabecera">
-      <div><h1>Recetario</h1><p class="suave">Buscá un plato en Cocineros Argentinos y Paulina Cocina. Abrí la receta, copiá los ingredientes y pegalos: te armo la receta con costos.</p></div>
+      <div><h1>Recetario</h1><p class="suave">Buscá un plato en Paulina Cocina. Abrí la receta, copiá los ingredientes y pegalos: te armo la receta con costos.</p></div>
       <a class="boton" href="#/recetario/pegar">📋 Pegar una receta</a>
     </div>
     <form class="tarjeta" id="f-buscar">
@@ -1323,5 +1323,5 @@ function mas(el) {
 }
 
 // ---------- Arranque ----------
-if ('serviceWorker' in navigator) navigator.serviceWorker.register('/sw.js').catch(() => {});
+// En la demo no hay service worker (no se instala como app).
 iniciar();

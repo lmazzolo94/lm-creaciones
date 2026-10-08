@@ -130,6 +130,16 @@ section { padding: 72px 0; }
 .chips { display: flex; flex-wrap: wrap; gap: 6px; margin: 4px 0; padding: 0; list-style: none; }
 .chips li { font-size: 0.78rem; background: rgba(255, 255, 255, 0.06); border: 1px solid var(--line); border-radius: 999px; padding: 4px 10px; color: var(--ink-soft); }
 .work-body .btn { align-self: flex-start; margin-top: auto; }
+.work-btns { display: flex; flex-wrap: wrap; gap: 10px; margin-top: auto; }
+.work-btns .btn { margin-top: 0; }
+/* Trabajo destacado: ocupa todo el ancho, captura a la izquierda en pantallas grandes. */
+.card.destacado { grid-column: 1 / -1; border-color: var(--line-strong); }
+@media (min-width: 900px) {
+  .card.destacado { flex-direction: row; }
+  .card.destacado .work-shot { flex: 0 0 56%; aspect-ratio: auto; min-height: 340px; border-bottom: 0; border-right: 1px solid var(--line); }
+  .card.destacado .work-body { padding: 30px; justify-content: center; }
+  .card.destacado .work-body .work-btns { margin-top: 8px; }
+}
 
 .work-illus {
   aspect-ratio: 16 / 10; display: grid; place-items: center; border-bottom: 1px solid var(--line);
