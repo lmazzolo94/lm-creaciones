@@ -1,0 +1,69 @@
+<!doctype html>
+<html lang="es">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <title>Mi-Cocina · Demo LM Creaciones</title>
+  <meta name="robots" content="noindex">
+  <meta name="theme-color" content="#c2562b">
+  <link rel="icon" href="icon.svg" type="image/svg+xml">
+  <link rel="stylesheet" href="styles.css">
+  <link rel="stylesheet" href="../demo.css">
+  <style>
+    .demo-bar { flex-wrap: wrap; }
+    .demo-bar .demo-acciones { display: flex; gap: 14px; align-items: center; }
+    /* El menú lateral de la app arranca debajo de la barra de la demo. */
+    @media (min-width: 900px) { #nav { top: var(--demo-alto, 46px) !important; } }
+    .demo-bar button { border: 1px solid #3a3560; background: transparent; color: #ffb199; border-radius: 999px; padding: 4px 12px; font: 600 0.8rem "Inter", system-ui, sans-serif; cursor: pointer; }
+    .demo-tip { position: fixed; right: 16px; bottom: 16px; z-index: 40; max-width: 300px; background: #17142e; color: #e9e6f5; border-radius: 14px; padding: 12px 14px; font: 0.85rem/1.4 system-ui, sans-serif; box-shadow: 0 10px 30px rgba(0,0,0,.3); }
+    .demo-tip b { color: #fff; }
+    .demo-tip button { float: right; border: 0; background: none; color: #aaa; cursor: pointer; font-size: 1rem; margin: -4px -4px 0 6px; }
+    @media (max-width: 760px) { .demo-tip { left: 16px; right: 16px; bottom: 76px; max-width: none; } }
+  </style>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/sql.js/1.14.2/sql-wasm.js"></script>
+</head>
+<body>
+  <div id="app">
+    <nav id="nav" hidden>
+      <div class="marca"><img src="icon.svg" alt=""><span id="nombre-negocio">Mi-Cocina</span></div>
+      <a href="#/" data-ruta="inicio"><span class="ico">🏠</span><span>Inicio</span></a>
+      <a href="#/pedidos" data-ruta="pedidos"><span class="ico">🧾</span><span>Pedidos</span></a>
+      <a href="#/recetas" data-ruta="recetas"><span class="ico">🍲</span><span>Recetas</span></a>
+      <a href="#/compras" data-ruta="compras"><span class="ico">🛒</span><span>Compras</span></a>
+      <a href="#/mas" data-ruta="mas" class="solo-movil"><span class="ico">☰</span><span>Más</span></a>
+      <a href="#/recetario" data-ruta="recetario" class="solo-escritorio"><span class="ico">📖</span><span>Recetario</span></a>
+      <a href="#/ingredientes" data-ruta="ingredientes" class="solo-escritorio"><span class="ico">🥕</span><span>Ingredientes</span></a>
+      <a href="#/ganancias" data-ruta="ganancias" class="solo-escritorio"><span class="ico">📈</span><span>Ganancias</span></a>
+      <a href="#/cocina" data-ruta="cocina" class="solo-escritorio"><span class="ico">👩‍🍳</span><span>Pantalla cocina</span></a>
+      <a href="#/ajustes" data-ruta="ajustes" class="solo-escritorio"><span class="ico">⚙️</span><span>Ajustes</span></a>
+    </nav>
+    <main id="vista"><p class="cargando">Cargando…</p></main>
+  </div>
+  <div id="aviso" role="status" aria-live="polite"></div>
+  <dialog id="modal"></dialog>
+  <div class="demo-tip" id="tip" hidden>
+    <button type="button" aria-label="Cerrar" onclick="this.parentElement.hidden = true; try { localStorage.setItem('lm-demo-micocina-tip', '1') } catch {}">✕</button>
+    <b>👩‍🍳 Probá las comandas en vivo:</b> abrí la <a href="#/cocina" style="color:#ffb199">Pantalla cocina</a> en otra pestaña y cargá un pedido nuevo en esta. Aparece al instante.
+  </div>
+
+  <script src="../demo.js"></script>
+  <script>
+    // Botón para volver a los datos de ejemplo y aviso de las comandas.
+    const bar = document.querySelector(".demo-bar");
+    const acciones = document.createElement("span");
+    acciones.className = "demo-acciones";
+    const reiniciar = document.createElement("button");
+    reiniciar.type = "button";
+    reiniciar.textContent = "↺ Reiniciar demo";
+    reiniciar.onclick = () => window.reiniciarDemo?.();
+    acciones.append(reiniciar, bar.querySelector("a"));
+    bar.append(acciones);
+    const medir = () => document.documentElement.style.setProperty("--demo-alto", bar.offsetHeight + "px");
+    medir();
+    addEventListener("resize", medir);
+    try { if (!localStorage.getItem("lm-demo-micocina-tip")) document.getElementById("tip").hidden = false; } catch { document.getElementById("tip").hidden = false; }
+  </script>
+  <script type="module" src="demo-backend.js"></script>
+  <script type="module" src="app.js"></script>
+</body>
+</html>
